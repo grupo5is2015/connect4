@@ -68,7 +68,7 @@ b.addActionListener (new ActionListener ()
     {
         System.out.println( "Bienvenidos a 4 en linea" );
 	System.out.println("*********************************************************");
-        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "usuario", "usuario");
+        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
 	add_new_user();
 
 
