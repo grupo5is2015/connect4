@@ -23,8 +23,8 @@ public class App
         System.out.println( "Bienvenidos a 4 en linea" );
         Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
 	
-	Login log = new Login();
-	log.show_login();
+	//Login log = new Login();
+	//log.show_login();
 
  
 	Base.close();
