@@ -21,7 +21,11 @@ public class BoardControl {
 		columnTop= new int[n];
 	}
 
-
+        
+        //Ver en grupo: Si es necesario recorrer todas las columnas
+        //sino observar si hay espacio
+        //en donde debo colocar!!!
+        //tampoco insertar cartelitos
 	public boolean hayLugar() {
 		boolean haylugar=false;
 		for (int i=0; i<n;i++)
@@ -46,8 +50,8 @@ public class BoardControl {
         
         	/**
 	 * Computa el mayor numero de fichas del mismo tipo alineadas consecutivamente en forma vertical.
-	 * @param m matriz representante del estado actual.
-	 * @param x valor entero a buscar dentro de m.
+	 * @param board matriz representante del estado actual.
+	 * @param x valor entero a buscar dentro de board.
 	 * @return un valor entero, representando el mayor numero de fichas del mismo tipo alineadas 
 	 * consecutivamente en forma vertical.
 	 * pre. true.
@@ -78,8 +82,8 @@ public class BoardControl {
 
 	/**
 	 * Computa el mayor numero de fichas del mismo tipo alineadas consecutivamente en forma horizontal.
-	 * @param m matriz representante del estado actual.
-	 * @param x valor entero a buscar dentro de m.
+	 * @param board matriz representante del estado actual.
+	 * @param x valor entero a buscar dentro de board.
 	 * @return un valor entero, representando el mayor numero de fichas del mismo tipo alineadas 
 	 * consecutivamente en forma horizontal.
 	 * pre. true.
@@ -113,10 +117,10 @@ public class BoardControl {
 	/**
 	 * Computa el mayor numero de fichas del mismo tipo alineadas consecutivamente en una 
 	 * diagonal descendente.
-	 * @param m matriz representante del estado actual.
-	 * @param x valor entero a buscar dentro de m.
+	 * @param board matriz representante del estado actual.
+	 * @param x valor entero a buscar dentro de board.
 	 * @return un valor entero, representando el mayor numero de fichas del mismo tipo alineadas 
-	 * consecutivamente en una diagonal descendente de m.
+	 * consecutivamente en una diagonal descendente de board.
 	 * pre. true.
 	 * post. Un valor entero, representando el mayor numero de fichas del mismo tipo alineadas 
 	 * consecutivamente en una diagonal descendente, es retornado.
@@ -158,10 +162,10 @@ public class BoardControl {
 	/**
 	 * Computa el mayor numero de fichas del mismo tipo alineadas consecutivamente en una 
 	 * diagonal ascendente.
-	 * @param m matriz representante del estado actual.
-	 * @param x valor entero a buscar dentro de m.
+	 * @param board matriz representante del estado actual.
+	 * @param x valor entero a buscar dentro de board.
 	 * @return un valor entero, representando el mayor numero de fichas del mismo tipo alineadas 
-	 * consecutivamente en una diagonal ascendente de m.
+	 * consecutivamente en una diagonal ascendente de board.
 	 * pre. true.
 	 * post. Un valor entero, representando el mayor numero de fichas del mismo tipo alineadas 
 	 * consecutivamente en una diagonal ascendente, es retornado.
@@ -202,30 +206,30 @@ public class BoardControl {
 
 	/**
 	 * Computa el mayor nro de fichas alineadas del tipo 'n' (ya sea en forma vertical, 
-	 * horizontal o diagonal) en la matriz 't'.
-	 * @param t es una matriz de 7x6 que representa el tablero del juego.
-	 * @param n es un valor entero que representa el tipo de la ficha a buscar en 't'.
+	 * horizontal o diagonal) en la matriz 'board'.
+	 * @param board es una matriz de 6x7 que representa el tablero del juego.
+	 * @param n es un valor entero que representa el tipo de la ficha a buscar en 'board'.
 	 * pre. true.
 	 * post. El mayor nro de fichas alineadas del tipo 'n' (ya sea en forma vertical, 
-	 * horizontal o diagonal) en la matriz 't' es retornado.
+	 * horizontal o diagonal) en la matriz 'board' es retornado.
 	 */
-	private static int maxLine(int[][] t, int n) {
+	private static int maxLine(int[][] board, int n) {
 		int v, h, da, dd;
-		v = maxLineV(t,n);
-		h = maxLineH(t,n);
-		da = maxLineDA(t,n);
-		dd = maxLineDD(t,n);
+		v = maxLineV(board,n);
+		h = maxLineH(board,n);
+		da = maxLineDA(board,n);
+		dd = maxLineDD(board,n);
 		return (Math.max(Math.max(v,h), Math.max(da,dd)));
 	}
 
 	public void showBoard() {
 		System.out.println("************ Board *************");
 		String line = new String();
-		for (int rows=m-1; rows >= 0; rows--) {
+		for (int row=m-1; row >= 0; row--) {
 		  line = "|";
-		  for (int cols=0; cols < n; cols++) { // recorro las columnas
-		    if (board[rows][cols]>0){ line+=" X |";}
-			else if (board[rows][cols]<0) { line+=" O |";}
+		  for (int col=0; col < n; col++) { // recorro las columnas
+		    if (board[row][col]>0){ line+=" X |";}
+			else if (board[row][col]<0) { line+=" O |";}
 			else { line+="   |";}
 		  }
 		  System.out.println(line);
