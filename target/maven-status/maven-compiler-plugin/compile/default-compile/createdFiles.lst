@@ -6,4 +6,5 @@ com/unrc/app/Ranking.class
 com/unrc/app/Login$1.class
 com/unrc/app/GamesUsers.class
 com/unrc/app/Game.class
+com/unrc/app/BoardControl.class
 com/unrc/app/Move.class
