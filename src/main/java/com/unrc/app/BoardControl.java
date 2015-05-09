@@ -200,7 +200,23 @@ public class BoardControl {
 		return maxDA;
 	}
 
-
+	/**
+	 * Computa el mayor nro de fichas alineadas del tipo 'n' (ya sea en forma vertical, 
+	 * horizontal o diagonal) en la matriz 't'.
+	 * @param t es una matriz de 7x6 que representa el tablero del juego.
+	 * @param n es un valor entero que representa el tipo de la ficha a buscar en 't'.
+	 * pre. true.
+	 * post. El mayor nro de fichas alineadas del tipo 'n' (ya sea en forma vertical, 
+	 * horizontal o diagonal) en la matriz 't' es retornado.
+	 */
+	private static int maxLine(int[][] t, int n) {
+		int v, h, da, dd;
+		v = maxLineV(t,n);
+		h = maxLineH(t,n);
+		da = maxLineDA(t,n);
+		dd = maxLineDD(t,n);
+		return (Math.max(Math.max(v,h), Math.max(da,dd)));
+	}
 
 	public void showBoard() {
 		System.out.println("************ Board *************");
