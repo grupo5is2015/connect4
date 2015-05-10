@@ -7,7 +7,7 @@ public class BoardControl {
         private int [][] table;
 	private int [] columnTop;     //cantidad de fichas que tiene la columna, como maximo 7.
         private int [] rowToInsert;
-        private boolean currentPlayer; // false = jugdor#1, true = jugador#2
+        //private boolean currentPlayer; // false = jugdor#1, true = jugador#2
 	//Jugador 1=  1   Jugador 2= -1  El numero 0 representa la celda vacia. 
 	// Nota para el sistema la columna empieza en cero y para el usuario en 1
 	// Para esto hay que hacer una simple convercion colum + 1

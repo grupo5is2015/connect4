@@ -23,7 +23,7 @@ public class App
 	//log.show_login();
            try {
 		 int op = menu();
-		 //while (op == 1) {  // mientras sea opcion 1, 2 o 3
+		 while (op == 1) {  // mientras sea opcion 1, 2 o 3
 		    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		      //FourInLineState st = new FourInLineState();	// nuevo objeto estado concreto
 		      //FourInLineProblem p = new FourInLineProblem();	// nuevo objeto problema concreto
@@ -80,8 +80,8 @@ public class App
 				  System.out.println("*** ¡Ganó el jugador #2! ***");
 		      }
 		      //engine.report(); 	// informa la cantidad de podas realizadas durante el juego
-		   //   op = menu(); 		//  vuelve a  pedir la opcion
-		 //}
+		      op = menu(); 		//  vuelve a  pedir la opcion
+		 }
 	   }
 	   catch (java.io.IOException ioex) {
 		 System.out.println("Error I/O");
