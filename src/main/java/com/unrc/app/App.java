@@ -35,7 +35,7 @@ public class App
 		      //int[] columnA = new int[7];  // arreglo para almacenar la cantidad de elementos de cada columna
 		      int column;
 		      int turn = 0;			// jugador: turno par, maquina: turno impar
-		      boolean player = false; 	// variable para decicir quien jugo
+		      boolean player = false; 	// variable para decicir quien jugo, false = jugador #1 , true = jugador #2
                       int value = 1;
                                            
 		      do {
@@ -66,7 +66,7 @@ public class App
                                   value = value * (-1);
                                   turn++;
                                   //rowCorrection = rowCorrection + 2;
-			    } while (!bc.end());
+			    } while (!bc.end(player));
                       System.out.println(b.toString());
                               //(!p.end(st));
 		      //System.out.println(st.toString()); 	// muestra Tablero final

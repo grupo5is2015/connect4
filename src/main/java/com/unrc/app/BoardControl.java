@@ -71,9 +71,9 @@ public class BoardControl {
 	 * @pre. state!=null.
 	 * @post. true es retornado ssi state es un estado final.
 	 */
-	public boolean end() {
+	public boolean end(boolean currentPlayer) {
 		int rdo;
-		if (!currentPlayer) {
+		if (currentPlayer) {
 			rdo = maxLine(1);
 		}
 		else {
