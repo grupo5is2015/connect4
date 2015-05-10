@@ -55,8 +55,8 @@ public class BoardControl {
 			b.setGrid(rowToInsert[column], column, player_value); //1 o -1 
 			++columnTop[column];
                         --rowToInsert[column];
-                          System.out.println(columnTop[column] + " * " + column + " * " + player_value);
-                          System.out.println();
+                          //System.out.println(columnTop[column] + " * " + column + " * " + player_value);
+                          //System.out.println();
 			//result=true;	
 		//}
 		//return result;		
@@ -179,7 +179,7 @@ public class BoardControl {
 		}
 		for (int j=1; j<col; j++) { // recorrido de la parte superior del tablero
 			count = 0;
-			for (int i=0; i+j<7; i++) {
+			for (int i=0; i+j<6; i++) {
 				if (table[i][j+i] != x) {
 					maxDD = Math.max(maxDD, count);
 					count = 0;

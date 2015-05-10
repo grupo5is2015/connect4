@@ -43,7 +43,6 @@ public class App
                           
 			    //if (turn%2 == 0) {
 				  System.out.println(b.toString()); // muestra Tablero antes de jugar
-				  b.toString();
                                   boolean option1;
 				  boolean option2 = false;
 				  do { // cicla hasta obtener valor válido
@@ -65,8 +64,10 @@ public class App
 				  // player = true;
                                   player = !player;
                                   value = value * (-1);
+                                  turn++;
                                   //rowCorrection = rowCorrection + 2;
 			    } while (!bc.end());
+                      System.out.println(b.toString());
                               //(!p.end(st));
 		      //System.out.println(st.toString()); 	// muestra Tablero final
 		     // if (turn>=(7*6) && (p.value(st)==0)) // si ya se ocuparon las 42 pocisiones y la diferencia es 0
