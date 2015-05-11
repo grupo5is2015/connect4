@@ -71,7 +71,7 @@ public class App
                               //(!p.end(st));
 		      //System.out.println(st.toString()); 	// muestra Tablero final
 		     // if (turn>=(7*6) && (p.value(st)==0)) // si ya se ocuparon las 42 pocisiones y la diferencia es 0
-                    if (turn>=(6*7)) 
+                    if (turn>(6*7)) 
                         System.out.println("*** Empate ***");
 		    else {   // hay un ganador (jugador u maquina)
 			    if (player) 	// si gano el jugador
