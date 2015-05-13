@@ -4,9 +4,8 @@ public class BoardControl {
 
     private Board b;
     private int[][] table;
-    private int[] columnTop;     //cantidad de fichas que tiene la columna, como maximo 7.
-    private int[] rowToInsert;
-        //private boolean currentPlayer; // false = jugdor#1, true = jugador#2
+    private int[] columnTop;     // cantidad de fichas que tiene cada columna, 0..7.
+    private int[] rowToInsert;   // fila donde insertar ficha, 0..5
     //Jugador 1=  1   Jugador 2= -1  El numero 0 representa la celda vacia. 
     // Nota para el sistema la columna empieza en cero y para el usuario en 1
     // Para esto hay que hacer una simple convercion colum + 1
@@ -36,21 +35,10 @@ public class BoardControl {
     //	return haylugar;
     //}
     public void insertCoin(int player_value, int column) {
-            //int numRow = b.getNumRow();
-        //if (!hayLugar()) System.out.println("Tablero Lleno");
-        //boolean result=false;
         //Recibe datos de columnas validas: 0..n-1
-
-		//if (columnTop[column] < m) {
-        //System.out.println(columnTop[column] + " * " + column + " * " + player_value + rowCorrection);
         b.setGrid(rowToInsert[column], column, player_value); //1 o -1 
         ++columnTop[column];
         --rowToInsert[column];
-                          //System.out.println(columnTop[column] + " * " + column + " * " + player_value);
-        //System.out.println();
-        //result=true;	
-        //}
-        //return result;		
     }
 
     /**
@@ -141,19 +129,19 @@ public class BoardControl {
         return maxH;
     }
 
-        // La posición (0,0) de la matríz es el extremo superior izquierdo 
-    /**
-     * Computa el mayor numero de fichas del mismo tipo alineadas
-     * consecutivamente en una diagonal descendente.
-     *
-     * @param board matriz representante del estado actual.
-     * @param x valor entero a buscar dentro de board.
-     * @return un valor entero, representando el mayor numero de fichas del
-     * mismo tipo alineadas consecutivamente en una diagonal descendente de
-     * board. pre. true. post. Un valor entero, representando el mayor numero de
-     * fichas del mismo tipo alineadas consecutivamente en una diagonal
-     * descendente, es retornado.
-     */
+    // La posición (0,0) de la matríz es el extremo superior izquierdo 
+     /**
+      * Computa el mayor numero de fichas del mismo tipo alineadas
+      * consecutivamente en una diagonal descendente.
+      *
+      * @param board matriz representante del estado actual.
+      * @param x valor entero a buscar dentro de board.
+      * @return un valor entero, representando el mayor numero de fichas del
+      * mismo tipo alineadas consecutivamente en una diagonal descendente de
+      * board. pre. true. post. Un valor entero, representando el mayor numero de
+      * fichas del mismo tipo alineadas consecutivamente en una diagonal
+      * descendente, es retornado.
+      */
     private int maxLineDD(int x) {
         int maxDD = 0;
         int count = 0;
