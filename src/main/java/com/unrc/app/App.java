@@ -1,12 +1,13 @@
 package com.unrc.app;
 
 import com.unrc.app.User;
+import com.unrc.app.Login;
 import org.javalite.activejdbc.Base;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-/**
+ /**
  * Hello world!
  *
  */
@@ -16,8 +17,33 @@ public class App {
         System.out.println("Bienvenidos a 4 en linea");
         Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
 
-        try {
-            int op = menu();
+	 	Login log = new Login();
+		User player1 = log.loginCheck("martin@gmail.com","martin");
+		User player2 = log.loginCheck("pepe@gmail.com","pepe");
+		
+		if (player1==null) {
+			 player1= User.create("first_name","martin","email","martin@gmail.com","password","martin");
+			 player1.save();
+		}
+	
+		if (player2==null) {
+			 player2= User.create("first_name","pepe","email","pepe@gmail.com","password","pepe");
+			 player2.save();
+		}
+	
+			
+
+
+
+
+
+
+	int op=0;	
+
+       try {
+
+	    //op = menu();
+
             while (op == 1) {  // mientras sea opcion 1
                 BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                 int numRow = 6;
@@ -29,33 +55,37 @@ public class App {
                 int turn = 0;			// jugador #1: turno par, jugador #2: turno impar
                 boolean player = false; 	// variable para decir quien jugo, false = jugador #1 , true = jugador #2
                 int value = 1;                  // ficha jugador #1 = 1, ficha jugador #2 = -1 
-
+		
+		boolean wrongColumn;
+                boolean fullColumn=false;
                 do {
                     System.out.println(b.toString());   // muestra Tablero antes de jugar
-                    boolean option1;
-                    boolean option2 = false;
+                    
                     do {    // cicla hasta obtener valor válido
                         System.out.print("Ingrese la columna donde desea colocar una ficha: ");
                         column = new Integer(br.readLine());
-                        option1 = (column > numCol || column < 1);
-                        if (option1) {    // si el usuario elije una columna no valida
+                        wrongColumn = (column > numCol || column < 1);
+                        if (wrongColumn) {    // si el usuario elije una columna no valida
                             System.out.println("Posicion no valida. Intente nuevamente...");
                         }
                         else {
-                            option2 = ((bc.getColumnTopValue(column - 1)) >= numRow);
-                            if (option2) // si la columna esta llena
+                            fullColumn = ((bc.getColumnTopValue(column - 1)) >= numRow);
+                            if (fullColumn) // si la columna esta llena
                             {
                                 System.out.println("\nColumna llena. Intente nuevamente...");
                             }
                         }
-                    } while (option1 || option2);
+                    } while (wrongColumn || fullColumn);
+
                     column--;
                     bc.insertCoin(value, column);
-                    player = !player;
-                    value = value * (-1);
+                    player = !player; //alterna jugador
+                    value *= (-1);
                     turn++;
-                } while ( (!bc.isTheVictor(player)) && (turn < numMoves) ); // opcional pero mas costoso: ( (!bc.isTheVictor(player)) || (!bc.fullBoard()) )
+                } while ( (!bc.isTheVictor(player)) && (turn < numMoves) ); 
+		// opcional pero mas costoso: ( (!bc.isTheVictor(player)) || (!bc.fullBoard()) )
                 System.out.println(b.toString());
+
                 if (turn >= numMoves) {  // empate o ganó el jugador #2 en la última jugada
                     if (bc.isTheVictor(player)) {
                         System.out.println("*** ¡Ganó el jugador #2! ***");
