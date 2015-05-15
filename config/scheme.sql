@@ -17,7 +17,7 @@ CREATE TABLE rankings(
     won INT(10),
     tie INT(10),
     lost INT(10),
-    user_id INT(11),
+    user_id INT(11) UNIQUE,
   CONSTRAINT ranks_pk PRIMARY KEY (id)
 );
 
