@@ -14,10 +14,11 @@ DROP TABLE IF EXISTS rankings;
 CREATE TABLE rankings(
     id INT(11) NOT NULL AUTO_INCREMENT,
     rank INT(10),
+	points INT(10),
     won INT(10),
     tie INT(10),
     lost INT(10),
-    user_id INT(11),
+    user_id INT(11) UNIQUE,
   CONSTRAINT ranks_pk PRIMARY KEY (id)
 );
 
