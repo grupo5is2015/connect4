@@ -53,8 +53,8 @@ public class App {
                             if (player == null) {
                                 System.out.print("\nE-mail/Contraseña incorrectos. Presione cualquier tecla para volver al menu... ");
                                 b3.readLine();
-                            }
-                            else {
+		}
+                        else {
                                 System.out.print("\n¡Bienvenido!. Presione cualquier tecla para volver al menu... ");
                                 b3.readLine();
                            }
@@ -67,7 +67,7 @@ public class App {
                             b5.readLine();
                             break;
                     default: op = menu();
-                }
+                        }
                 op = menu(); 	//  vuelve a solicitar la opcion
             }
         } catch (java.io.IOException ioex) {
@@ -86,7 +86,7 @@ public class App {
      * @post. Muestra por pantalla el menu y lee por teclado la opcion ingresada
      * por el usuario.
      */
-    private static int menu() throws IOException {
+       private static int menu() throws IOException {
         int op = 0;
         BufferedReader b = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("\n \t -------------------------------");

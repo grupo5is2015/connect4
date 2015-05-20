@@ -8,6 +8,7 @@ package com.unrc.app;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import static org.apache.commons.lang.StringUtils.isNumeric;
 import org.javalite.activejdbc.Model;
 
 /**
@@ -36,7 +37,13 @@ public class Game extends Model {
                     fullColumn = false;
                     do {    // cicla hasta obtener valor válido
                         System.out.print("Ingrese la columna donde desea colocar una ficha: ");
-                        column = new Integer(br.readLine());
+                        String s = br.readLine();
+                        while (! isNumeric(s)) {
+                            System.out.println("\n\t ¡¡¡ Debe ingresar un numero !!! \n");
+                            System.out.print("Ingrese la columna donde desea colocar una ficha: ");
+                            s = br.readLine();
+                        }
+                        column = new Integer(s);
                         wrongColumn = (column > numCol || column < 1);
                         if (wrongColumn) {    // si el usuario elije una columna no valida
                             System.out.println("Posicion no valida. Intente nuevamente...");

@@ -6,7 +6,7 @@ public class Login {
 
 	User loggedUser;
 
-	public void Login() {
+	public Login() {
 		
 
 	}
@@ -17,4 +17,4 @@ public class Login {
 		return loggedUser;
         }
 
- }
+	}
