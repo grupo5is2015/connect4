@@ -43,6 +43,7 @@ public class UserControl {
             Ranking rnu = new Ranking();
             nu.add(rnu);
             rnu.set("rank", Base.count("users").intValue());
+            rnu.set("points", 0);
             rnu.set("won", 0);
             rnu.set("tie", 0);
             rnu.set("lost", 0);
