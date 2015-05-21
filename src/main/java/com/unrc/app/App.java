@@ -46,18 +46,24 @@ public class App {
                         break;
                     case 3:
                         Login log = new Login();
-                        player1 = log.logInMe();
+                        player1 = log.logMeIn();
                         while (player1 == null) {
-                            System.out.print("\nE-mail/Contraseña incorrectos. Presione cualquier tecla para volver al menu... ");
-                            player1 = log.logInMe();
+                            System.out.println("\nE-mail/Contraseña incorrectos. Intente nuevamente...");
+                            player1 = log.logMeIn();
                         }
-                        System.out.println("\n¡Bienvenido player1!.");
-                        player2 = log.logInMe();
+                        System.out.println("\n¡Bienvenido " + player1.get("nickname") + "!");
+                        player2 = log.logMeIn();
                         while (player2 == null) {
-                            System.out.print("\nE-mail/Contraseña incorrectos. Presione cualquier tecla para volver al menu... ");
-                            player2 = log.logInMe();
+                            System.out.println("\nE-mail/Contraseña incorrectos.  Intente nuevamente...");
+                            player2 = log.logMeIn();
                         }
-                        System.out.print("\n¡Bienvenido!. Presione cualquier tecla para volver al menu... ");
+                        //System.out.println(player1.getId().toString() + player2.getId().toString());
+                        //System.out.println(player1.getId() == player2.getId());
+                        while (player1.getId().equals(player2.getId())) {
+                            System.out.println("\nEl usuario " + player1.get("nickname") + "ya se encuentra logueado.");
+                            player2 = log.logMeIn();
+                        }
+                        System.out.print("\n¡Bienvenido " + player2.get("nickname") + "! Presione cualquier tecla para volver al menu... ");
                         BufferedReader b3 = new BufferedReader(new InputStreamReader(System.in));
                         b3.readLine();
                         break;
@@ -66,7 +72,7 @@ public class App {
                             System.out.print("\nDebe haber dos usuarios logueados para poder jugar. Presione cualquier tecla para volver al menu... ");
                             BufferedReader b4 = new BufferedReader(new InputStreamReader(System.in));
                             b4.readLine();
-                        } else if (player1.getId() == player1.getId()) {
+                        } else if (player1.getId().equals(player2.getId())) {
                             System.out.print("\nLos jugadores deben ser distintos. Presione cualquier tecla para volver al menu... ");
                             BufferedReader b4 = new BufferedReader(new InputStreamReader(System.in));
                             b4.readLine();

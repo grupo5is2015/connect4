@@ -11,12 +11,12 @@ public class Login {
 
     }
 
-    public User logInMe() throws IOException {
+    public User logMeIn() throws IOException {
         System.out.print("\nIngrese su e-mail: ");
-        BufferedReader b3 = new BufferedReader(new InputStreamReader(System.in));
-        String email = b3.readLine();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String email = br.readLine();
         System.out.print("\nIngrese su contraseña: ");
-        String pass = b3.readLine();
+        String pass = br.readLine();
         return loginCheck(email, pass);
     }
 
