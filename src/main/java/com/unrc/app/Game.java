@@ -84,27 +84,28 @@ public class Game extends Model {
             }
         }  while (! leaveGame && ((!tableControl.isTheVictor(player)) && (turn < numMoves))); // opcional pero mas costoso: ( (!bc.isTheVictor(player)) || (!bc.fullBoard()) )
             this.saveIt(); //Para garantizar que se creo.
+
             if (!leaveGame) {
+ 	        this.set("finished", true);
+                this.set("draw",false);
+  
                 System.out.println(table.toString());
                 if (turn >= numMoves) {  // empate o ganó el jugador #2 en la última jugada
-                    this.set("finished", true);
                     if (tableControl.isTheVictor(player)) {
                         System.out.println("*** ¡Ganó el jugador #2! ***");
-                        this.set("draw",false);
-                        this.add(this.player2);
+                        player2.add(this);
                     } else {
                         System.out.println("*** Empate ***");
                         this.set("draw",true);
                     }
                 } else {   // hay un ganador
-                     this.set("draw",false);
+               
                    if (player) {
                         System.out.println("*** ¡Ganó el jugador #1! ***");    
-                        this.add(this.player1);
+			player1.add(this);
                     } else {
                         System.out.println("*** ¡Ganó el jugador #2! ***");
-                        
-                        this.add(this.player2);
+			player2.add(this);
                     }
                 }
                 this.saveIt(); //Actualizar
@@ -117,10 +118,17 @@ public class Game extends Model {
         
         
         this.saveIt();
-        
-        this.add(player1);
-        this.add(player2);
-        
+        if (isNew) { 
+			this.add(player1);
+        		this.add(player2);
+			this.table.save();
+			this.add(this.table);
+			this.player1.add(this.table);
+
+
+
+    	}
+
         
         
     }
