@@ -8,6 +8,9 @@ package com.unrc.app;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import static org.apache.commons.lang.StringUtils.isNumeric;
 import org.javalite.activejdbc.Model;
 
@@ -22,6 +25,7 @@ public class Game extends Model {
     private Board table;
     final int numRow = 6;
     final int numCol = 7;
+    List movesList = new LinkedList<Pair>();
 
     public Game(User player1, User player2) {
         this.player1 = player1;  //  jugador que inicia la partida
@@ -55,7 +59,7 @@ public class Game extends Model {
                 String s = br.readLine();
                 if (s.toLowerCase().equals("g")) {
                     leaveGame = true;
-                    this.saveGame(leaveGame);
+                    this.saveGame(leaveGame, movesList);
                 } else {
                     while (!isNumeric(s)) {
                         System.out.println("\n\t ¡¡¡ Debe ingresar un numero !!! \n");
@@ -77,6 +81,8 @@ public class Game extends Model {
             } while (! leaveGame && (wrongColumn || fullColumn));
             if (!leaveGame) {
                 column--;
+                Pair p = new Pair(value, column);   // 1: player1, -1: player2;
+                movesList.add(p);
                 tableControl.insertCoin(value, column);
                 player = !player;
                 value = value * (-1);
@@ -113,18 +119,38 @@ public class Game extends Model {
         }
     
     
-    private void saveGame (boolean isNew){
+    private void saveGame (boolean isNew, List ml){
         
         
         this.saveIt();
-        
         this.add(player1);
         this.add(player2);
+        Integer id = (Integer) player1.getId();
+        //int ii = i.intValue();
+        table.set("user_id", id);
+        this.add(table);
         
-        
+        Pair p = new Pair();
+        Iterator i = movesList.iterator();
+        while (i.hasNext()) {
+            Move m = new Move();
+            p = (Pair) i.next();
+            m.set("numCol", p.getColumnSelect());
+            table.add(m);
+            
+            if (p.getNumPlayer() == 1) {
+                //m.set("user_id", ).intValue());
+                player1.add(m);
+            }
+            else {
+                player2.add(m);
+            }
+           // p = (Pair) i.next();
+            //m.set("numCol", p.getColumnSelect(), "")
+            //i.next();
+        }
         
     }
     
     
 }
-        
