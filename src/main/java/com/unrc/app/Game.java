@@ -33,7 +33,7 @@ public class Game extends Model {
         this.table = new Board(numRow, numCol);
         this.set("finished", false);
         this.set("draw", false);
-        
+
     }
 
     public void PlayGame() throws IOException {
@@ -59,7 +59,7 @@ public class Game extends Model {
                 String s = br.readLine();
                 if (s.toLowerCase().equals("g")) {
                     leaveGame = true;
-                    this.saveGame(leaveGame, movesList);
+                    this.saveGame(leaveGame);
                 } else {
                     while (!isNumeric(s)) {
                         System.out.println("\n\t ¡¡¡ Debe ingresar un numero !!! \n");
@@ -78,7 +78,7 @@ public class Game extends Model {
                         }
                     }
                 }
-            } while (! leaveGame && (wrongColumn || fullColumn));
+            } while (!leaveGame && (wrongColumn || fullColumn));
             if (!leaveGame) {
                 column--;
                 Pair p = new Pair(value, column);   // 1: player1, -1: player2;
@@ -88,69 +88,87 @@ public class Game extends Model {
                 value = value * (-1);
                 turn++;
             }
-        }  while (! leaveGame && ((!tableControl.isTheVictor(player)) && (turn < numMoves))); // opcional pero mas costoso: ( (!bc.isTheVictor(player)) || (!bc.fullBoard()) )
-            this.saveIt(); //Para garantizar que se creo.
-            if (!leaveGame) {
-                System.out.println(table.toString());
-                if (turn >= numMoves) {  // empate o ganó el jugador #2 en la última jugada
-                    this.set("finished", true);
-                    if (tableControl.isTheVictor(player)) {
-                        System.out.println("*** ¡Ganó el jugador #2! ***");
-                        this.set("draw",false);
-                        this.add(this.player2);
-                    } else {
-                        System.out.println("*** Empate ***");
-                        this.set("draw",true);
-                    }
-                } else {   // hay un ganador
-                     this.set("draw",false);
-                   if (player) {
-                        System.out.println("*** ¡Ganó el jugador #1! ***");    
-                        this.add(this.player1);
-                    } else {
-                        System.out.println("*** ¡Ganó el jugador #2! ***");
-                        
-                        this.add(this.player2);
-                    }
+        } while (!leaveGame && ((!tableControl.isTheVictor(player)) && (turn < numMoves))); // opcional pero mas costoso: ( (!bc.isTheVictor(player)) || (!bc.fullBoard()) )
+        this.saveIt(); //Para garantizar que se creo.
+
+        if (!leaveGame) {
+            this.set("finished", true);
+            this.set("draw", false);
+
+            System.out.println(table.toString());
+            if (turn >= numMoves) {  // empate o ganó el jugador #2 en la última jugada
+                if (tableControl.isTheVictor(player)) {
+                    System.out.println("*** ¡Ganó el jugador #2! ***");
+                    player2.add(this);
+                } else {
+                    System.out.println("*** Empate ***");
+                    this.set("draw", true);
                 }
-                this.saveIt(); //Actualizar
-            } // fin leaveGame
-            
-        }
-    
-    
-    private void saveGame (boolean isNew, List ml){
-        
-        
-        this.saveIt();
-        this.add(player1);
-        this.add(player2);
-        Integer id = (Integer) player1.getId();
-        //int ii = i.intValue();
-        table.set("user_id", id);
-        this.add(table);
-        
-        Pair p = new Pair();
-        Iterator i = movesList.iterator();
-        while (i.hasNext()) {
-            Move m = new Move();
-            p = (Pair) i.next();
-            m.set("numCol", p.getColumnSelect());
-            table.add(m);
-            
-            if (p.getNumPlayer() == 1) {
-                //m.set("user_id", ).intValue());
-                player1.add(m);
+            } else {   // hay un ganador
+
+                if (player) {
+                    System.out.println("*** ¡Ganó el jugador #1! ***");
+                    player1.add(this);
+                } else {
+                    System.out.println("*** ¡Ganó el jugador #2! ***");
+                    player2.add(this);
+                }
             }
-            else {
-                player2.add(m);
-            }
-           // p = (Pair) i.next();
-            //m.set("numCol", p.getColumnSelect(), "")
-            //i.next();
-        }
-        
+            this.saveIt(); //Actualizar
+        } // fin leaveGame
+
     }
-    
-    
+
+    private void saveGame(boolean isNew) {
+
+        this.saveIt();
+        /*
+         this.add(player1);
+         this.add(player2);
+         Integer id = (Integer) player1.getId();
+         table.set("user_id", id);
+         this.add(table);
+        
+         Pair p = new Pair();
+         Iterator i = movesList.iterator();
+         while (i.hasNext()) {
+         Move m = new Move();
+         p = (Pair) i.next();
+         m.set("numCol", p.getColumnSelected());
+         table.add(m);
+            
+         if (p.getNumPlayer() == 1) {
+         player1.add(m);
+         }
+         else {
+         player2.add(m);
+         }
+
+         }
+         */
+        if (isNew) {
+            this.add(player1);
+            this.add(player2);
+            this.table.save();
+            this.add(this.table);
+            this.player1.add(this.table);
+            Pair p = new Pair();
+            Iterator i = movesList.iterator();
+            while (i.hasNext()) {
+                Move m = new Move();
+                p = (Pair) i.next();
+                m.set("numCol", p.getColumnSelected());
+                table.add(m);
+
+                if (p.getNumPlayer() == 1) {
+                    player1.add(m);
+                } else {
+                    player2.add(m);
+                }
+
+            }
+        }
+
+    }
+
 }

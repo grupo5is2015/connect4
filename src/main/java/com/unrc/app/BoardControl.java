@@ -10,7 +10,13 @@ public class BoardControl {
     // Nota para el sistema la columna empieza en cero y para el usuario en 1
     // Para esto hay que hacer una simple convercion colum + 1
 
+    public int[] listMove; // Lista de movimientos se guarda la Columna elegida
+    
+
+
+
     public BoardControl(Board b) {
+	this.listMove = new int[b.getNumCol()*b.getNumRow()];
         this.b = b;
         table = b.getGrid();
         columnTop = new int[b.getNumCol()];
@@ -24,7 +30,7 @@ public class BoardControl {
         return columnTop[v];
     }
 
-        //Ver en grupo: Si es necesario recorrer todas las columnas
+     //Ver en grupo: Si es necesario recorrer todas las columnas
     //sino observar si hay espacio
     //en donde debo colocar!!!
     //tampoco insertar cartelitos

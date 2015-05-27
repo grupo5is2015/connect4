@@ -12,16 +12,16 @@ package com.unrc.app;
 public class Pair {
     
     private Integer numPlayer;
-    private Integer columnSelect;
+    private Integer columnSelected;
     
     public Pair(Integer np, Integer cs) {
         numPlayer = np;
-        columnSelect = cs;
+        columnSelected = cs;
     }
 
     @Override
     public String toString() {
-        return "Pair{" + "numPlayer=" + numPlayer + ", columnSelect=" + columnSelect + '}';
+        return "Pair{" + "numPlayer=" + numPlayer + ", columnSelected=" + columnSelected + '}';
     }
 
     public Pair() {
@@ -31,16 +31,16 @@ public class Pair {
         this.numPlayer = numPlayer;
     }
 
-    public void setColumnSelect(Integer columnSelect) {
-        this.columnSelect = columnSelect;
+    public void setColumnSelected(Integer columnSelected) {
+        this.columnSelected = columnSelected;
     }
 
     public Integer getNumPlayer() {
         return numPlayer;
     }
 
-    public Integer getColumnSelect() {
-        return columnSelect;
+    public Integer getColumnSelected() {
+        return columnSelected;
     }
     
 }

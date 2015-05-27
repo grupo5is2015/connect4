@@ -72,14 +72,12 @@ public class App {
                             System.out.print("\nDebe haber dos usuarios logueados para poder jugar. Presione cualquier tecla para volver al menu... ");
                             BufferedReader b4 = new BufferedReader(new InputStreamReader(System.in));
                             b4.readLine();
-                        } //else if (player1.getId().equals(player2.getId())) {
-                            //System.out.print("\nLos jugadores deben ser distintos. Presione cualquier tecla para volver al menu... ");
-                            //BufferedReader b4 = new BufferedReader(new InputStreamReader(System.in));
-                            //b4.readLine();
-                        //} else {
+                        } else {
                             Game g = new Game(player1, player2);
                             g.PlayGame();
-                        //}
+
+			}
+
                         break;
                     case 5:
                         System.out.print("\nEn construccion. Presione cualquier tecla para volver al menu... ");

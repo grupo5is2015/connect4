@@ -18,7 +18,7 @@ CREATE TABLE rankings(
     won INT(10),
     tie INT(10),
     lost INT(10),
-    user_id INT(11) UNIQUE,
+    user_id INT(11),
   CONSTRAINT ranks_pk PRIMARY KEY (id)
 );
 
@@ -53,6 +53,7 @@ DROP TABLE IF EXISTS moves;
 CREATE TABLE moves (
     id INT(11) NOT NULL AUTO_INCREMENT,
     board_id INT(11),
+	numCol INT(1),
     user_id INT(11), /* player que ejecuta*/
   CONSTRAINT moves_pk PRIMARY KEY(id)
 );
