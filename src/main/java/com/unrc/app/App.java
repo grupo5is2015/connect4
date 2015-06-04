@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import org.apache.commons.lang.StringUtils;
 import static org.apache.commons.lang.StringUtils.isNumeric;
+import static spark.Spark.*;
+
 
 /**
  *
@@ -22,8 +24,19 @@ import static org.apache.commons.lang.StringUtils.isNumeric;
 public class App {
 
     public static void main(String[] args) {
-        System.out.println("Bienvenidos a 4 en linea");
-        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
+        //System.out.println("Bienvenidos a 4 en linea");
+        //Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
+	port(1080); //for default 4567
+	get("/", (req, res) -> "Welcome to Four one Line<hr> <a href='/login'> Ingresar</a>");
+	get("/login", (req, res) -> "Ingrese sus datos");
+
+
+
+
+
+	}
+
+	/*
 
         //Login log = new Login();
         //User player1 = log.login
@@ -131,6 +144,6 @@ public class App {
             throw new IOException("Excepcion bufferedReader.readLine()");
         }
         return op;
-    }
+    } // end function menu()
 
 }
