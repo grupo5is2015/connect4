@@ -6,8 +6,7 @@
  */
 package com.unrc.app;
 
-import com.unrc.app.User;
-import com.unrc.app.Login;
+import com.unrc.app.*;
 import org.javalite.activejdbc.Base;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,13 +24,29 @@ public class App {
 
     public static void main(String[] args) {
         //System.out.println("Bienvenidos a 4 en linea");
-        //Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
-	port(1080); //for default 4567
-	get("/", (req, res) -> "Welcome to Four one Line<hr> <a href='/login'> Ingresar</a>");
-	get("/login", (req, res) -> "Ingrese sus datos");
+        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
+ 	Login log = new Login();
 
 
+	WebManager web= new WebManager();
 
+	port(1080);
+	//for default 4567
+	get("/", (req, res) -> "Welcome to Four in a Line<hr> <a href='/login'> Ingresar</a>");
+
+	get("/login", (req, res) -> 
+		"Ingrese sus datos<br>"
+		+"<form action='/logincheck' method='post'>"
+		+"email: <input type='text' name='email' value='' /><br>"
+		+"Password: <input type='text' name='password'/><br>"		
+		+"<input type='submit' value='Enviar' >"
+		+"</form>"  
+
+	);
+	
+	post("/logincheck", (req, res) -> 
+	 web.logincheck(req.queryParams("email"),req.queryParams("password"),log) 
+	);
 
 
 	}

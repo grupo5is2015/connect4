@@ -20,7 +20,7 @@ public class Login {
         return loginCheck(email, pass);
     }
 
-    private static User loginCheck(String loginEmail, String loginPass) {
+    public User loginCheck(String loginEmail, String loginPass) {
         User loggedUser = User.findFirst("email = ? and password = ?", loginEmail, loginPass);
         return loggedUser;
     }
