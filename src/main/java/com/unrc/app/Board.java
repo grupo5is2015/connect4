@@ -30,6 +30,45 @@ public class Board extends Model {
         grid[r][c] = v;
     }
 
+    
+    public String toHtml() {
+    
+           String s = "<table align='center' border=1><tr>";
+          for (int c = 1; c <= 7; c++) {
+          
+	    s+="<td><a href='/play/"+c+"'> #"+c+"</a></td>";
+         
+	  }
+   
+       s+="</tr>";
+       
+       
+       
+          for (int f = 0; f < 6; f++) {
+        
+	    s+="<tr>";
+            for (int c = 0; c < 7; c++) {
+                if (grid[f][c] == 1) {
+                    s = s + "<td width=50 bgcolor='green'></td>";
+                } else {
+                    if (grid[f][c] == -1) {
+                        s = s + "<td width=50 bgcolor='red'>&nbsp; </td>";
+                    } else {
+                        s = s + "<td width=50 bgcolor='white'>&nbsp; </td>";
+                    }
+                }
+            }
+            s = s + "</tr>";
+        }
+        
+      
+        return s;
+    
+    
+    
+    }
+    
+    
     public String toString() {
         String s = "\n\t  --------------------------- \n\t";
         for (int f = 0; f < 6; f++) {

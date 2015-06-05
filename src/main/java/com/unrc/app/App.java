@@ -21,6 +21,17 @@ import static spark.Spark.*;
  * @author slowhand
  */
 public class App {
+ 	public static User player1 = null;
+        public static User player2 = null;
+	public static Game game;
+	public static BoardControl boardcontrol;
+	
+
+
+public static synchronized User getPlayer1(){
+	return player1;
+}
+
 
     public static void main(String[] args) {
         //System.out.println("Bienvenidos a 4 en linea");
@@ -30,23 +41,114 @@ public class App {
 
 	WebManager web= new WebManager();
 
-	port(1080);
+	
+	
+	
+	get("/play/:columna", (req, res) -> { 
+	         Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
+ 
+		String salida="";
+		req.session(true);
+		
+		if (player1==null) {
+			 player1=User.findFirst("id = ?",new Integer(req.session().attribute("userId").toString()));
+			 req.session().attribute("player",1);
+			 salida = " Esperando al Jugador 2";
+	
+		} else if (player2==null) {
+			player2=User.findFirst("id = ?",new Integer(req.session().attribute("userId").toString()));
+			 req.session().attribute("player",2);
+			 salida =  " Listo Empezar ya!!";
+		}else {
+		      if (game==null) {
+			  game= new Game(player1,player2);
+			  boardcontrol = new BoardControl(game.table);
+			  }
+			  
+		  
+		       //column==0 Solo mostrar tablero
+		       
+		       int currentUser=0;
+		       
+		       if (player1.get("email").toString().equals(req.session().attribute("user")))
+			    currentUser=1;
+		       if (player2.get("email").toString().equals(req.session().attribute("user")))
+			    currentUser=-1;
+			    
+		      Integer column = new Integer(req.params(":columna"));
+		  
+		       
+		      // Empezar a jugar, solo para los jugadores de este juego
+		      if (currentUser==1 || currentUser==-1 ){
+		 
+			 if (game.turnOff == currentUser && column>0){
+			      boardcontrol.insertCoin(currentUser,column-1);
+// 			      game.turnOff*= -1;
+			 }
+			 
+		  	 salida=web.showGame(req.session().attribute("user"),player1.get("email").toString(),player2.get("email").toString(),game.boardToHtml());
+  		      }
+		}
+		Base.close();
+		
+		return salida;
+
+		//<meta http-equiv="refresh" content="5" >
+
+
+	});
+
+	//port(1080);
 	//for default 4567
-	get("/", (req, res) -> "Welcome to Four in a Line<hr> <a href='/login'> Ingresar</a>");
+	get("/", (req, res) -> { 
+		String salida;
+		salida="Session Iniciada por "+req.session().attribute("user")+" - <a href='/logout'>Salir</a>";
+		if (req.session().attribute("user")==null)
+			 salida="Welcome to Four in a Line<hr> <a href='/login'> Ingresar</a>";
+
+		
+		return salida;
+		
+
+	});
+
+
+	get("/logout", (req, res) -> { 
+		String salida="Session finalizada";
+		req.session(true);
+		req.session().attribute("user",null);
+		player1=null;
+		player2=null;
+
+		return salida;
+		
+	});
 
 	get("/login", (req, res) -> 
-		"Ingrese sus datos<br>"
-		+"<form action='/logincheck' method='post'>"
-		+"email: <input type='text' name='email' value='' /><br>"
-		+"Password: <input type='text' name='password'/><br>"		
-		+"<input type='submit' value='Enviar' >"
-		+"</form>"  
-
+		web.ShowLogin()
 	);
 	
-	post("/logincheck", (req, res) -> 
-	 web.logincheck(req.queryParams("email"),req.queryParams("password"),log) 
-	);
+	 post("/logincheck", (req, res) ->{
+		req.session(true);                           // create and return session
+		req.session().attribute("user", req.queryParams("email"));
+
+		String salida="Hola! "+req.session().attribute("user")+" - <a href='/play/0'> Jugar </a>";
+		User user =null;
+		user = web.logincheck(req.queryParams("email"),req.queryParams("password"),log);
+		if (user==null) {
+		  req.session().attribute("user", null);
+		  salida="<strong>Datos Incorrectos!</strong><hr> Intente nuevamente <a href='/login'>Aqui</a>";
+		} else {
+			
+		req.session().attribute("userId",user.get("id"));
+		}
+
+
+		
+
+		return salida;
+		
+	});
 
 
 	}
@@ -55,9 +157,7 @@ public class App {
 
         //Login log = new Login();
         //User player1 = log.login
-        User player1 = null;
-        User player2 = null;
-
+       
         try {
             int op = menu();
             while (op == 1 || op == 2 || op == 3 || op == 4 || op == 5) {  // mientras sea opcion 1

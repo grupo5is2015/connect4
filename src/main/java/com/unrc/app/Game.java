@@ -22,10 +22,11 @@ public class Game extends Model {
 
     private User player1;
     private User player2;
-    private Board table;
+    public Board table;
     final int numRow = 6;
     final int numCol = 7;
     List movesList = new LinkedList<Pair>();
+    public int turnOff = 1; // Empieza el player1 valores (1,-1)
 
     public Game(User player1, User player2) {
         this.player1 = player1;  //  jugador que inicia la partida
@@ -34,6 +35,16 @@ public class Game extends Model {
         this.set("finished", false);
         this.set("draw", false);
 
+    }
+    
+    
+    public String  boardToHtml(){
+    
+      String s ="";
+      if (turnOff == 1 ) {s=player1.get("email").toString();}
+         else {s=player2.get("email").toString();}
+      return "turno de  "+s+". Seleccione columna!!."+table.toHtml();
+    
     }
 
     public void PlayGame() throws IOException {
