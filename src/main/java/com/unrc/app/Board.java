@@ -2,7 +2,7 @@ package com.unrc.app;
 
 import org.javalite.activejdbc.Model;
 
-public class Board extends Model {
+public class Board {
 
     private int[][] grid;       //matriz
     private int m; //numero de filas
@@ -31,12 +31,16 @@ public class Board extends Model {
     }
 
     
-    public String toHtml() {
+    public String toHtml(boolean turn) {
     
            String s = "<table align='center' border=1><tr>";
-          for (int c = 1; c <= 7; c++) {
-          
-	    s+="<td><a href='/play/"+c+"'> #"+c+"</a></td>";
+           if (turn) s+="<tr><td> <a href='/savegame'> Guardar</a></td></tr>";
+          for (int c = 1; c <= n; c++) {
+	    if (turn) {
+		  s+="<td><a href='/play/"+c+"'> #"+c+"</a></td>";
+		  } else {
+		  s+="<td>#"+c+"</td>";
+		  }
          
 	  }
    
@@ -44,10 +48,10 @@ public class Board extends Model {
        
        
        
-          for (int f = 0; f < 6; f++) {
+          for (int f = 0; f < m; f++) {
         
 	    s+="<tr>";
-            for (int c = 0; c < 7; c++) {
+            for (int c = 0; c < n; c++) {
                 if (grid[f][c] == 1) {
                     s = s + "<td width=50 bgcolor='green'></td>";
                 } else {

@@ -13,6 +13,12 @@ public class BoardControl {
     public int[] listMove; // Lista de movimientos se guarda la Columna elegida
     
 
+    
+    public boolean fullColumn(int c ) {
+    
+      return columnTop[c]>=b.getNumRow();
+    
+    }
 
 
     public BoardControl(Board b) {
@@ -30,16 +36,7 @@ public class BoardControl {
         return columnTop[v];
     }
 
-     //Ver en grupo: Si es necesario recorrer todas las columnas
-    //sino observar si hay espacio
-    //en donde debo colocar!!!
-    //tampoco insertar cartelitos
-    //public boolean hayLugar() {
-    //	boolean haylugar=false;
-    //	for (int i=0; i<n;i++)
-    //		if (columnTop[i]<n) haylugar=true;
-    //	return haylugar;
-    //}
+    
     public void insertCoin(int player_value, int column) {
         //Recibe datos de columnas validas: 0..n-1
         b.setGrid(rowToInsert[column], column, player_value); //1 o -1 
@@ -60,6 +57,7 @@ public class BoardControl {
      * @post. true es retornado ssi state es un estado final.
      */
     public boolean isTheVictor(boolean lastPlayer) {
+    
         int res;
         if (lastPlayer) {
             res = maxLine(1);
@@ -242,22 +240,7 @@ public class BoardControl {
         dd = maxLineDD(n);
         return (Math.max(Math.max(v, h), Math.max(da, dd)));
     }
-    /*
-     public void showBoard() {
-     System.out.println("************ Board *************");
-     String line = new String();
-     for (int row=m-1; row >= 0; row--) {
-     line = "|";
-     for (int col=0; col < n; col++) { // recorro las columnas
-     if (board[row][col]>0){ line+=" X |";}
-     else if (board[row][col]<0) { line+=" O |";}
-     else { line+="   |";}
-     }
-     System.out.println(line);
-     } //end for rows
-                
-     }
-     */
+   
 
     /**
      * Indica si un tablero esta completo, es decir, si no existen lugares
