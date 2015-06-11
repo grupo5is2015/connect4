@@ -37,6 +37,38 @@ import org.javalite.activejdbc.Base;
 	  this.set("draw", false);
 
       }
+      
+      public void settleGame(User player1, User player2) {
+	  this.player1 = player1;  //  jugador que inicia la partida
+	  this.player2 = player2;
+	  this.table = new Board(numRow, numCol);
+          turnOff = 1;
+          
+          
+      }
+      
+      
+      public void settleListMove(List<Move> moves,BoardControl control) {
+        
+            Iterator it = moves.iterator();
+            Move move;
+            int current=1;
+            int column=0;
+            
+            
+            while (it.hasNext()) {
+                move = (Move) it.next();
+                column = ((Integer) move.get("numCol")).intValue();
+                regMove(current, column);
+                control.insertCoin(current, column);
+                current *= -1;
+            }
+            
+            turnOff=current;
+        
+    }
+      
+     
 
     public Game() {
     }

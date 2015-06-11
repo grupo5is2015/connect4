@@ -11,6 +11,7 @@
   import java.io.BufferedReader;
   import java.io.IOException;
   import java.io.InputStreamReader;
+import java.util.Iterator;
 import java.util.List;
   import org.apache.commons.lang.StringUtils;
   import static org.apache.commons.lang.StringUtils.isNumeric;
@@ -34,6 +35,14 @@ import java.util.List;
   }
 
 
+     public static  String menuweb() {
+         
+         String out = "<hr><a href='/play/0'>Juego Nuevo </a>- <a href='/loadgame'>Cargar Juego</a>";
+         out += " - <a href='/logout'> Salir</a> - <a href='/login'>Iniciar sesion</a> - <a href='/signin'>Registrarse</a><hr>";
+         return out; 
+     }
+  
+  
       public static void main(String[] args) {
           
 	  //System.out.println("Bienvenidos a 4 en linea");
@@ -50,7 +59,7 @@ import java.util.List;
 	    try {Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");}
 	    catch(Exception e) {}
 		
-	      String output=" Juego Guardado.";
+	      String output=" <strong>Juego Guardado.</strong>"+menuweb();
 	      game.settleUser(); 
 	      game.save();
 	      game.saveGame(true); // guarda movimientos tablero
@@ -59,9 +68,27 @@ import java.util.List;
 	  
 	  });
 	  
-          get("/load/:game", (req, res) -> {
-              String output = "hola";
-              return output;
+          get("/loadgame/:game", (req, res) -> {
+             try {Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");}
+             catch(Exception e) {}
+             String output = "OK";
+             
+              game = Game.findById(req.params(":game"));
+              player1 = User.findById(game.get("player1"));
+              player2 = User.findById(game.get("player2"));
+             
+              game.settleGame(player1, player2);
+              boardcontrol = new BoardControl(game.table);
+              // Setea los jugadores y crea un tablero nuevo
+  
+              List<Move> moves = game.getAll(Move.class);
+              game.settleListMove(moves,boardcontrol);
+              
+              
+              Base.close();
+              res.redirect("/play/0");
+              return null;
+            
           });
 	  
 	  get("/play/:columna", (req, res) -> { 
@@ -69,7 +96,7 @@ import java.util.List;
 		  try {Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");}
 		  catch(Exception e) {}
 		  
-		  String output="";
+		  String output=menuweb();
 		  req.session(true);
 		  
 		  if (player1==null) {
@@ -81,9 +108,9 @@ import java.util.List;
 			  if (! player1.get("id").toString().equals(req.session().attribute("userId").toString())) {
 				player2=User.findFirst("id = ?",new Integer(req.session().attribute("userId").toString()));
 				req.session().attribute("player",2);
-				output =  web.waitForPlayer(1,req.session().attribute("user").toString());
+				output +=  web.waitForPlayer(1,req.session().attribute("user").toString())+menuweb();
 			  } else
-			  {  output =  web.waitForPlayer(2,req.session().attribute("user").toString());}
+			  {  output +=  web.waitForPlayer(2,req.session().attribute("user").toString())+menuweb();}
 			  
 		  }else {
 			if (game==null) {
@@ -108,7 +135,7 @@ import java.util.List;
 			// Empezar a jugar, solo para los jugadores de este juego
 			if (currentUser==1 || currentUser==-1 ){
 		  
-			  if (game.turnOff == currentUser && column>0 && !boardcontrol.fullColumn(column-1) && game.get("finished").toString()=="false"){ 
+			  if (game.turnOff == currentUser && column>0 && !boardcontrol.fullColumn(column-1) && game.get("finished").toString().equals("false")){ 
 									//  Ademas chequear que no haya ganador ni tablero lleno					      
 				game.regMove(currentUser, column-1);					
 				boardcontrol.insertCoin(currentUser,column-1);
@@ -126,13 +153,13 @@ import java.util.List;
 				return null;
 			  }
 			  if (game.get("finished").toString()=="false") {
-			    output=web.showGame(req.session().attribute("user"),player1.get("email").toString(),player2.get("email").toString(),game.boardToHtml(game.turnOff == currentUser));
+			    output+=web.showGame(req.session().attribute("user"),player1.get("email").toString(),player2.get("email").toString(),game.boardToHtml(game.turnOff == currentUser));
 			  } else {
 			      String winner="";
 			      // comparo luego de que se cambio el turnoff
 			    if (game.turnOff == -1) { winner = player1.get("email").toString();}
 			    else {winner= player2.get("email").toString();}
-			    output = web.showWinner(req.session().attribute("user"),winner);
+			    output += web.showWinner(req.session().attribute("user"),winner);
 			    game=null;
 			    player1=null;
 			    player2=null;
@@ -150,19 +177,34 @@ import java.util.List;
 	  //for default 4567
 	  get("/", (req, res) -> { 
 		  String output;
-		  output="Session Iniciada por "+req.session().attribute("user")+" - <a href='/logout'>Salir</a>";
+		  output=menuweb()+"Sesion Iniciada por "+req.session().attribute("user")+" - <a href='/logout'>Salir</a>";
 		  if (req.session().attribute("user")==null)
-			  output="Bienvenido a Cuatro en Linea<hr> <a href='/login'> Ingresar</a>";
-
+			  output=menuweb()+"Bienvenido a Cuatro en Linea<hr> <a href='/login'> Ingresar</a>";
+                                
 		  
 		  return output;
 		  
 
 	  });
 
-
+           get("/signin", (req, res) -> { 
+               
+               return menuweb()+ web.ShowFormCreateUser();
+               
+          
+            });
+           
+           post("/loginreceiver", (req, res) ->{ 
+               String output="";
+               output += UserControl.UserRegistration(req.queryParams("email") , req.queryParams("password"), req.queryParams("nickname"));
+               return output;
+               
+               
+           });
+           
+           
 	  get("/logout", (req, res) -> { 
-		  String output="Session finalizada";
+		  String output=menuweb()+"Sesion finalizada";
 		  req.session(true);
 		  req.session().attribute("user",null);
 		  player1=null;
@@ -178,16 +220,19 @@ import java.util.List;
           
           get("/loadgame", (req, res) -> {
               List<Game> pausedGames = GameManagement.listPausedGames(req.session().attribute("userId").toString());
-              String output = web.showPausedGames(pausedGames, false);
-              //req.session().attribute("userId").toString().equals(player1.get("id").toString()));
-                return output;
-          });
+              
+              String output = web.showPausedGames(pausedGames, req.session().attribute("userId").toString());
+              
+              return output;    
+                  
+              });
+              
 	  
 	  post("/logincheck", (req, res) -> {
 		  req.session(true);                           // create and return session
 		  req.session().attribute("user", req.queryParams("email"));
 
-		  String output="Bienvenido "+req.session().attribute("user")+"!! Opciones:<br><br><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a>";
+		  String output=menuweb()+"Bienvenido "+req.session().attribute("user")+"!! Opciones:<br><br><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a>";
 		  User user = null;
 		  user = web.logincheck(req.queryParams("email"),req.queryParams("password"),log);
 		  if (user==null) {

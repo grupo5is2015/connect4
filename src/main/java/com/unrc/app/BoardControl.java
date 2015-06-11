@@ -1,5 +1,8 @@
 package com.unrc.app;
 
+import java.util.Iterator;
+import java.util.List;
+
 public class BoardControl {
 
     private Board b;
@@ -10,7 +13,7 @@ public class BoardControl {
     // Nota para el sistema la columna empieza en cero y para el usuario en 1
     // Para esto hay que hacer una simple convercion colum + 1
 
-    public int[] listMove; // Lista de movimientos se guarda la Columna elegida
+    //public int[] listMove; // Lista de movimientos se guarda la Columna elegida
     
 
     
@@ -21,8 +24,11 @@ public class BoardControl {
     }
 
 
+    
+    
+    
     public BoardControl(Board b) {
-	this.listMove = new int[b.getNumCol()*b.getNumRow()];
+	//this.listMove = new int[b.getNumCol()*b.getNumRow()];
         this.b = b;
         table = b.getGrid();
         columnTop = new int[b.getNumCol()];

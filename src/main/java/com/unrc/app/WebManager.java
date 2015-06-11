@@ -22,6 +22,17 @@ public class WebManager {
         return "";
     }
 
+    public String ShowFormCreateUser() {
+        
+        return "Ingrese sus datos.<br><br>"
+                + "<form action='/loginreceiver' method='post'>"
+                + "E-mail: <input type='text' name='email' value='' /><br>"
+                + "Password: <input type='password' name='password'/><br><br>"
+                + "NickName: <input type='text' name='nickname'/><br><br>"
+                + "<input type='submit' value='Crear Usuario' >"
+                + "</form>";
+    }
+    
     public String ShowLogin() {
 
         return "Ingrese sus datos.<br><br>"
@@ -55,13 +66,14 @@ public class WebManager {
 
     }
     
-    public String showPausedGames(List<Game> pausedGames, boolean player) {
-		        try {
+    public String showPausedGames(List<Game> pausedGames,String myId) {
+        try {
             Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
         } catch (Exception e) {
         }
 
-        String output = "<html><body><h1>Juegos Pausados</h1><table align='left' border=1><tr>";
+        String output = "<html><body><h1>Juegos Pausados</h1><table align='left' border=1>";
+        output += "<tr><th>Juego</th><th>Adversario</th></tr>"; 
         Game g;
 	User u;
         String i, adversary;
@@ -69,8 +81,9 @@ public class WebManager {
         while (it.hasNext()) {
             g = (Game) it.next();
             i = g.getId().toString();
-            output += "<td><a href='/loadgame/" + i + "'> #" + i + "</a></td>";
-            if (player) {
+                        
+            output += "<tr><td><a href='/loadgame/" + i + "'> #" + i + "</a></td>";
+            if (myId.equals(g.get("player1").toString())) {
                 adversary = "player2";
             }
             else {
