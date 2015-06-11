@@ -12,6 +12,7 @@
   import java.util.LinkedList;
   import java.util.List;
   import static org.apache.commons.lang.StringUtils.isNumeric;
+import org.javalite.activejdbc.Base;
   import org.javalite.activejdbc.Model;
 
   /**
@@ -36,6 +37,9 @@
 	  this.set("draw", false);
 
       }
+
+    public Game() {
+    }
       
       public void settleUser() { // prepara el game para ser guardado 
       
@@ -43,6 +47,13 @@
 	this.set("player2", this.player2.get("id"));
       
       }
+      
+      public Object create() {
+            return new Game();
+        }
+      
+      
+
       
       
       public void regMove(int player, int column) {

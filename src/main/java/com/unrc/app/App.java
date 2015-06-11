@@ -11,6 +11,7 @@
   import java.io.BufferedReader;
   import java.io.IOException;
   import java.io.InputStreamReader;
+import java.util.List;
   import org.apache.commons.lang.StringUtils;
   import static org.apache.commons.lang.StringUtils.isNumeric;
   import static spark.Spark.*;
@@ -34,14 +35,17 @@
 
 
       public static void main(String[] args) {
+          
 	  //System.out.println("Bienvenidos a 4 en linea");
 	  Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
 	  Login log = new Login();
 
 
 	  WebManager web= new WebManager();
-
-	  
+          
+          //String prueba = GameManagement.listPausedGames("1");
+          //System.out.println(prueba);
+          
 	  get("/savegame", (req, res) -> { 
 	    try {Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");}
 	    catch(Exception e) {}
@@ -55,6 +59,10 @@
 	  
 	  });
 	  
+          get("/load/:game", (req, res) -> {
+              String output = "hola";
+              return output;
+          });
 	  
 	  get("/play/:columna", (req, res) -> { 
 	  
@@ -113,7 +121,7 @@
 				      
 				}
 				
-				game.turnOff*= -1;
+				game.turnOff *= -1;
 				res.redirect("/play/0");
 				return null;
 			  }
@@ -124,7 +132,7 @@
 			      // comparo luego de que se cambio el turnoff
 			    if (game.turnOff == -1) { winner = player1.get("email").toString();}
 			    else {winner= player2.get("email").toString();}
-			    output = web.showWin(req.session().attribute("user"),winner);
+			    output = web.showWinner(req.session().attribute("user"),winner);
 			    game=null;
 			    player1=null;
 			    player2=null;
@@ -144,7 +152,7 @@
 		  String output;
 		  output="Session Iniciada por "+req.session().attribute("user")+" - <a href='/logout'>Salir</a>";
 		  if (req.session().attribute("user")==null)
-			  output="Welcome to Four in a Line<hr> <a href='/login'> Ingresar</a>";
+			  output="Bienvenido a Cuatro en Linea<hr> <a href='/login'> Ingresar</a>";
 
 		  
 		  return output;
@@ -167,20 +175,27 @@
 	  get("/login", (req, res) -> 
 		  web.ShowLogin()
 	  );
+          
+          get("/loadgame", (req, res) -> {
+              List<Game> pausedGames = GameManagement.listPausedGames(req.session().attribute("userId").toString());
+              String output = web.showPausedGames(pausedGames, false);
+              //req.session().attribute("userId").toString().equals(player1.get("id").toString()));
+                return output;
+          });
 	  
-	  post("/logincheck", (req, res) ->{
+	  post("/logincheck", (req, res) -> {
 		  req.session(true);                           // create and return session
 		  req.session().attribute("user", req.queryParams("email"));
 
-		  String output="Hola! "+req.session().attribute("user")+" - <a href='/play/0'> Jugar </a>";
-		  User user =null;
+		  String output="Bienvenido "+req.session().attribute("user")+"!! Opciones:<br><br><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a>";
+		  User user = null;
 		  user = web.logincheck(req.queryParams("email"),req.queryParams("password"),log);
 		  if (user==null) {
-		    req.session().attribute("user", null);
-		    output="<strong>Datos Incorrectos!</strong><hr> Intente nuevamente <a href='/login'>Aqui</a>";
-		  } else {
-			  
-		  req.session().attribute("userId",user.get("id"));
+                      req.session().attribute("user", null);
+                      output = "<strong>Datos Incorrectos!</strong><hr> Intente nuevamente <a href='/login'>Aqui</a>";
+		  }
+                  else {
+                      req.session().attribute("userId",user.get("id"));
 		  }
 
 
