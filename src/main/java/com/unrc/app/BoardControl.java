@@ -22,9 +22,6 @@ public class BoardControl {
       return columnTop[c]>=b.getNumRow();
     
     }
-
-
-    
     
     
     public BoardControl(Board b) {

@@ -16,13 +16,13 @@ import org.javalite.activejdbc.Base;
  */
 public class UserControl {
     
-        public static String UserRegistration(String email, String pass,String nickName) throws IOException {
+        public static String UserRegistration(String email, String pass, String nickName) throws IOException {
             try {Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");}
             catch(Exception e) {}
-            String output = "";
+            String output = null;
             User u = User.findFirst("email = ?", email);
             if (u != null) {
-               output = "El e-mail " + email + " ya se encuentra registrado.<hr> <a href='/login'> Iniciar sesion</a><br><br><a href='/signin'> Registrarse</a>";
+               output = "El e-mail " + email + " ya se encuentra registrado.<hr><a href='/login'> Iniciar sesion</a><br><br><a href='/signin'> Registrarse</a>";
             }
             else {
                 User nu = new User();
@@ -40,7 +40,7 @@ public class UserControl {
                 rnu.set("tie", 0);
                 rnu.set("lost", 0);
                 rnu.saveIt();
-                output = "Felicitaciones! Registracion exitosa.<hr> <a href='/login'> Iniciar sesion</a>";
+                output = "Felicitaciones! Registracion exitosa.<hr><a href='/login'> Iniciar sesion</a>";
             }
             Base.close();
             return output;
