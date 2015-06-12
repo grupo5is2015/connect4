@@ -144,7 +144,7 @@ public class App {
                         res.redirect("/play/0");
                         return null;
                     }
-                    if (game.get("finished").toString() == "false") {
+                    if (game.get("finished").toString().equals("false")) {
                         output += web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.boardToHtml(game.turnOff == currentUser));
                     } else {
                         String winner = "";

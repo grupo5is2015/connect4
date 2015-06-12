@@ -11,7 +11,7 @@ import org.javalite.activejdbc.Base;
 
 /**
  *
- * @author slowhand
+ * @author Grupo #5
  */
 public class WebManager {
 

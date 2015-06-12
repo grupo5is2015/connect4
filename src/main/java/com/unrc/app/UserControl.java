@@ -27,8 +27,8 @@ public class UserControl {
             else {
                 User nu = new User();
                 nu.set("email", email);
-                nu.set("first_name", " ");
-                nu.set("last_name", null);
+                //nu.set("first_name", " ");
+                //nu.set("last_name", null);
                 nu.set("nickname", nickName);
                 nu.set("password", pass);
                 nu.saveIt();

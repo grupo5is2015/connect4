@@ -54,11 +54,9 @@ public class Game extends Model {
         Move move;
         int current = 1;
         int column = 0;
-        System.out.println(moves.size());
         while (it.hasNext()) {
             move = (Move) it.next();
             column = ((Integer) move.get("numCol")).intValue();
-            System.out.println("> " + column + "<");
             regMove(current, column);
             boardControl.insertCoin(current, column);
             current *= -1;
