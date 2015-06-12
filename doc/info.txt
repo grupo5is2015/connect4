@@ -1,4 +1,4 @@
-Mariano : Listar juegos guardados
+El problema con first_name en el alta de usuarios se debe al test de JUnit.
 	  
 	  
 
