@@ -22,20 +22,20 @@ public class WebManager {
         return "";
     }
 
-    public String ShowFormCreateUser() {
+    public String ShowRegistrationForm() {
         
-        return "Ingrese sus datos.<br><br>"
+        return "Complete los siguientes campos para registrarse.<br><br>"
                 + "<form action='/loginreceiver' method='post'>"
                 + "E-mail: <input type='text' name='email' value='' /><br>"
                 + "Password: <input type='password' name='password'/><br><br>"
-                + "NickName: <input type='text' name='nickname'/><br><br>"
+                + "Nickname: <input type='text' name='nickname'/><br><br>"
                 + "<input type='submit' value='Crear Usuario' >"
                 + "</form>";
     }
     
     public String ShowLogin() {
 
-        return "Ingrese sus datos.<br><br>"
+        return "Ingrese sus datos de acceso.<br><br>"
                 + "<form action='/logincheck' method='post'>"
                 + "E-mail: <input type='text' name='email' value='' /><br>"
                 + "Password: <input type='password' name='password'/><br><br>"
@@ -46,7 +46,7 @@ public class WebManager {
 
     public String waitForPlayer(int player, String user) { // Valores 1 0 2
         String output = "<html><head><meta http-equiv='refresh' content='5' ><title>4 en Linea</title></head><body>"
-                + "<h1>4 en Linea</h1> <table><tr><td>Estas logueado como <strong>" + user + " </strong></td></tr>"
+                + "<h1>4 en Linea</h1> <table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
                 + "<tr><td><strong> Esperando por el player " + player + "</strong></td></tr>"
                 + "<table></html>";
         return output;
@@ -72,7 +72,7 @@ public class WebManager {
         } catch (Exception e) {
         }
 
-        String output = "<html><body><h1>Juegos Pausados</h1><table align='left' border=1>";
+        String output = "<html><body><h1>Juegos Pausados</h1><hr>Seleccione el juego que desea retomar:<br><br><table align='left' border=1>";
         output += "<tr><th>Juego</th><th>Adversario</th></tr>"; 
         Game g;
 	User u;

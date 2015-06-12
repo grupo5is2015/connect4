@@ -102,7 +102,7 @@ import org.javalite.activejdbc.Base;
 	String s ="";
 	if (turnOff == 1 ) {s=player1.get("email").toString();}
 	  else {s=player2.get("email").toString();}
-	return "turno de  <strong>"+s+"</strong>. Seleccione columna!!."+table.toHtml(turn);
+	return "Turno de:  <strong>"+s+"</strong>"+table.toHtml(turn);
       
       }
 

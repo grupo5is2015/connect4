@@ -59,7 +59,7 @@ import java.util.List;
 	    try {Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");}
 	    catch(Exception e) {}
 		
-	      String output=" <strong>Juego Guardado.</strong>"+menuweb();
+	      String output=" <strong>Juego Guardado.</strong><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/logout'>Salir</a>";
 	      game.settleUser(); 
 	      game.save();
 	      game.saveGame(true); // guarda movimientos tablero
@@ -179,7 +179,7 @@ import java.util.List;
 		  String output;
 		  output=menuweb()+"Sesion Iniciada por "+req.session().attribute("user")+" - <a href='/logout'>Salir</a>";
 		  if (req.session().attribute("user")==null)
-			  output=menuweb()+"Bienvenido a Cuatro en Linea<hr> <a href='/login'> Ingresar</a>";
+			  output = "Bienvenido a Cuatro en Linea<hr> <a href='/login'> Iniciar sesion</a><br><br><a href='/signin'> Registrarse</a>";
                                 
 		  
 		  return output;
@@ -187,24 +187,23 @@ import java.util.List;
 
 	  });
 
-           get("/signin", (req, res) -> { 
-               
-               return menuweb()+ web.ShowFormCreateUser();
-               
-          
-            });
-           
-           post("/loginreceiver", (req, res) ->{ 
-               String output="";
-               output += UserControl.UserRegistration(req.queryParams("email") , req.queryParams("password"), req.queryParams("nickname"));
-               return output;
-               
-               
-           });
+          get("/signin", (req, res) -> {
+
+              return menuweb() + web.ShowRegistrationForm();
+
+          });
+
+          post("/loginreceiver", (req, res) -> {
+
+              String output = null;
+              output = UserControl.UserRegistration(req.queryParams("email"), req.queryParams("password"), req.queryParams("nickname"));
+              return output;
+
+          });
            
            
 	  get("/logout", (req, res) -> { 
-		  String output=menuweb()+"Sesion finalizada";
+		  String output = "Sesion finalizada.<hr> <a href='/login'> Iniciar sesion</a><br><br><a href='/signin'> Registrarse</a>";
 		  req.session(true);
 		  req.session().attribute("user",null);
 		  player1=null;
@@ -232,12 +231,12 @@ import java.util.List;
 		  req.session(true);                           // create and return session
 		  req.session().attribute("user", req.queryParams("email"));
 
-		  String output=menuweb()+"Bienvenido "+req.session().attribute("user")+"!! Opciones:<br><br><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a>";
+		  String output = "Hola "+req.session().attribute("user")+"! Has ingresado correctamente. Opciones:<br><br><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a>";
 		  User user = null;
 		  user = web.logincheck(req.queryParams("email"),req.queryParams("password"),log);
 		  if (user==null) {
                       req.session().attribute("user", null);
-                      output = "<strong>Datos Incorrectos!</strong><hr> Intente nuevamente <a href='/login'>Aqui</a>";
+                      output = "<strong>Datos Incorrectos!</strong><hr> <a href='/login'> Iniciar sesion</a><br><br><a href='/signin'> Registrarse</a>";
 		  }
                   else {
                       req.session().attribute("userId",user.get("id"));
