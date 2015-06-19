@@ -82,7 +82,9 @@ public class WebManager {
 	User u;
         String gameId, adversary;
         Iterator it = pausedGames.iterator();
+        int i = 0;
         while (it.hasNext()) {
+            i++;
             g = (Game) it.next();
             gameId = g.getId().toString();
             output += "<tr><td><a href='/loadgame/" + gameId + "'> #" + gameId + "</a></td>";
@@ -95,7 +97,12 @@ public class WebManager {
             u = User.findById(g.get(adversary));
             output += "<td>" + u.get("email") + "</td></tr>";
         }
-        output += "</table></body></html><br><br><br><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/logout'>Salir</a>";
+        output += "</table><br><br><br><br>";
+        for (int kk=1; kk<=i; kk++) {
+            output += "<br>";
+        }
+        output += "<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/logout'>Salir</a>";
+        output += "</body></html>";
         
 	Base.close();        
 	return output;
@@ -103,6 +110,40 @@ public class WebManager {
     }
 
 
+    public String showPlayersRankings(List<Ranking> ranksList) {
+        
+        try {
+            Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
+        } catch (Exception e) {
+        }
+
+        String output = "<html><body><h1>Ranking de Jugadores</h1><table align='left' border=1>";
+        output += "<tr><th> Posicion </th><th> Jugador </th><th> Puntos </th></tr>"; 
+	User u;
+        Ranking r;
+        String gameId, adversary;
+        Iterator it = ranksList.iterator();
+        int i = 0;
+        while (it.hasNext()) {
+            i++;
+            r = (Ranking) it.next();
+            output += "<tr><td>" + i + "</td>";
+            u = User.findById(r.get("user_id"));
+            output += "<td>" + u.get("nickname") + "</td><td>" + r.get("points") + "</tr>";
+        }
+        output += "</table><br><br><br><br>";
+        for (int j=1; j<=i; j++) {
+            output += "<br>";
+        }
+        output += "<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/logout'>Salir</a>";
+        output += "</body></html>";
+        
+	Base.close();        
+	return output;
+        
+    }    
+
+    
     public String showWinner(String user, String ganador) { // Valores 1 0 2
         
         String output = "<html><head><title>4 en Linea</title></head><body>"
@@ -115,6 +156,17 @@ public class WebManager {
         
     }
 
+        public String showTieMatch(String user) { // Valores 1 0 2
+        
+        String output = "<html><head><title>4 en Linea</title></head><body>"
+                + "<h1>4 en linea</h1> <table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
+                + "<tr><td><strong> Partida Empatada !!</strong></td></tr>"
+                + "<table></html>"
+                + "<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/logout'>Salir</a>";
+        
+        return output;
+        
+    }
     
     public User loginCheck(String email, String pass, Login log) {
         

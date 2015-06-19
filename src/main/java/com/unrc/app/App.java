@@ -198,6 +198,8 @@ public class App {
 
         });
 
+        
+        /*
         get("/showrankings", (req, res) -> {
 
             try {
@@ -216,7 +218,7 @@ public class App {
             Base.close();
             return output;
 
-        });
+        });*/
 
         get("/signin", (req, res) -> {
 
@@ -267,6 +269,21 @@ public class App {
             } else {
                 req.session().attribute("userId", user.get("id"));
             }
+            return output;
+
+        });
+        
+        
+        get("/showrankings", (req, res) -> {
+            
+            try {
+                Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
+            } catch (Exception e) { }
+            
+            List<Ranking> ranksList = Ranking.findAll().orderBy("points desc");
+            String output = web.showPlayersRankings(ranksList);
+            
+            Base.close();        
             return output;
 
         });
