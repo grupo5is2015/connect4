@@ -131,7 +131,14 @@ public class App {
                             } else { // empate
                                 game.set("finished", true);
                                 game.set("draw", true);
-                                //output += web.showTieMatch(req.session().attribute("user"));
+                                Ranking updRnkP1 = Ranking.findFirst("id = ?", player1.getId());
+                                int newPoint1 = ((Integer) updRnkP1.get("points")).intValue();
+                                updRnkP1.set("points", newPoint1 + 1);
+                                updRnkP1.saveIt();
+                                Ranking updRnkP2 = Ranking.findFirst("id = ?", player2.getId());
+                                int newPoint2 = ((Integer) updRnkP2.get("points")).intValue();
+                                updRnkP2.set("points", newPoint2 + 1);
+                                updRnkP2.saveIt();
                             }
                         } else {
                             if (boardcontrol.isTheVictor(currentUser == 1)) {
@@ -158,7 +165,7 @@ public class App {
                             int newPoint = ((Integer) updrnk.get("points")).intValue();
                             updrnk.set("points", newPoint + 3);
                             updrnk.saveIt();
-                            System.out.println(player1.getId().toString() + " " + updrnk.get("points").toString());
+                            //System.out.println(player1.getId().toString() + " " + updrnk.get("points").toString());
                         } else {
                             winner = player2.get("email").toString();
                             Ranking updrnk = Ranking.findFirst("id = ?", player2.getId());
