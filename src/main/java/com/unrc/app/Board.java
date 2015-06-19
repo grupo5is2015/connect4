@@ -27,7 +27,6 @@ public class Board {
     }
 
     public void setGrid(int r, int c, int v) { // v = 1 | v = -1
-        System.out.println(r + " " + c + " " + v);
         grid[r][c] = v;
     }
 

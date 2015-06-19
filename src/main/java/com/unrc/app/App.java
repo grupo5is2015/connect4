@@ -27,7 +27,7 @@ public class App {
     public static User player2 = null;
     public static Game game;
     public static BoardControl boardcontrol;
-    public static int moveNumber = 1;
+    //public static int moveNumber = 1;
 
     public static void main(String[] args) {
 
@@ -44,7 +44,7 @@ public class App {
             String output = " <strong>Juego Guardado.</strong><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
             game.settleUser();
             game.save();
-            game.saveGame(true); // guarda movimientos tablero
+            game.saveGame(true, game.moveNumber); // guarda movimientos tablero
             Base.close();
             return output;
 
@@ -61,7 +61,10 @@ public class App {
             player1 = User.findById(game.get("player1"));
             player2 = User.findById(game.get("player2"));
 
-            game.settleGame(player1, player2);
+            int moveNumber = Move.count("game_id = ?", game.get("id")).intValue();
+System.out.println("*************--> " + moveNumber);
+            game.settleGame(player1, player2, moveNumber);
+           System.out.println("*************--> " + game.moveNumber);
             boardcontrol = new BoardControl(game.table);
             // Setea los jugadores y crea un tablero nuevo
 
@@ -115,7 +118,9 @@ public class App {
                 }
 
                 Integer column = new Integer(req.params(":column"));
-
+                if (currentUser * currentUser != 1) {
+                    output = "Partida ocupada. Intente nuevamente mas adelante.<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>\"";
+                }
                 // Empezar a jugar, solo para los jugadores de este juego
                 if (currentUser == 1 || currentUser == -1) {
 
@@ -123,7 +128,11 @@ public class App {
                         //  Ademas chequear que no haya ganador ni tablero lleno					      
                         game.regMove(currentUser, column - 1);
                         boardcontrol.insertCoin(currentUser, column - 1);
-                        if (moveNumber == 42) { // empate o gano player2
+                       System.out.println("*************--> " + game.moveNumber);
+                        if (game.moveNumber > game.numCol*game.numRow) { // empate o gano player2
+                            
+                            System.out.println("*************--> " + game.get("draw").toString());
+                            if (!game.bothNotified) {
                             if (boardcontrol.isTheVictor(false)) { // gano player2
                                 game.set("finished", true);
                                 game.set("draw", false);
@@ -139,14 +148,30 @@ public class App {
                                 int newPoint2 = ((Integer) updRnkP2.get("points")).intValue();
                                 updRnkP2.set("points", newPoint2 + 1);
                                 updRnkP2.saveIt();
-                            }
+                            } game.bothNotified=true;
+                        }
+                            else {
+                                player1 = null;
+                            player2 = null;
+                           
+game.moveNumber=1;                                }
+                            if (game.get("draw").toString().equals("true")) {
+                            System.out.println("222222222222222222222*************--> " + game.get("draw").toString());
+                            //output += web.showTieMatch(req.session().attribute("user"));
+                                res.redirect("/gamefinished/"+req.session().attribute("user")+"/garbage/draw");
+                                return null;
                         } else {
+                            //output += web.showWinner(req.session().attribute("user"), winner);
+                            res.redirect("/gamefinished/"+req.session().attribute("user")+"/"+game.namewinner+"/thereiswinner");
+                            return null;
+                        }
+                        }else {
                             if (boardcontrol.isTheVictor(currentUser == 1)) {
                                 game.set("finished", true);
                                 game.set("draw", false);
                                 game.set("user_id", req.session().attribute("userId"));
                             } else {
-                                moveNumber++;
+                                game.moveNumber = game.moveNumber + 1;
                             }
                         }
 
@@ -157,34 +182,45 @@ public class App {
                     if (game.get("finished").toString().equals("false")) {
                         output += web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.boardToHtml(game.turnOff == currentUser));
                     } else {
-                        String winner = "";
                         // comparo luego de que se cambio el turnoff
-                        if (game.turnOff == -1) {
-                            winner = player1.get("email").toString();
-                            Ranking updrnk = Ranking.findFirst("id = ?", player1.getId());
-                            int newPoint = ((Integer) updrnk.get("points")).intValue();
-                            updrnk.set("points", newPoint + 3);
-                            updrnk.saveIt();
-                            //System.out.println(player1.getId().toString() + " " + updrnk.get("points").toString());
+                        if (!game.bothNotified) {
+                            if (game.turnOff == -1) {
+                                game.namewinner = player1.get("email").toString();
+                                Ranking updrnk1 = Ranking.findFirst("id = ?", player1.getId());
+                                int newPoint = Integer.valueOf(updrnk1.get("points").toString());
+                                updrnk1.set("points", newPoint + 3);
+                                updrnk1.saveIt();
+                            } else {
+                                game.namewinner = player2.get("email").toString();
+                                Ranking updrnk2 = Ranking.findFirst("id = ?", player2.getId());
+                                int newPoint = Integer.valueOf(updrnk2.get("points").toString());
+                                updrnk2.set("points", newPoint + 3);
+                                updrnk2.saveIt();
+                            }
+                            game.bothNotified=true;
                         } else {
-                            winner = player2.get("email").toString();
-                            Ranking updrnk = Ranking.findFirst("id = ?", player2.getId());
-                            int newPoint = ((Integer) updrnk.get("points")).intValue();
-                            updrnk.set("points", newPoint + 3);
-                            updrnk.saveIt();
-                            System.out.println(player2.getId().toString() + " " + updrnk.get("points").toString());
+                            //game = null;
+                            player1 = null;
+                            player2 = null;
+                            game.moveNumber = 1;
+                        
+                        
                         }
-                        if (game.get("draw").toString().equals("true")) {
-                            output += web.showTieMatch(req.session().attribute("user"));
-                        }
-                        else {
-                            output += web.showWinner(req.session().attribute("user"), winner);
-                        }
-                        game = null;
-                        player1 = null;
-                        player2 = null;
-                        moveNumber = 1;
+                        
+                        
 
+                        if (game.get("draw").toString().equals("true")) {
+                            System.out.println(game.get("draw").toString());
+                            //output += web.showTieMatch(req.session().attribute("user"));
+                                res.redirect("/gamefinished/"+req.session().attribute("user")+"/garbage/draw");
+                                return null;
+                        } else {
+                            //output += web.showWinner(req.session().attribute("user"), winner);
+                            res.redirect("/gamefinished/"+req.session().attribute("user")+"/"+game.namewinner+"/thereiswinner");
+                            return null;
+                        }
+
+                        
                     }
 
                 }
@@ -192,6 +228,22 @@ public class App {
             Base.close();
             return output;
 
+        });
+
+        get("/gamefinished/:user/:winner/:draw", (req, res) -> {
+            String output = "";
+            String user = req.params(":user");
+            String winner = req.params(":winner");
+            String draw = req.params(":draw");
+            if (draw.equals("draw")) {
+                output += web.showTieMatch(user);
+            } else {
+                output += web.showWinner(user, winner);
+            }
+            
+            if (player1==null) game=null;
+
+            return output;
         });
 
         get("/", (req, res) -> {
@@ -205,7 +257,6 @@ public class App {
 
         });
 
-        
         get("/signin", (req, res) -> {
 
             return web.showRegistrationForm();
@@ -258,18 +309,18 @@ public class App {
             return output;
 
         });
-        
-        
+
         get("/showrankings", (req, res) -> {
-            
+
             try {
                 Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
-            } catch (Exception e) { }
-            
+            } catch (Exception e) {
+            }
+
             List<Ranking> ranksList = Ranking.findAll().orderBy("points desc");
             String output = web.showPlayersRankings(ranksList);
-            
-            Base.close();        
+
+            Base.close();
             return output;
 
         });

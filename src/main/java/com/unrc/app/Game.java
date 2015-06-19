@@ -5,6 +5,7 @@
  */
 package com.unrc.app;
 
+import static com.unrc.app.App.game;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,7 +29,9 @@ public class Game extends Model {
     public final int numCol = 7;
     public List<Pair> movesList;
     public int turnOff = 1; // Empieza el player1 valores (1,-1)
-
+    public boolean bothNotified;
+    public String namewinner;
+    public int moveNumber;
     
     public Game(User player1, User player2) {
         this.movesList = new LinkedList<Pair>();
@@ -37,14 +40,18 @@ public class Game extends Model {
         this.table = new Board(numRow, numCol);
         this.set("finished", false);
         this.set("draw", false);
+        this.bothNotified = false;
+        this.namewinner="";
+        this.moveNumber = 1;
     }
 
     
-    public void settleGame(User player1, User player2) {
+    public void settleGame(User player1, User player2, int moveNumber) {
         this.player1 = player1;  //  jugador que inicia la partida
         this.player2 = player2;
         this.table = new Board(numRow, numCol);
         turnOff = 1;
+        this.moveNumber = moveNumber + 1;
     }
 
     
@@ -100,7 +107,7 @@ public class Game extends Model {
 
     }
 
-    public void saveGame(boolean isNew) {
+    public void saveGame(boolean isNew, int movesGame) {
 
         this.saveIt();
 
@@ -110,7 +117,21 @@ public class Game extends Model {
 
             Pair p = new Pair();
             Iterator i = movesList.iterator();
+            
+            long movesPreviouslySaved = Move.count("game_id = ?", this.getId().toString());
+            //.find("select * from moves where game_id = ?, ", this.getId().toString()));
+//Base.count("moves, game_id=?", this.getId().toString());
+//                    .exec("select count (*) from moves where game_id =", this.getId().toString());
+            List<Move> moves = this.getAll(Move.class);
+            int x = 0;
+            
+            while (i.hasNext() && x<movesPreviouslySaved) {
+                i.next();
+                x++;
+            }
+            
             while (i.hasNext()) {
+                
                 Move m = new Move();
                 p = (Pair) i.next();
                 m.set("numCol", p.getColumnSelected());
