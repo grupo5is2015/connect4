@@ -192,34 +192,13 @@ public class App {
             String output;
             output = "Sesion Activa de " + req.session().attribute("user") + "<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/logout'>Salir</a>";
             if (req.session().attribute("user") == null) {
-                output = "Bienvenido a Cuatro en Linea<hr> <a href='/login'> Iniciar sesion</a><br><br><a href='/signin'> Registrarse</a><br><br><a href='/showrankings'> Listar Rankings</a>";
+                output = "<h1>Bienvenido a Cuatro en Linea</h1><hr> <a href='/login'> Iniciar sesion</a><br><br><a href='/signin'> Registrarse</a>";
             }
             return output;
 
         });
 
         
-        /*
-        get("/showrankings", (req, res) -> {
-
-            try {
-                Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
-            } catch (Exception e) {
-            }
-
-            String output = "";
-
-            List<Ranking> rankList = Ranking.findAll().orderBy("points desc"); // cambiar rank por points
-            Iterator itrnk = rankList.iterator();
-            while (itrnk.hasNext()) {
-                Ranking rnk = (Ranking) itrnk.next();
-                output += "--> " + rnk.getString("points") + " <-- <br>";
-            }
-            Base.close();
-            return output;
-
-        });*/
-
         get("/signin", (req, res) -> {
 
             return web.showRegistrationForm();
@@ -234,7 +213,7 @@ public class App {
 
         get("/logout", (req, res) -> {
 
-            String output = "Sesion finalizada.<hr><a href='/login'> Iniciar sesion</a><br><br><a href='/signin'> Registrarse</a><br><br><a href='/showrankings'> Listar Rankings</a>";
+            String output = "Sesion finalizada.<hr><a href='/login'> Iniciar sesion</a><br><br><a href='/signin'> Registrarse</a>";
             req.session(true);
             req.session().attribute("user", null);
             player1 = null;
@@ -260,7 +239,7 @@ public class App {
 
             req.session(true);                           // create and return session
             req.session().attribute("user", req.queryParams("email"));
-            String output = "Hola " + req.session().attribute("user") + "! Has ingresado correctamente. Opciones:<br><br><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a>";
+            String output = "Hola " + req.session().attribute("user") + ", has ingresado correctamente! Opciones:<br><br><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a>";
             User user = null;
             user = web.loginCheck(req.queryParams("email"), req.queryParams("password"), log);
             if (user == null) {

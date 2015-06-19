@@ -34,7 +34,7 @@ public class WebManager {
     
     public String showLoginForm() {
 
-        return "Ingrese sus datos de acceso.<br><br>"
+        return "Ingrese sus datos de acceso:<br><br>"
                 + "<form action='/logincheck' method='post'>"
                 + "E-mail: <input type='text' name='email' value='' /><br><br>"
                 + "Password: <input type='password' name='password'/><br><br>"
@@ -46,9 +46,9 @@ public class WebManager {
     public String waitForPlayer(int player, String user) { // Valores 1 ó 2
         
         String output = "<html><head><meta http-equiv='refresh' content='5' ><title>4 en Linea</title></head><body>"
-                + "<h1>4 en Linea</h1> <table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
+                + "<h1>4 en Linea</h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
                 + "<tr><td><strong> Esperando por el player " + player + "</strong></td></tr>"
-                + "<table></html><hr><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/logout'>Salir</a>";
+                + "<table></html><hr><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
         return output;
         
     }
@@ -59,8 +59,8 @@ public class WebManager {
         String output = "";
 
         output = "<html><head><meta http-equiv='refresh' content='8' ><title>4 en Linea</title></head><body>"
-                + "<h1>4 en linea</h1> <table><tr><td>Estas logueado como <strong>" + user + " </strong></td></tr>"
-                + "<tr><td bgcolor='yellow'>" + player1 + " vs " + player2 + "</td></tr>"
+                + "<h1>4 en Linea</h1><hr><table><tr><td>Estas logueado como <strong>" + user + " </strong></td></tr>"
+                + "<tr><td bgcolor='yellow'> Partida: <strong>" + player1 + "</strong> VS <strong> " + player2 + "</strong></td></tr>"
                 + "<tr><td>" + board + "</td></tr>"
                 + "</table></body></html>";
 
@@ -101,7 +101,7 @@ public class WebManager {
         for (int kk=1; kk<=i; kk++) {
             output += "<br>";
         }
-        output += "<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/logout'>Salir</a>";
+        output += "<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
         output += "</body></html>";
         
 	Base.close();        
@@ -135,7 +135,7 @@ public class WebManager {
         for (int j=1; j<=i; j++) {
             output += "<br>";
         }
-        output += "<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/logout'>Salir</a>";
+        output += "<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/logout'>Salir</a>";
         output += "</body></html>";
         
 	Base.close();        
@@ -147,10 +147,10 @@ public class WebManager {
     public String showWinner(String user, String ganador) { // Valores 1 0 2
         
         String output = "<html><head><title>4 en Linea</title></head><body>"
-                + "<h1>4 en linea</h1> <table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
+                + "<h1>4 en Linea</h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
                 + "<tr><td><strong> Ganador de la partida: " + ganador + "</strong></td></tr>"
                 + "<table></html>"
-                + "<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/logout'>Salir</a>";
+                + "<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/logout'>Salir</a>";
         
         return output;
         
@@ -159,10 +159,10 @@ public class WebManager {
         public String showTieMatch(String user) { // Valores 1 0 2
         
         String output = "<html><head><title>4 en Linea</title></head><body>"
-                + "<h1>4 en linea</h1> <table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
+                + "<h1>4 en Linea</h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
                 + "<tr><td><strong> Partida Empatada !!</strong></td></tr>"
                 + "<table></html>"
-                + "<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/logout'>Salir</a>";
+                + "<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
         
         return output;
         
