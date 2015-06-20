@@ -8,7 +8,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 
-@SuiteClasses({ UserTest.class })
+@SuiteClasses({ UserTest.class,GameTest.class })
 
 public class AppTest {
     @BeforeClass
