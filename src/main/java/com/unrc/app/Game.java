@@ -32,6 +32,8 @@ public class Game extends Model {
     public boolean bothNotified;
     public String namewinner;
     public int moveNumber;
+    public boolean gamePaused;
+    
     
     public Game(User player1, User player2) {
         this.movesList = new LinkedList<Pair>();
@@ -43,6 +45,7 @@ public class Game extends Model {
         this.bothNotified = false;
         this.namewinner="";
         this.moveNumber = 1;
+        this.gamePaused=false;
     }
 
     
@@ -119,10 +122,6 @@ public class Game extends Model {
             Iterator i = movesList.iterator();
             
             long movesPreviouslySaved = Move.count("game_id = ?", this.getId().toString());
-            //.find("select * from moves where game_id = ?, ", this.getId().toString()));
-//Base.count("moves, game_id=?", this.getId().toString());
-//                    .exec("select count (*) from moves where game_id =", this.getId().toString());
-            List<Move> moves = this.getAll(Move.class);
             int x = 0;
             
             while (i.hasNext() && x<movesPreviouslySaved) {

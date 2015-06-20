@@ -45,7 +45,7 @@ public class WebManager {
 
     public String waitForPlayer(int player, String user) { // Valores 1 ó 2
         
-        String output = "<html><head><meta http-equiv='refresh' content='5' ><title>4 en Linea</title></head><body>"
+        String output = "<html><head><meta http-equiv='refresh' content='3' ><title>4 en Linea</title></head><body>"
                 + "<h1>4 en Linea</h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
                 + "<tr><td><strong> Esperando por el player " + player + "</strong></td></tr>"
                 + "<table></html><hr><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
@@ -58,7 +58,7 @@ public class WebManager {
 
         String output = "";
 
-        output = "<html><head><meta http-equiv='refresh' content='30' ><title>4 en Linea</title></head><body>"
+        output = "<html><head><meta http-equiv='refresh' content='4' ><title>4 en Linea</title></head><body>"
                 + "<h1>4 en Linea</h1><hr><table><tr><td>Estas logueado como <strong>" + user + " </strong></td></tr>"
                 + "<tr><td bgcolor='yellow'> Partida: <strong>" + player1 + "</strong> VS <strong> " + player2 + "</strong></td></tr>"
                 + "<tr><td>" + board + "</td></tr>"

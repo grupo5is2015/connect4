@@ -36,16 +36,31 @@ public class App {
         WebManager web = new WebManager();
 
         get("/savegame", (req, res) -> {
-            try {
-                Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
-            } catch (Exception e) {
-            }
+	    String output="";
+	    
+	    
+	    if (!game.gamePaused) {
+	    
+	      try {
+		  Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
+	      } catch (Exception e) {
+	      }
 
-            String output = " <strong>Juego Guardado.</strong><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
-            game.settleUser();
-            game.save();
-            game.saveGame(true, game.moveNumber); // guarda movimientos tablero
-            Base.close();
+	      output = " <strong>Juego Guardado.</strong><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
+	      game.settleUser();
+	      game.save();
+	      game.saveGame(true, game.moveNumber); // guarda movimientos tablero
+	      Base.close();
+              game.gamePaused=true;
+           } //end for player1
+           else {
+            output = " <strong>Juego Guardado.</strong><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
+           
+           }
+            
+            
+          
+            
             return output;
 
         });
@@ -143,11 +158,11 @@ System.out.println("************* Guardo--> " + moveNumber);
                                 else { // empate
                                     game.set("finished", true);
                                     game.set("draw", true);
-                                    Ranking updRnkP1 = Ranking.findFirst("id = ?", player1.getId());
+                                    Ranking updRnkP1 = Ranking.findFirst("user_id = ?", player1.getId());
                                     int newPoint1 = ((Integer) updRnkP1.get("points")).intValue();
                                     updRnkP1.set("points", newPoint1 + 1);
                                     updRnkP1.saveIt();
-                                    Ranking updRnkP2 = Ranking.findFirst("id = ?", player2.getId());
+                                    Ranking updRnkP2 = Ranking.findFirst("user_id = ?", player2.getId());
                                     int newPoint2 = ((Integer) updRnkP2.get("points")).intValue();
                                     updRnkP2.set("points", newPoint2 + 1);
                                     updRnkP2.saveIt();
@@ -155,7 +170,7 @@ System.out.println("************* Guardo--> " + moveNumber);
                                 game.bothNotified = true;
                             }
                             else {  // jugador1 ya notificado
-                                                       System.out.println("*************--> jugador2 ");
+                                System.out.println("*************--> jugador2 ");
                                 player1 = null;
                                 player2 = null;                      
                                 game.moveNumber=1;
@@ -186,21 +201,29 @@ System.out.println("************* Guardo--> " + moveNumber);
                         res.redirect("/play/0");
                         return null;
                     }
+                    
+                    
                     if (game.get("finished").toString().equals("false")) {
-                        output += web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.boardToHtml(game.turnOff == currentUser));
-                    } else {
+			if (!game.gamePaused) 
+				output += web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.boardToHtml(game.turnOff == currentUser));
+			if (game.gamePaused) {
+				      res.redirect("/savegame");
+				      return null;
+                        }
+				
+                  } else {
                         // comparo luego de que se cambio el turnoff
                         if (!game.bothNotified) {
                             if (game.turnOff == -1) {
                                 game.namewinner = player1.get("email").toString();
-                                Ranking updrnk1 = Ranking.findFirst("id = ?", player1.getId());
+                                Ranking updrnk1 = Ranking.findFirst("user_id = ?", player1.getId());
                                 int newPoint = Integer.valueOf(updrnk1.get("points").toString());
                                 updrnk1.set("points", newPoint + 3);
                                 updrnk1.saveIt();
                             } else {
                                 game.namewinner = player2.get("email").toString();
-                                Ranking updrnk2 = Ranking.findFirst("id = ?", player2.getId());
-                                int newPoint = Integer.valueOf(updrnk2.get("points").toString());
+                                Ranking updrnk2 = Ranking.findFirst("user_id = ?", player2.getId());
+                                int newPoint = Integer.valueOf(updrnk2.get("points").toString());				 
                                 updrnk2.set("points", newPoint + 3);
                                 updrnk2.saveIt();
                             }
@@ -248,7 +271,22 @@ System.out.println("************* Guardo--> " + moveNumber);
                 output += web.showWinner(user, winner);
             }
             
-            if (player1==null) game=null;
+            if (player1==null) { 
+		try {
+		  Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
+		} catch (Exception e) {}
+
+		game.save();
+		
+		Base.exec("delete from moves where game_id=?",game.get("id").toString());
+		
+		game.delete();
+		game=null;
+		
+	
+		Base.close();
+            
+            }
 
             return output;
         });
