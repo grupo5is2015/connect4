@@ -58,7 +58,7 @@ public class WebManager {
 
         String output = "";
 
-        output = "<html><head><meta http-equiv='refresh' content='8' ><title>4 en Linea</title></head><body>"
+        output = "<html><head><meta http-equiv='refresh' content='30' ><title>4 en Linea</title></head><body>"
                 + "<h1>4 en Linea</h1><hr><table><tr><td>Estas logueado como <strong>" + user + " </strong></td></tr>"
                 + "<tr><td bgcolor='yellow'> Partida: <strong>" + player1 + "</strong> VS <strong> " + player2 + "</strong></td></tr>"
                 + "<tr><td>" + board + "</td></tr>"

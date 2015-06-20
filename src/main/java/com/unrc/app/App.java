@@ -62,9 +62,9 @@ public class App {
             player2 = User.findById(game.get("player2"));
 
             int moveNumber = Move.count("game_id = ?", game.get("id")).intValue();
-System.out.println("*************--> " + moveNumber);
+System.out.println("************* Guardo--> " + moveNumber);
             game.settleGame(player1, player2, moveNumber);
-           System.out.println("*************--> " + game.moveNumber);
+           System.out.println("************* Recupero--> " + game.moveNumber);
             boardcontrol = new BoardControl(game.table);
             // Setea los jugadores y crea un tablero nuevo
 
@@ -127,45 +127,52 @@ System.out.println("*************--> " + moveNumber);
                     if (game.turnOff == currentUser && column > 0 && !boardcontrol.fullColumn(column - 1) && game.get("finished").toString().equals("false")) {
                         //  Ademas chequear que no haya ganador ni tablero lleno					      
                         game.regMove(currentUser, column - 1);
+                        System.out.println("*************--> move: " + game.moveNumber);
                         boardcontrol.insertCoin(currentUser, column - 1);
-                       System.out.println("*************--> " + game.moveNumber);
-                        if (game.moveNumber > game.numCol*game.numRow) { // empate o gano player2
+                       
+                        if (game.moveNumber == game.numCol*game.numRow) { // empate o gano player2
                             
                             System.out.println("*************--> " + game.get("draw").toString());
-                            if (!game.bothNotified) {
-                            if (boardcontrol.isTheVictor(false)) { // gano player2
-                                game.set("finished", true);
-                                game.set("draw", false);
-                                game.set("user_id", req.session().attribute("userId"));
-                            } else { // empate
-                                game.set("finished", true);
-                                game.set("draw", true);
-                                Ranking updRnkP1 = Ranking.findFirst("id = ?", player1.getId());
-                                int newPoint1 = ((Integer) updRnkP1.get("points")).intValue();
-                                updRnkP1.set("points", newPoint1 + 1);
-                                updRnkP1.saveIt();
-                                Ranking updRnkP2 = Ranking.findFirst("id = ?", player2.getId());
-                                int newPoint2 = ((Integer) updRnkP2.get("points")).intValue();
-                                updRnkP2.set("points", newPoint2 + 1);
-                                updRnkP2.saveIt();
-                            } game.bothNotified=true;
-                        }
-                            else {
+                            if (!game.bothNotified) { // ningun jugador notificado
+                                                       System.out.println("*************--> jugador 1");
+                                if (boardcontrol.isTheVictor(false)) { // gano player2
+                                    game.set("finished", true);
+                                    game.set("draw", false);
+                                    game.set("user_id", req.session().attribute("userId"));
+                                }
+                                else { // empate
+                                    game.set("finished", true);
+                                    game.set("draw", true);
+                                    Ranking updRnkP1 = Ranking.findFirst("id = ?", player1.getId());
+                                    int newPoint1 = ((Integer) updRnkP1.get("points")).intValue();
+                                    updRnkP1.set("points", newPoint1 + 1);
+                                    updRnkP1.saveIt();
+                                    Ranking updRnkP2 = Ranking.findFirst("id = ?", player2.getId());
+                                    int newPoint2 = ((Integer) updRnkP2.get("points")).intValue();
+                                    updRnkP2.set("points", newPoint2 + 1);
+                                    updRnkP2.saveIt();
+                                }
+                                game.bothNotified = true;
+                            }
+                            else {  // jugador1 ya notificado
+                                                       System.out.println("*************--> jugador2 ");
                                 player1 = null;
-                            player2 = null;
-                           
-game.moveNumber=1;                                }
+                                player2 = null;                      
+                                game.moveNumber=1;
+                            }
                             if (game.get("draw").toString().equals("true")) {
                             System.out.println("222222222222222222222*************--> " + game.get("draw").toString());
                             //output += web.showTieMatch(req.session().attribute("user"));
                                 res.redirect("/gamefinished/"+req.session().attribute("user")+"/garbage/draw");
                                 return null;
-                        } else {
+                            }
+                            else {
                             //output += web.showWinner(req.session().attribute("user"), winner);
-                            res.redirect("/gamefinished/"+req.session().attribute("user")+"/"+game.namewinner+"/thereiswinner");
-                            return null;
+                                res.redirect("/gamefinished/"+req.session().attribute("user")+"/"+game.namewinner+"/thereiswinner");
+                                return null;
+                            }
                         }
-                        }else {
+                        else { //no era la ultima jugada
                             if (boardcontrol.isTheVictor(currentUser == 1)) {
                                 game.set("finished", true);
                                 game.set("draw", false);
