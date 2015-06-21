@@ -1,24 +1,14 @@
-  /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.unrc.app;
 
-import static com.unrc.app.App.game;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import static org.apache.commons.lang.StringUtils.isNumeric;
-import org.javalite.activejdbc.Base;
 import org.javalite.activejdbc.Model;
 
 /**
  *
- * @author Grupo #5
+ * @author Grupo #5: Muñoz - Ontivero - Rondeau
+ *
  */
 public class Game extends Model {
 
@@ -28,11 +18,11 @@ public class Game extends Model {
     public final int numRow = 6;
     public final int numCol = 7;
     public List<Pair> movesList;
-    public int turnOff = 1; // Empieza el player1 valores (1,-1)
+    public int turnOff = 1;     // Empieza el player1 - Valores: 1 | -1
     public boolean bothNotified;
-    public String namewinner;
+    public String winnerName;
     public int moveNumber;
-    public boolean gamePaused;
+    public boolean pausedGame;
     
     
     public Game(User player1, User player2) {
@@ -43,27 +33,29 @@ public class Game extends Model {
         this.set("finished", false);
         this.set("draw", false);
         this.bothNotified = false;
-        this.namewinner="";
+        this.winnerName = "";
         this.moveNumber = 1;
-        this.gamePaused=false;
+        this.pausedGame = false;
     }
 
-    
+
     public void settleGame(User player1, User player2, int moveNumber) {
-        this.player1 = player1;  //  jugador que inicia la partida
+        
+        this.player1 = player1;
         this.player2 = player2;
         this.table = new Board(numRow, numCol);
-        turnOff = 1;
-        this.moveNumber = moveNumber + 1;
+        this.turnOff = 1;
+        this.moveNumber = moveNumber;
+
     }
 
-    
+
     public void settleMovesList(List<Move> moves, BoardControl boardControl) {
 
-        Iterator it = moves.iterator();
         Move move;
         int current = 1;
         int column = 0;
+        Iterator it = moves.iterator();
         while (it.hasNext()) {
             move = (Move) it.next();
             column = ((Integer) move.get("numCol")).intValue();
@@ -71,8 +63,7 @@ public class Game extends Model {
             boardControl.insertCoin(current, column);
             current *= -1;
         }
-
-        turnOff = current;
+        this.turnOff = current;
 
     }
 

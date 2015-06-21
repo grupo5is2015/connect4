@@ -1,8 +1,10 @@
 package com.unrc.app;
 
-import java.util.Iterator;
-import java.util.List;
-
+/**
+ *
+ * @author Grupo #5: Muñoz - Ontivero - Rondeau
+ *
+ */
 public class BoardControl {
 
     private Board b;
@@ -42,7 +44,7 @@ public class BoardControl {
     
     public void insertCoin(int player_value, int column) {
         //Recibe datos de columnas validas: 0..n-1
-        b.setGrid(rowToInsert[column], column, player_value); //1 o -1 
+        b.setGrid(rowToInsert[column], column, player_value); // 1 o -1 
         ++columnTop[column];
         --rowToInsert[column];
     }
