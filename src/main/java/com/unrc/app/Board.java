@@ -35,15 +35,12 @@ public class Board {
 
     public String toHtml(boolean turn) {
 
-        String s = "<table align='center' border=1><tr>";
-        if (turn) {
-            s += "<tr><td> <a href='/savegame'> Guardar</a></td></tr>";
-        }
+        String s = "<table align='center' border=1 width=\"450\"><tr>";
         for (int c = 1; c <= n; c++) {
             if (turn) {
-                s += "<td><a href='/play/" + c + "'> #" + c + "</a></td>";
+                s += "<td class='menuitem'><a href='/play/" + c + "'> #" + c + "</a></td>";
             } else {
-                s += "<td>#" + c + "</td>";
+                s += "<td class='menuitem'>#" + c + "</td>";
             }
 
         }
@@ -66,6 +63,11 @@ public class Board {
             }
             s = s + "</tr>";
         }
+        
+        if (turn) {
+            s += "<tr><td colspan=7 class='menuitem'> <a href='/savegame'> Guardar</a></td></tr>";
+        }
+        s+="</table>";
 
         return s;
 

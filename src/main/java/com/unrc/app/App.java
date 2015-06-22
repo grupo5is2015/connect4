@@ -368,6 +368,11 @@ public class App {
             return output;
             
         });
+        
+        
+        get("/style.css", (req, res) -> { 
+                return web.getPageStyle(); 
+        });
 
     }
     

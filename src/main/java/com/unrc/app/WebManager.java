@@ -107,7 +107,9 @@ public class WebManager {
         catch (Exception e) {
         }
 
-        String output = "<html><body><h1>Ranking de Jugadores</h1><table align='left' border=1>";
+        String output = "<html><head>"+           
+                "<link type=\"text/css\" href=\"/style.css\" rel=\"stylesheet\">"+
+                "</head><body><h1>Ranking de Jugadores</h1><table><tr><td><table align='left' border=1>";
         output += "<tr><th> Posicion </th><th> Jugador </th><th> Puntos </th></tr>";
 	User u;
         Ranking r;
@@ -122,11 +124,9 @@ public class WebManager {
             u = User.findById(r.get("user_id"));
             output += "<td>" + u.get("nickname") + "</td><td>" + r.get("points") + "</tr>";
         }
-        output += "</table><br><br><br><br>";
-        for (int j=1; j<=i; j++) {
-            output += "<br>";
-        }
-        output += "<hr><a href='/play/0'> Iniciar nueva partida</a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/logout'>Salir</a>";
+        output += "</table></td></tr><tr><td>";
+        output += "<ul><li><a href='/play/0'> Iniciar nueva partida</a></li> <li><a href='/loadgame'> Cargar partida inconclusa</a></li><li><a href='/logout'>Salir</a></li></ul>";
+        output +="</td><tr><table>";
         output += "</body></html>";
 
 	Base.close();        
@@ -152,15 +152,15 @@ public class WebManager {
         catch (Exception e) {
         }
 
-        String output = "<html><body><h1>Juegos Pausados</h1><hr>Seleccione el juego que desea retomar:<br><br><table align='left' border=1>";
+        String output = "<html><head>"+
+                "<link type=\"text/css\" href=\"/style.css\" rel=\"stylesheet\"></head>"+  
+                "<body><h1>Juegos Pausados</h1><hr>Seleccione el juego que desea retomar:<br><br><table><tr><td><table width=\"450\" align='center' border=1>";
         output += "<tr><th> Juego </th><th> Adversario </th><th> E-mail </th></tr>"; 
         Game g;
 	User u;
         String gameId, adversary;
         Iterator it = pausedGames.iterator();
-        int i = 0;
         while (it.hasNext()) {
-            i++;
             g = (Game) it.next();
             gameId = g.getId().toString();
             output += "<tr><td><a href='/loadgame/" + gameId + "'> #" + gameId + "</a></td>";
@@ -173,12 +173,9 @@ public class WebManager {
             u = User.findById(g.get(adversary));
             output += "<td>" + u.get("nickName") + "</td><td>" + u.get("email") + "</td></tr>";
         }
-        output += "</table><br><br><br><br>";
-        for (int j=1; j<=i; j++) {
-            output += "<br>";
-        }
-        output += "<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
-        output += "</body></html>";
+        output += "</table></td></tr><tr><td>";
+        output += "<hr><ul><li><a href='/play/0'> Iniciar nueva partida </a></li><li><a href='/showrankings'> Listar Rankings</a></li><li><a href='/logout'>Salir</a></li></ul>";
+        output += "</td></tr></table></body></html>";
 
 	Base.close();        
 	return output;
@@ -217,11 +214,13 @@ public class WebManager {
 
         String output = "";
 
-        output = "<html><head><meta http-equiv='refresh' content='4' ><title>4 en Linea</title></head><body>"
-                + "<h1>4 en Linea</h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
-                + "<tr><td bgcolor='yellow'> Partida: <strong>" + player1 + "</strong> VS <strong> " + player2 + "</strong></td></tr>"
+        output = "<html><head><meta http-equiv='refresh' content='4' ><title>4 en Linea</title>"
+                +"<link type=\"text/css\" href=\"/style.css\" rel=\"stylesheet\">"
+                +"</head><body><center>"
+                + "<h1 align='center'>4 en Linea</h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
+                + "<tr><td class=\".panelvs\"> Partida: <strong><font color='green'>" + player1 + "</font></strong> VS <strong><font color='red'> " + player2 + "</font></strong></td></tr>"
                 + "<tr><td>" + board + "</td></tr>"
-                + "</table></body></html>";
+                + "</table></center></body></html>";
 
         return output;
 
@@ -258,7 +257,34 @@ public class WebManager {
         String output = "<strong>Partida ocupada. Intente nuevamente mas adelante.</strong><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
         return output;
         
-    } 
+    }
+    
+    
+    public String getPageStyle() {
+        String output = "";
+        output+= "html {font-family: sans-serif;}" 
+                +"table {\n" +
+"   border: 1px solid #999;\n" +
+"   text-align: center;\n" +
+"   border-collapse: collapse;\n" +
+"   margin: 0 0 1em 0;\n" +
+"   caption-side: top;\n" +
+"}\n" +
+"th, td {\n" +
+"   border-bottom: 1px solid #999;\n" +
+"   width: 60px;\n" +
+"}\n" +
+"td.menuitem {\n" +
+"   font-weight: bold;\n" +
+"   font-style: italic;\n" +
+    
+"};"+
+"td.panelvs {\n" +
+"   font-size: 13px;\n" +
+"};";
+       
+        return output;
+    }
 
 
 }

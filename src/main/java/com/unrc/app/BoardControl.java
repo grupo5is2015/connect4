@@ -8,7 +8,6 @@ package com.unrc.app;
 public class BoardControl {
 
     private Board b;
-    private int[][] table;
     private int[] columnTop;     // cantidad de fichas que tiene cada columna, 0..7.
     private int[] rowToInsert;   // fila donde insertar ficha, 0..5
     //Jugador 1=  1   Jugador 2= -1  El numero 0 representa la celda vacia. 
@@ -26,7 +25,6 @@ public class BoardControl {
     public BoardControl(Board b) {
 
         this.b = b;
-        table = b.getGrid();
         columnTop = new int[b.getNumCol()];
         rowToInsert = new int[b.getNumCol()];
         for (int i = 0; i < b.getNumCol(); i++) {
@@ -85,11 +83,11 @@ public class BoardControl {
         int maxV = 0;
         int count = 0;
         int col = 0;
-        while (col < table[0].length) {
-            int row = table.length - 1; // board.length = nro de filas
+        while (col < b.getGrid()[0].length) {
+            int row = b.getGrid().length - 1; // board.length = nro de filas
             count = 0;
-            while (row >= 0 && (table[row][col] != 0)) {
-                if (table[row][col] != x) {
+            while (row >= 0 && (b.getGrid()[row][col] != 0)) {
+                if (b.getGrid()[row][col] != x) {
                     maxV = Math.max(maxV, count);
                     count = 0;
                 } else {
@@ -117,12 +115,12 @@ public class BoardControl {
     private int maxLineH(int x) {
         int maxH = 0;
         int count = 0;
-        int row = table.length - 1;
+        int row = b.getGrid().length - 1;
         while (row >= 0) {
             int col = 0;
             count = 0;
-            while (col < table[0].length) {
-                if (table[row][col] != x) {
+            while (col < b.getGrid()[0].length) {
+                if (b.getGrid()[row][col] != x) {
                     maxH = Math.max(maxH, count);
                     count = 0;
                 } else {
@@ -152,12 +150,12 @@ public class BoardControl {
     private int maxLineDD(int x) {
         int maxDD = 0;
         int count = 0;
-        int row = table.length;
-        int col = table[0].length;
+        int row = b.getGrid().length;
+        int col = b.getGrid()[0].length;
         for (int n = 0; n < row; n++) { // recorrido de la diagonal principal 
             count = 0;		// y la parte inferior del tablero
             for (int i = n, j = 0; i < row && j < col; i++, j++) {
-                if (table[i][j] != x) {
+                if (b.getGrid()[i][j] != x) {
                     maxDD = Math.max(maxDD, count);
                     count = 0;
                 } else {
@@ -166,10 +164,10 @@ public class BoardControl {
                 }
             }
         }
-        for (int j = 1; j < col; j++) { // recorrido de la parte superior del tablero
+        for (int j = 1; j < col; j++) { // recorrido de la parte superior del b.getGrid()ro
             count = 0;
             for (int i = 0; i + j < 6; i++) {
-                if (table[i][j + i] != x) {
+                if (b.getGrid()[i][j + i] != x) {
                     maxDD = Math.max(maxDD, count);
                     count = 0;
                 } else {
@@ -196,12 +194,12 @@ public class BoardControl {
     private int maxLineDA(int x) {
         int maxDA = 0;
         int count = 0;
-        int row = table.length;
-        int col = table[0].length;
+        int row = b.getGrid().length;
+        int col = b.getGrid()[0].length;
         for (int n = 0; n < row; n++) { // recorrido de la diagonal principal y 
             count = 0;		// la parte inferior del tablero
             for (int i = n, j = col - 1; i < row && j >= 0; i++, j--) {
-                if (table[i][j] != x) {
+                if (b.getGrid()[i][j] != x) {
                     maxDA = Math.max(maxDA, count);
                     count = 0;
                 } else {
@@ -213,7 +211,7 @@ public class BoardControl {
         for (int n = col - 2; n >= 0; n--) { // recorrido de la parte superior del tablero
             count = 0;
             for (int i = 0, j = n; i < row && j >= 0; i++, j--) {
-                if (table[i][j] != x) {
+                if (b.getGrid()[i][j] != x) {
                     maxDA = Math.max(maxDA, count);
                     count = 0;
                 } else {
