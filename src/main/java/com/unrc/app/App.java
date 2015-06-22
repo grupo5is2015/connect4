@@ -44,7 +44,8 @@ public class App {
 
             req.session(true);  // create and return session
             boolean succesfulLogin;
-            User user = web.loginCheck(req.queryParams("email"), req.queryParams("password"), log);
+            //User user = web.loginCheck(req.queryParams("email"), req.queryParams("password"), log);
+            User user = log.loginCheck(req.queryParams("email"), req.queryParams("password"));
             if (user == null) {
                 req.session().attribute("user", null);
                 succesfulLogin = false;
@@ -109,7 +110,7 @@ public class App {
             player2 = User.findById(game.get("player2"));
 
             int playedMoves = Move.count("game_id = ?", game.get("id")).intValue();
-            game.settleGame(player1, player2, playedMoves+1);
+            game.settleGame(player1, player2);
             boardCtrl = new BoardControl(game.table);
 
             List<Move> moves = game.getAll(Move.class);
@@ -228,7 +229,7 @@ public class App {
                         game.registerMove(currentUser, column-1);
                         boardCtrl.insertCoin(currentUser, column-1);
 
-                        if (game.moveNumber == game.numCol*game.numRow) { // ULTIMA JUGADA: EMPATE O TRIUMFO DE PLAYER #2
+                        if (game.movesList.size() == game.numCol*game.numRow) { // ULTIMA JUGADA: EMPATE O TRIUMFO DE PLAYER #2
                             if (!game.player1Aware) { // NINGUN JUGADOR FUE NOTIFICADO
                                 game.set("finished", true);
                                 if (boardCtrl.isTheVictor(false)) { // GANO PLAYER #2
@@ -252,8 +253,7 @@ public class App {
                             }
                             else {  // PLAYER #1 YA NOTIFICADO
                                 player1 = null;
-                                player2 = null;       
-                                game.moveNumber = 1;
+                                player2 = null;
                             }
                             if (game.get("draw").toString().equals("true")) {   // REDIRECCION A INFORME DE EMPATE
                                 res.redirect("/gameover/"+req.session().attribute("user")+"/withoutwinner/draw");
@@ -269,9 +269,6 @@ public class App {
                                 game.set("finished", true);
                                 game.set("draw", false);
                                 game.set("user_id", req.session().attribute("userId"));
-                            }
-                            else {  // TODAVIA NO HAY GANADOR
-                                game.moveNumber = game.moveNumber + 1;
                             }
                         }
 
@@ -310,8 +307,7 @@ public class App {
                         }
                         else {  // PLAYER #1 YA NOTIFICADO
                             player1 = null;
-                            player2 = null;
-                            game.moveNumber = 1;                      
+                            player2 = null;                      
                         }
 
                         if (game.get("draw").toString().equals("true")) {

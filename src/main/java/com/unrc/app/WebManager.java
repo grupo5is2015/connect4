@@ -42,7 +42,7 @@ public class WebManager {
 
     }
     
-    
+   /* 
     public User loginCheck(String email, String pass, Login log) {
 
         Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
@@ -51,7 +51,7 @@ public class WebManager {
         return u;
 
     }    
-
+*/
 
     public String loginReport(boolean logOK, String email) {
         
@@ -188,7 +188,7 @@ public class WebManager {
         
         String output;
         if (savedGame) {
-            output = "<strong>Tu adversario ha pausado la partida. La misma puede ser retormada mas adelante.</strong><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
+            output = "<strong>Tu adversario ha pausado la partida.</strong><br><small>La misma puede ser retormada mas adelante.</small><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
         }
         else {
             output = "<strong>Juego guardado exitosamente.</strong><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
@@ -203,7 +203,7 @@ public class WebManager {
 
         String output = "<html><head><meta http-equiv='refresh' content='3' ><title>4 en Linea</title></head><body>"
                 + "<h1>4 en Linea</h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
-                + "<tr><td><strong>Esperando por el player #" + player + "...</strong></td></tr>"
+                + "<tr><td><strong>Esperando por el player #" + player + " ...</strong></td></tr>"
                 + "<table></html><hr><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
         return output;
 

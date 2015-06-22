@@ -21,7 +21,6 @@ public class Game extends Model {
     public int turnOff = 1;     // Empieza el player1 - Valores: 1 | -1
     public boolean player1Aware;
     public String winnerName;
-    public int moveNumber;
     public boolean pausedGame;
     
     
@@ -39,18 +38,17 @@ public class Game extends Model {
         this.set("draw", false);
         this.player1Aware = false;
         this.winnerName = "";
-        this.moveNumber = 1;
         this.pausedGame = false;
     }
 
 
-    public void settleGame(User player1, User player2, int moveNumber) {
+    //public void settleGame(User player1, User player2, int moveNumber) {
+    public void settleGame(User player1, User player2) {
         
         this.player1 = player1;
         this.player2 = player2;
         this.table = new Board(numRow, numCol);
         this.turnOff = 1;
-        this.moveNumber = moveNumber;
 
     }
 
