@@ -15,10 +15,7 @@ public class BoardControl {
     // Nota para el sistema la columna empieza en cero y para el usuario en 1
     // Para esto hay que hacer una simple convercion colum + 1
 
-    //public int[] listMove; // Lista de movimientos se guarda la Columna elegida
-    
 
-    
     public boolean fullColumn(int c ) {
     
       return columnTop[c]>=b.getNumRow();
@@ -27,7 +24,7 @@ public class BoardControl {
     
     
     public BoardControl(Board b) {
-	//this.listMove = new int[b.getNumCol()*b.getNumRow()];
+
         this.b = b;
         table = b.getGrid();
         columnTop = new int[b.getNumCol()];
@@ -35,6 +32,7 @@ public class BoardControl {
         for (int i = 0; i < b.getNumCol(); i++) {
             rowToInsert[i] = b.getNumRow() - 1;
         }
+
     }
 
     public int getColumnTopValue(int v) {

@@ -147,34 +147,28 @@ public class App {
 
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         get("/savegame", (req, res) -> {
-	    String output="";
-	    
-	    
-	    if (!game.pausedGame) {
-	    
-	      try {
-		  Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
-	      } catch (Exception e) {
-	      }
 
-	      output = " <strong>Juego Guardado.</strong><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
-	      game.settleUser();
-	      game.save();
-	      game.saveGame(true, game.moveNumber); // guarda movimientos tablero
-	      Base.close();
-              game.pausedGame = true;
-           } //end for player1
-           else {
-            output = " <strong>Juego Guardado.</strong><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
-           
-           }
-            
-            
-          
-            
-            return output;
+            if (!game.pausedGame) {
+
+                try {
+                    Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
+                }
+                catch (Exception e) {
+                }
+
+                game.settleUser();
+                game.saveIt();
+                game.saveGame(); // guarda los movimientos del tablero
+                game.pausedGame = true;
+                
+                Base.close();
+                return web.savedGameReport(!game.pausedGame);
+                
+            }   // para player1
+            else {
+                return web.savedGameReport(game.pausedGame);
+            }
 
         });
 
@@ -184,7 +178,8 @@ public class App {
 
             try {
                 Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
             }
 
             String output = "";
@@ -193,27 +188,27 @@ public class App {
             if (player1 == null) {
                 player1 = User.findFirst("id = ?", new Integer(req.session().attribute("userId").toString()));
                 req.session().attribute("player", 1);
-                output = web.waitForPlayer(2, req.session().attribute("user").toString());
+                output = web.waitingAdversary(2, req.session().attribute("user").toString());
 
-            } else if (player2 == null) {
-                if (!player1.get("id").toString().equals(req.session().attribute("userId").toString())) {
-                    player2 = User.findFirst("id = ?", new Integer(req.session().attribute("userId").toString()));
-                    req.session().attribute("player", 2);
-                    output += web.waitForPlayer(1, req.session().attribute("user").toString());
-                } else {
-                    output += web.waitForPlayer(2, req.session().attribute("user").toString());
+            }   else if (player2 == null) {   // player1 != null & player2 == null
+                    if (!player1.get("id").toString().equals(req.session().attribute("userId").toString())) {
+                        player2 = User.findFirst("id = ?", new Integer(req.session().attribute("userId").toString()));
+                        req.session().attribute("player", 2);
+                        output = web.waitingAdversary(1, req.session().attribute("user").toString());
+                    }
+                    else {  // 
+                        output = web.waitingAdversary(2, req.session().attribute("user").toString());
+                    }
                 }
-
-            } else {    // player1 !=null & player2 != null
-                if (game == null) {
-                    game = new Game(player1, player2);
-                    boardCtrl = new BoardControl(game.table);
-                }
-
-                //column==0 Solo mostrar tablero
-                int currentUser = 0;
-
-                if (player1.get("email").toString().equals(req.session().attribute("user"))) {
+                else {    // player1 !=null & player2 != null
+                    if (game == null) {
+                        game = new Game(player1, player2);
+                        boardCtrl = new BoardControl(game.table);
+                    }
+                
+                    // column==0 --> mostrar tablero
+                    int currentUser = 0;
+                    if (player1.get("email").toString().equals(req.session().attribute("user"))) {
                     currentUser = 1;
                 }
                 if (player2.get("email").toString().equals(req.session().attribute("user"))) {
@@ -222,65 +217,60 @@ public class App {
 
                 Integer column = new Integer(req.params(":column"));
                 if (currentUser * currentUser != 1) {
-                    output = "Partida ocupada. Intente nuevamente mas adelante.<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>\"";
+                    output = web.busyGame();
                 }
-                // Empezar a jugar, solo para los jugadores de este juego
+                
+                // SOLO SE PERMITE JUGAR A LOS JUGADORES PERTENECIENTES A ESTE JUEGO
                 if (currentUser == 1 || currentUser == -1) {
 
-                    if (game.turnOff == currentUser && column > 0 && !boardCtrl.fullColumn(column - 1) && game.get("finished").toString().equals("false")) {
-                        //  Ademas chequear que no haya ganador ni tablero lleno					      
-                        game.regMove(currentUser, column - 1);
-                        System.out.println("*************--> move: " + game.moveNumber);
-                        boardCtrl.insertCoin(currentUser, column - 1);
-                       
-                        if (game.moveNumber == game.numCol*game.numRow) { // empate o gano player2
-                            
-                            System.out.println("*************--> " + game.get("draw").toString());
-                            if (!game.bothNotified) { // ningun jugador notificado
-                                                       System.out.println("*************--> jugador 1");
-                                if (boardCtrl.isTheVictor(false)) { // gano player2
-                                    game.set("finished", true);
+                    if (game.turnOff == currentUser  &&  column > 0  &&  !boardCtrl.fullColumn(column-1)  &&  game.get("finished").toString().equals("false")) {
+                        // PUEDE JUGAR SI ES SU TURNO, LA COLUMNA ES VALIDA, LA COLUMNA NO ESTA LLENA Y EL JUEGO NO ESTA FINALIZADO
+                        game.registerMove(currentUser, column-1);
+                        boardCtrl.insertCoin(currentUser, column-1);
+
+                        if (game.moveNumber == game.numCol*game.numRow) { // ULTIMA JUGADA: EMPATE O TRIUMFO DE PLAYER #2
+                            if (!game.player1Aware) { // NINGUN JUGADOR FUE NOTIFICADO
+                                game.set("finished", true);
+                                if (boardCtrl.isTheVictor(false)) { // GANO PLAYER #2
                                     game.set("draw", false);
                                     game.set("user_id", req.session().attribute("userId"));
                                 }
-                                else { // empate
-                                    game.set("finished", true);
+                                else { // EMPATE
                                     game.set("draw", true);
+                                    // ACTUALIZACION DEL RANKING DE PLAYER #1
                                     Ranking updRnkP1 = Ranking.findFirst("user_id = ?", player1.getId());
-                                    int newPoint1 = ((Integer) updRnkP1.get("points")).intValue();
-                                    updRnkP1.set("points", newPoint1 + 1);
+                                    int newPoint1 = ((Integer) updRnkP1.get("points")).intValue() + 1;
+                                    updRnkP1.set("points", newPoint1);
                                     updRnkP1.saveIt();
+                                    // ACTUALIZACION DEL RANKING DE PLAYER #2
                                     Ranking updRnkP2 = Ranking.findFirst("user_id = ?", player2.getId());
-                                    int newPoint2 = ((Integer) updRnkP2.get("points")).intValue();
-                                    updRnkP2.set("points", newPoint2 + 1);
+                                    int newPoint2 = ((Integer) updRnkP2.get("points")).intValue() + 1;
+                                    updRnkP2.set("points", newPoint2);
                                     updRnkP2.saveIt();
                                 }
-                                game.bothNotified = true;
+                                game.player1Aware = true;   // PLAYER #1 VA A SER NOTIFICADO, FALTA NOTIFICAR A PLAYER #2
                             }
-                            else {  // jugador1 ya notificado
-                                System.out.println("*************--> jugador2 ");
+                            else {  // PLAYER #1 YA NOTIFICADO
                                 player1 = null;
-                                player2 = null;                      
-                                game.moveNumber=1;
+                                player2 = null;       
+                                game.moveNumber = 1;
                             }
-                            if (game.get("draw").toString().equals("true")) {
-                            System.out.println("222222222222222222222*************--> " + game.get("draw").toString());
-                            //output += web.showTieMatch(req.session().attribute("user"));
-                                res.redirect("/gamefinished/"+req.session().attribute("user")+"/garbage/draw");
+                            if (game.get("draw").toString().equals("true")) {   // REDIRECCION A INFORME DE EMPATE
+                                res.redirect("/gameover/"+req.session().attribute("user")+"/withoutwinner/draw");
                                 return null;
                             }
-                            else {
-                            //output += web.showWinner(req.session().attribute("user"), winner);
-                                res.redirect("/gamefinished/"+req.session().attribute("user")+"/"+game.winnerName+"/thereiswinner");
+                            else {  // REDIRECCION A INFORME DE PLAYER #2 GANADADOR
+                                res.redirect("/gameover/"+req.session().attribute("user")+"/"+game.winnerName+"/thereiswinner");
                                 return null;
                             }
                         }
-                        else { //no era la ultima jugada
-                            if (boardCtrl.isTheVictor(currentUser == 1)) {
+                        else { // NO ES LA ULTIMA JUGADA (< #42)
+                            if (boardCtrl.isTheVictor(currentUser == 1)) {  // PLAYER #1: TRUE / PLAYER #2: FALSE
                                 game.set("finished", true);
                                 game.set("draw", false);
                                 game.set("user_id", req.session().attribute("userId"));
-                            } else {
+                            }
+                            else {  // TODAVIA NO HAY GANADOR
                                 game.moveNumber = game.moveNumber + 1;
                             }
                         }
@@ -289,56 +279,50 @@ public class App {
                         res.redirect("/play/0");
                         return null;
                     }
-                    
-                    
-                    if (game.get("finished").toString().equals("false")) {
-			if (!game.pausedGame) 
-				output += web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.boardToHtml(game.turnOff == currentUser));
-			if (game.pausedGame) {
-				      res.redirect("/savegame");
-				      return null;
+
+                    if (game.get("finished").toString().equals("false")) {  // EL JUEGO NO FINALIZO
+			if (!game.pausedGame) { 
+				output = web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.boardToHtml(game.turnOff == currentUser));
                         }
-				
-                  } else {
-                        // comparo luego de que se cambio el turnoff
-                        if (!game.bothNotified) {
+                        if (game.pausedGame) {
+                            res.redirect("/savegame");
+                            return null;
+                        }				
+                    }
+                    else {  // JUEGO FINALIZADO
+                        // se compara luego de que se cambio turnOff
+                        if (!game.player1Aware) {   // NINGUN JUGADOR FUE NOTIFICADO
                             if (game.turnOff == -1) {
                                 game.winnerName = player1.get("email").toString();
                                 Ranking updrnk1 = Ranking.findFirst("user_id = ?", player1.getId());
-                                int newPoint = Integer.valueOf(updrnk1.get("points").toString());
-                                updrnk1.set("points", newPoint + 3);
+                                int newScore = Integer.valueOf(updrnk1.get("points").toString()) + 3;
+                                updrnk1.set("points", newScore);
                                 updrnk1.saveIt();
-                            } else {
+                            }
+                            else {
                                 game.winnerName = player2.get("email").toString();
                                 Ranking updrnk2 = Ranking.findFirst("user_id = ?", player2.getId());
-                                int newPoint = Integer.valueOf(updrnk2.get("points").toString());				 
-                                updrnk2.set("points", newPoint + 3);
+                                int newScore = Integer.valueOf(updrnk2.get("points").toString()) + 3;				 
+                                updrnk2.set("points", newScore);
                                 updrnk2.saveIt();
                             }
-                            game.bothNotified=true;
-                        } else {
-                            //game = null;
+                            game.player1Aware = true;   // PLAYER #1 VA A SER NOTIFICADO, FALTA NOTIFICAR A PLAYER #2
+                        }
+                        else {  // PLAYER #1 YA NOTIFICADO
                             player1 = null;
                             player2 = null;
-                            game.moveNumber = 1;
-                        
-                        
+                            game.moveNumber = 1;                      
                         }
-                        
-                        
 
                         if (game.get("draw").toString().equals("true")) {
                             System.out.println(game.get("draw").toString());
-                            //output += web.showTieMatch(req.session().attribute("user"));
-                                res.redirect("/gamefinished/"+req.session().attribute("user")+"/garbage/draw");
-                                return null;
-                        } else {
-                            //output += web.showWinner(req.session().attribute("user"), winner);
-                            res.redirect("/gamefinished/"+req.session().attribute("user")+"/"+game.winnerName+"/thereiswinner");
+                            res.redirect("/gameover/"+req.session().attribute("user")+"/withoutwinner/draw");
                             return null;
                         }
-
-                        
+                        else {
+                            res.redirect("/gameover/"+req.session().attribute("user")+"/"+game.winnerName+"/thereiswinner");
+                            return null;
+                        }
                     }
 
                 }
@@ -348,35 +332,41 @@ public class App {
 
         });
 
-        get("/gamefinished/:user/:winner/:draw", (req, res) -> {
-            String output = "";
+
+
+        get("/gameover/:user/:winner/:draw", (req, res) -> {
+            
+            String output;
             String user = req.params(":user");
             String winner = req.params(":winner");
             String draw = req.params(":draw");
-            if (draw.equals("draw")) {
-                output += web.showTieMatch(user);
-            } else {
-                output += web.showWinner(user, winner);
-            }
             
-            if (player1==null) { 
+            if (draw.equals("draw")) {
+                output = web.showTieMatch(user);
+            }
+            else {
+                output = web.showWinner(user, winner);
+            }
+
+            if (player1 == null) {
+
 		try {
 		  Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
-		} catch (Exception e) {}
+		}
+                catch (Exception e) {
+                }
 
-		game.save();
-		
-		Base.exec("delete from moves where game_id=?",game.get("id").toString());
-		
-		game.delete();
-		game=null;
-		
-	
+		game.saveIt();
+		Base.exec("delete from moves where game_id=?", game.get("id").toString());
+        	game.delete();
+		game = null;
+
 		Base.close();
             
             }
 
             return output;
+            
         });
 
     }

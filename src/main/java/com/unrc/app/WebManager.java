@@ -45,9 +45,8 @@ public class WebManager {
     
     public User loginCheck(String email, String pass, Login log) {
 
-        User u = null;
         Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
-        u = log.loginCheck(email, pass);
+        User u = log.loginCheck(email, pass);
         Base.close();
         return u;
 
@@ -186,15 +185,31 @@ public class WebManager {
 
     }
     
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public String waitForPlayer(int player, String user) { // Valores 1 ó 2
+
+
+    public String savedGameReport(boolean savedGame) {
         
-        String output = "<html><head><meta http-equiv='refresh' content='3' ><title>4 en Linea</title></head><body>"
-                + "<h1>4 en Linea</h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
-                + "<tr><td><strong> Esperando por el player " + player + "</strong></td></tr>"
-                + "<table></html><hr><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
+        String output;
+        if (savedGame) {
+            output = "<strong>Tu adversario ha pausado la partida. La misma puede ser retormada mas adelante.</strong><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
+        }
+        else {
+            output = "<strong>Juego guardado exitosamente.</strong><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
+        }
         return output;
         
+    }
+
+
+
+    public String waitingAdversary(int player, String user) { // Valores 1 ó 2
+
+        String output = "<html><head><meta http-equiv='refresh' content='3' ><title>4 en Linea</title></head><body>"
+                + "<h1>4 en Linea</h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
+                + "<tr><td><strong>Esperando por el player #" + player + "...</strong></td></tr>"
+                + "<table></html><hr><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
+        return output;
+
     }
 
     
@@ -203,7 +218,7 @@ public class WebManager {
         String output = "";
 
         output = "<html><head><meta http-equiv='refresh' content='4' ><title>4 en Linea</title></head><body>"
-                + "<h1>4 en Linea</h1><hr><table><tr><td>Estas logueado como <strong>" + user + " </strong></td></tr>"
+                + "<h1>4 en Linea</h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
                 + "<tr><td bgcolor='yellow'> Partida: <strong>" + player1 + "</strong> VS <strong> " + player2 + "</strong></td></tr>"
                 + "<tr><td>" + board + "</td></tr>"
                 + "</table></body></html>";
@@ -211,19 +226,13 @@ public class WebManager {
         return output;
 
     }
-    
-    
 
 
 
-    
+    public String showWinner(String user, String ganador) {
 
-    
-    public String showWinner(String user, String ganador) { // Valores 1 0 2
-        
         String output = "<html><head><title>4 en Linea</title></head><body>"
-                + "<h1>4 en Linea</h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
-                + "<tr><td><strong> Ganador de la partida: " + ganador + "</strong></td></tr>"
+                + "<h1><font color='red'>Ganador de la partida: " + ganador + " !!</font></h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
                 + "<table></html>"
                 + "<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
         
@@ -231,17 +240,25 @@ public class WebManager {
         
     }
 
-        public String showTieMatch(String user) { // Valores 1 0 2
+        public String showTieMatch(String user) {
         
         String output = "<html><head><title>4 en Linea</title></head><body>"
-                + "<h1>4 en Linea</h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
-                + "<tr><td><strong> Partida Empatada !!</strong></td></tr>"
+                + "<h1><font color='red'>Partida empatada !!</font></h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
                 + "<table></html>"
                 + "<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
         
         return output;
         
     }
+
+
+
+    public String busyGame() {
+        
+        String output = "<strong>Partida ocupada. Intente nuevamente mas adelante.</strong><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
+        return output;
+        
+    } 
 
 
 }

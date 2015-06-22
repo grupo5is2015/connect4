@@ -11,8 +11,10 @@ public class UserControl {
 
         public static boolean userRegistration(String email, String pass, String nickName) {
 
-            try {Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");}
-            catch(Exception e) {}
+            try {
+                Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");}
+            catch (Exception e) {
+            }
 
             boolean regOK = false;
             User u = User.findFirst("email = ?", email);
