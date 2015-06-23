@@ -42,7 +42,6 @@ public class Game extends Model {
     }
 
 
-    //public void settleGame(User player1, User player2, int moveNumber) {
     public void settleGame(User player1, User player2) {
         
         this.player1 = player1;

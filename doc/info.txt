@@ -1,7 +1,0 @@
-El problema con first_name en el alta de usuarios se debe al test de JUnit.
-	  
-	  
-
-matias : 32.284.897
-fernando : 31.451.203
-mariano : 33.333.333

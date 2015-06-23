@@ -42,16 +42,7 @@ public class WebManager {
 
     }
     
-   /* 
-    public User loginCheck(String email, String pass, Login log) {
 
-        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
-        User u = log.loginCheck(email, pass);
-        Base.close();
-        return u;
-
-    }    
-*/
 
     public String loginReport(boolean logOK, String email) {
         
@@ -145,19 +136,19 @@ public class WebManager {
 
 
     public String showPausedGames(List<Game> pausedGames, String requesterUserId) {
-        
+
         try {
             Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
-        }
+        } 
         catch (Exception e) {
         }
 
-        String output = "<html><head>"+
-                "<link type=\"text/css\" href=\"/style.css\" rel=\"stylesheet\"></head>"+  
-                "<body><h1>Juegos Pausados</h1><hr>Seleccione el juego que desea retomar:<br><br><table><tr><td><table width=\"450\" align='center' border=1>";
-        output += "<tr><th> Juego </th><th> Adversario </th><th> E-mail </th></tr>"; 
+        String output = "<html><head>"
+                + "<link type=\"text/css\" href=\"/style.css\" rel=\"stylesheet\"></head>"
+                + "<body><h1>Juegos Pausados</h1><hr>Seleccione el juego que desea retomar:<br><br><table><tr><td><table width=\"450\" align='center' border=1>";
+        output += "<tr><th> Juego </th><th> Adversario </th><th> E-mail </th></tr>";
         Game g;
-	User u;
+        User u;
         String gameId, adversary;
         Iterator it = pausedGames.iterator();
         while (it.hasNext()) {
@@ -166,8 +157,7 @@ public class WebManager {
             output += "<tr><td><a href='/loadgame/" + gameId + "'> #" + gameId + "</a></td>";
             if (requesterUserId.equals(g.get("player1").toString())) {
                 adversary = "player2";
-            }
-            else {
+            } else {
                 adversary = "player1";
             }
             u = User.findById(g.get(adversary));
@@ -177,8 +167,8 @@ public class WebManager {
         output += "<hr><ul><li><a href='/play/0'> Iniciar nueva partida </a></li><li><a href='/showrankings'> Listar Rankings</a></li><li><a href='/logout'>Salir</a></li></ul>";
         output += "</td></tr></table></body></html>";
 
-	Base.close();        
-	return output;
+        Base.close();
+        return output;
 
     }
     
@@ -262,27 +252,26 @@ public class WebManager {
     
     public String getPageStyle() {
         String output = "";
-        output+= "html {font-family: sans-serif;}" 
-                +"table {\n" +
-"   border: 1px solid #999;\n" +
-"   text-align: center;\n" +
-"   border-collapse: collapse;\n" +
-"   margin: 0 0 1em 0;\n" +
-"   caption-side: top;\n" +
-"}\n" +
-"th, td {\n" +
-"   border-bottom: 1px solid #999;\n" +
-"   width: 60px;\n" +
-"}\n" +
-"td.menuitem {\n" +
-"   font-weight: bold;\n" +
-"   font-style: italic;\n" +
-    
-"};"+
-"td.panelvs {\n" +
-"   font-size: 13px;\n" +
-"};";
-       
+        output += "html {font-family: sans-serif;}"
+                + "table {\n"
+                + "   border: 1px solid #999;\n"
+                + "   text-align: center;\n"
+                + "   border-collapse: collapse;\n"
+                + "   margin: 0 0 1em 0;\n"
+                + "   caption-side: top;\n"
+                + "}\n"
+                + "th, td {\n"
+                + "   border-bottom: 1px solid #999;\n"
+                + "   width: 60px;\n"
+                + "}\n"
+                + "td.menuitem {\n"
+                + "   font-weight: bold;\n"
+                + "   font-style: italic;\n"
+                + "};"
+                + "td.panelvs {\n"
+                + "   font-size: 13px;\n"
+                + "};";
+
         return output;
     }
 
