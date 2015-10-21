@@ -37,28 +37,6 @@
     CONSTRAINT games_pk PRIMARY KEY(id)
   );
 
-
-  --/* Asociaciones N a N
-  --DROP TABLE IF EXISTS games_users;
-  --CREATE TABLE games_users (
-    --  id INT(11) NOT NULL AUTO_INCREMENT,
-      --game_id INT(11),
-      --user_id INT(11),
-    --CONSTRAINT games_users_pk PRIMARY KEY(id)
---  );
-  --*/
-
-
---  /*
---  DROP TABLE IF EXISTS boards;
-  --CREATE TABLE boards (
-    --  id INT(11) NOT NULL AUTO_INCREMENT,
-      --game_id INT(11),
-      --user_id INT(11), // player que inicia
-    --CONSTRAINT boards_pk PRIMARY KEY(id)
-  --);
-  --*/
-
   DROP TABLE IF EXISTS moves;
   CREATE TABLE moves (
       id INT(11) NOT NULL AUTO_INCREMENT,
