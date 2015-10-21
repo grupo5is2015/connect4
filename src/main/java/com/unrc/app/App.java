@@ -28,6 +28,7 @@ public class App {
         get("/", (req, res)
                 
                 -> web.welcomePage(req.session().attribute("user") != null, req.session().attribute("user"))
+                
         );
 
 
@@ -44,7 +45,6 @@ public class App {
 
             req.session(true);  // create and return session
             boolean succesfulLogin;
-            //User user = web.loginCheck(req.queryParams("email"), req.queryParams("password"), log);
             User user = log.loginCheck(req.queryParams("email"), req.queryParams("password"));
             if (user == null) {
                 req.session().attribute("user", null);
@@ -109,7 +109,6 @@ public class App {
             player1 = User.findById(game.get("player1"));
             player2 = User.findById(game.get("player2"));
 
-            int playedMoves = Move.count("game_id = ?", game.get("id")).intValue();
             game.settleGame(player1, player2);
             boardCtrl = new BoardControl(game.table);
 

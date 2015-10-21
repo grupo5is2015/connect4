@@ -46,7 +46,7 @@ public class WebManager {
 
     public String loginReport(boolean logOK, String email) {
         
-        String output; 
+        String output;
         if (logOK) {
             output = "Hola <strong>" + email + "</strong>, has ingresado correctamente!<hr><a href='/play/0'> Iniciar nueva partida</a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
         }
@@ -61,7 +61,7 @@ public class WebManager {
 
     public String registrationReport(boolean regOK, String email) {
         
-        String output; 
+        String output;
         if (regOK) {
             output = "Felicitaciones! Registracion exitosa.";
         }
@@ -78,11 +78,27 @@ public class WebManager {
     public String welcomePage(boolean activeSession, String email) {
         
         String output; 
+        //output = 
+        //<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         if (activeSession) {
             output = "Sesion Activa de <strong>" + email + "</strong><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
         }
         else {
-            output = "<h1>Bienvenido a Cuatro en Linea</h1><hr><a href='/login'> Iniciar sesion</a><br><br><a href='/signin'> Registrarse</a>";
+            output = "<html><body><table style='width:100%; background-color:#dfe3ee'>" + 
+                     "<tr><td><center><h1>Cuatro en Línea</h1></td><tr><td><center>" +
+                     "<form action='/logincheck' method='post'><table border='20' bordercolor='#8b9dc3' bgcolor='#3b5998'>" +
+                     "<tr><td><table><tr><td align='right'><font color='white'><strong>E-mail:</strong></font></TD>" +
+                     "<td align='left'><input type='text' name='email' value='' size='25' color='white'></td></tr>" +
+                     "<tr><td align='right'><font color='white'><strong>Password:</strong></font></td>" +
+                     "<td align='left'><input type='password' name='password' size='25'></td></tr>" +
+                     "<tr><td colspan='2' align='right'><input type='submit' value='Iniciar Sesión'></td></tr></table></center></td></tr></table>" +
+		     "<br>¿No estás registrado? <a  href='signin' style='color:green'><strong> Crear Cuenta </strong></a></form></center></body></html>";
+                    //"<HTML><BODY><center><H2><h1>Cuatro en Línea</h1></H2><form action='/logincheck' method='post'><TABLE style=\"background:#FAF9C8\" border='1' bordercolor='F7F716'><TR><TD>" + 
+                     //"<TABLE><TR><TD align='right'>E-mail:</TD><TD align='left'><INPUT type='text' name='email' value='' size='25'>" + 
+                     //"</TD></TR><TR><TD align='right'>Password:</TD><TD align='left'><INPUT type='password' name='password' size='25'>" +
+                     //"</TD></TR><TR><TD colspan='2' align='right'><INPUT type='submit' value='Iniciar Sesión'></TD></TR>" + 
+                     //"</TABLE></TD></TR></TABLE><br>¿No estás registrado? <a style=\"color=blue\" href='signin'> Crear Cuenta </a></FORM></center></BODY></HTML>";
+            //output = "<h1>Bienvenido a Cuatro en Linea</h1><hr><a href='/login'> Iniciar sesion</a><br><br><a href='/signin'> Registrarse</a>";
         }
         return output;
 
@@ -98,9 +114,10 @@ public class WebManager {
         catch (Exception e) {
         }
 
-        String output = "<html><head>"+           
+        String output = "<html><head>"+
                 "<link type=\"text/css\" href=\"/style.css\" rel=\"stylesheet\">"+
-                "</head><body><h1>Ranking de Jugadores</h1><table><tr><td><table align='left' border=1>";
+                //<table><tr><td><table width=\"450\" align='center' border=1>
+                "</head><body><h1>Ranking de Jugadores</h1><table><tr><td><table width=\"450\" align='center' border=1>";
         output += "<tr><th> Posicion </th><th> Jugador </th><th> Puntos </th></tr>";
 	User u;
         Ranking r;
@@ -113,14 +130,14 @@ public class WebManager {
             r = (Ranking) it.next();
             output += "<tr><td>" + i + "</td>";
             u = User.findById(r.get("user_id"));
-            output += "<td>" + u.get("nickname") + "</td><td>" + r.get("points") + "</tr>";
+            output += "<td>" + u.get("nickname") + "</td><td>" + r.get("points") + "</td>";
         }
         output += "</table></td></tr><tr><td>";
         output += "<ul><li><a href='/play/0'> Iniciar nueva partida</a></li> <li><a href='/loadgame'> Cargar partida inconclusa</a></li><li><a href='/logout'>Salir</a></li></ul>";
-        output +="</td><tr><table>";
+        output +="</td></tr></table>";
         output += "</body></html>";
 
-	Base.close();        
+	Base.close();
 	return output;
         
     }
