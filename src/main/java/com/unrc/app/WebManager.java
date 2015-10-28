@@ -32,11 +32,12 @@ public class WebManager {
     
     public String showRegistrationForm() {
         
-        return "<html><head><title>Cuatro en Línea</title><script>" +
-                     "function validateSubmit() { if ((document.loginForm.email.value == '') || (document.loginForm.password.value.length == 0)) { alert('Debe completar los campos E-mail y Password') } else { document.loginForm.submit() } } </script>" +
+        return "<html><head><title>Cuatro en Línea</title><script src='jquery-1.11.3.min.js'></script>" +
+		     "<script> $(document).ready(function() { var pageBody = $(document.body) ; pageBody.css('zoom', '200%'); }) </script> " +
+                     "<script>function validateSubmit() { if ((document.loginForm.email.value == '') || (document.loginForm.password.value.length == 0)) { alert('Debe completar los campos E-mail y Password') } else { document.loginForm.submit() } } </script>" +
                      "</head><body><script>document.bgColor='#dfe3ee'</script>" +
 		     "<table style='width:100%; background-color:#dfe3ee'>" + 
-                     "<tr><td><center><h1>Cuatro en Línea</h1><hr><font color='#3b5998'><small><strong>Complete los siguientes datos para registrarse</strong></small></font></td><tr><td><center>" +
+                     "<tr><td><center><h1>Cuatro en Línea</h1><hr><font color='#3b5998'><small><strong>Complete los siguientes datos para registrarse...</strong></small></font><hr></td><tr><td><center>" +
                      "<form name='loginForm' action='/registration' method='post'><table border='20' bordercolor='#8b9dc3' bgcolor='#3b5998'>" +
                      "<tr><td><table><tr><td align='right'><font color='white'><strong>E-mail:</strong></font></TD>" +
                      "<td align='left'><input type='text' name='email' value='' size='25' color='white'></td></tr>" +
@@ -91,8 +92,9 @@ public class WebManager {
         }
         else {
             //"<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Frameset//EN' 'http://www.w3.org/TR/html4/frameset.dtd'>
-            output = "<html><head><title>Cuatro en Línea</title><script>" +
-                     "function validateSubmit() { if ((document.loginForm.email.value == '') || (document.loginForm.password.value.length == 0)) { alert('Debe completar los campos E-mail y Password') } else { var rex=/^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$/; if(!rex.test(document.loginForm.email.value)) { alert('Formato de e-mail no valido') } else { document.loginForm.submit() } } } </script>" +
+            output = "<html><head><title>Cuatro en Línea</title>" +
+            "<script> $(document).ready(function() { var pageBody = $(document.body) ; pageBody.css('zoom', '200%'); }) </script> " +
+                     "<script>function validateSubmit() { if ((document.loginForm.email.value == '') || (document.loginForm.password.value.length == 0)) { alert('Debe completar los campos E-mail y Password') } else { var rex=/^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$/; if(!rex.test(document.loginForm.email.value)) { alert('Formato de e-mail no valido') } else { document.loginForm.submit() } } } </script>" +
                      "</head><body><script>document.bgColor='#dfe3ee'</script>" +
 		     "<table style='width:100%; background-color:#dfe3ee'>" + 
                      "<tr><td><center><h1>Cuatro en Línea</h1></td><tr><td><center>" +
