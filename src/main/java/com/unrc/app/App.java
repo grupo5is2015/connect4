@@ -2,7 +2,9 @@ package com.unrc.app;
 
 import org.javalite.activejdbc.Base;
 import java.util.List;
+import spark.Spark;
 import static spark.Spark.*;
+import spark.SparkBase;
 
 /**
  *
@@ -22,7 +24,7 @@ public class App {
         Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
         Login log = new Login();
         WebManager web = new WebManager();
-
+        Spark.staticFileLocation("/public");
 
 
         get("/", (req, res)

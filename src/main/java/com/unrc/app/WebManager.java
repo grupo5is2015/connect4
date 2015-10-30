@@ -17,6 +17,36 @@ public class WebManager {
     }
 
     
+    public String welcomePage(boolean activeSession, String email) {
+        
+        String output; 
+        //output = 
+        //<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        if (activeSession) {
+            output = "Sesion Activa de <strong>" + email + "</strong><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
+        }
+        else {
+            //"<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Frameset//EN' 'http://www.w3.org/TR/html4/frameset.dtd'>
+            output = "<html><head><title>Cuatro en Línea</title><script src='http://localhost:4567/js/jquery-1.11.3.min.js' type='text/javascript'></script>" +
+		     "<script> $(document).ready(function() { var pageBody = $(document.body) ; pageBody.css('zoom', '200%'); }); </script> " +
+                     "<script>function validateSubmit() { if ((document.loginForm.email.value == '') || (document.loginForm.password.value.length == 0)) { alert('Debe completar los campos E-mail y Password') } else { var rex=/^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$/; if(!rex.test(document.loginForm.email.value)) { alert('Formato de e-mail no valido') } else { document.loginForm.submit() } } } </script>" +
+                     "</head><body><script>document.bgColor='#dfe3ee'</script>" +
+		     "<table style='width:100%; background-color:#dfe3ee'>" + 
+                     "<tr><td><center><h1>Cuatro en Línea</h1></td><tr><td><center>" +
+                     "<form name='loginForm' action='/logincheck' method='post'><table border='20' bordercolor='#8b9dc3' bgcolor='#3b5998'>" +
+                     "<tr><td><table><tr><td align='right'><font color='white'><strong>E-mail:</strong></font></TD>" +
+                     "<td align='left'><input type='text' name='email' value='' size='25' color='white'></td></tr>" +
+                     "<tr><td align='right'><font color='white'><strong>Password:</strong></font></td>" +
+                     "<td align='left'><input type='password' name='password' size='25'></td></tr>" +
+                     "<tr><td colspan='2' align='right'><input type='button' value='Iniciar Sesión' onclick='validateSubmit()'></td></tr></table></center></td></tr></table>" +
+		     "<br>¿No estás registrado?<a href='signin' style='color:green'><strong> Crear Cuenta </strong></a></form></center></body></html>";
+        }
+        return output;
+
+    }
+
+
+
     public String showLoginForm() {
 
         return "Ingrese sus datos de acceso:<br><br>"
@@ -32,13 +62,13 @@ public class WebManager {
     
     public String showRegistrationForm() {
         
-        return "<html><head><title>Cuatro en Línea</title><script src='jquery-1.11.3.min.js'></script>" +
+        return       "<html><head><title>Cuatro en Línea</title><script src='http://localhost:4567/js/jquery-1.11.3.min.js' type='text/javascript'></script>" +
 		     "<script> $(document).ready(function() { var pageBody = $(document.body) ; pageBody.css('zoom', '200%'); }) </script> " +
-                     "<script>function validateSubmit() { if ((document.loginForm.email.value == '') || (document.loginForm.password.value.length == 0)) { alert('Debe completar los campos E-mail y Password') } else { document.loginForm.submit() } } </script>" +
+                     "<script>function validateSubmit() { if ((document.registrationForm.email.value == '') || (document.registartionForm.password.value.length == 0)) { alert('Debe completar los campos E-mail y Password') } else { document.registrationForm.submit() } } </script>" +
                      "</head><body><script>document.bgColor='#dfe3ee'</script>" +
 		     "<table style='width:100%; background-color:#dfe3ee'>" + 
-                     "<tr><td><center><h1>Cuatro en Línea</h1><hr><font color='#3b5998'><small><strong>Complete los siguientes datos para registrarse...</strong></small></font><hr></td><tr><td><center>" +
-                     "<form name='loginForm' action='/registration' method='post'><table border='20' bordercolor='#8b9dc3' bgcolor='#3b5998'>" +
+                     "<tr><td><center><h1>Cuatro en Línea</h1><hr><font color='#3b5998'><small><strong>Complete los siguientes campos para registrarse:</strong></small></font><hr></td><tr><td><center>" +
+                     "<form name='registrationForm' action='/registration' method='post'><table border='20' bordercolor='#8b9dc3' bgcolor='#3b5998'>" +
                      "<tr><td><table><tr><td align='right'><font color='white'><strong>E-mail:</strong></font></TD>" +
                      "<td align='left'><input type='text' name='email' value='' size='25' color='white'></td></tr>" +
                      "<tr><td align='right'><font color='white'><strong>Password:</strong></font></td>" +
@@ -76,36 +106,6 @@ public class WebManager {
             output = "El e-mail <strong>" + email + "</strong> ya se encuentra registrado.";
         }
         output += "<hr><a href='/login'> Iniciar sesion</a><br><br><a href='/signin'> Registrarse</a>";
-        return output;
-
-    }
-
-
-
-    public String welcomePage(boolean activeSession, String email) {
-        
-        String output; 
-        //output = 
-        //<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        if (activeSession) {
-            output = "Sesion Activa de <strong>" + email + "</strong><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
-        }
-        else {
-            //"<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Frameset//EN' 'http://www.w3.org/TR/html4/frameset.dtd'>
-            output = "<html><head><title>Cuatro en Línea</title>" +
-            "<script> $(document).ready(function() { var pageBody = $(document.body) ; pageBody.css('zoom', '200%'); }) </script> " +
-                     "<script>function validateSubmit() { if ((document.loginForm.email.value == '') || (document.loginForm.password.value.length == 0)) { alert('Debe completar los campos E-mail y Password') } else { var rex=/^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$/; if(!rex.test(document.loginForm.email.value)) { alert('Formato de e-mail no valido') } else { document.loginForm.submit() } } } </script>" +
-                     "</head><body><script>document.bgColor='#dfe3ee'</script>" +
-		     "<table style='width:100%; background-color:#dfe3ee'>" + 
-                     "<tr><td><center><h1>Cuatro en Línea</h1></td><tr><td><center>" +
-                     "<form name='loginForm' action='/logincheck' method='post'><table border='20' bordercolor='#8b9dc3' bgcolor='#3b5998'>" +
-                     "<tr><td><table><tr><td align='right'><font color='white'><strong>E-mail:</strong></font></TD>" +
-                     "<td align='left'><input type='text' name='email' value='' size='25' color='white'></td></tr>" +
-                     "<tr><td align='right'><font color='white'><strong>Password:</strong></font></td>" +
-                     "<td align='left'><input type='password' name='password' size='25'></td></tr>" +
-                     "<tr><td colspan='2' align='right'><input type='button' value='Iniciar Sesión' onclick='validateSubmit()'></td></tr></table></center></td></tr></table>" +
-		     "<br>¿No estás registrado?<a href='signin' style='color:green'><strong> Crear Cuenta </strong></a></form></center></body></html>";
-        }
         return output;
 
     }
