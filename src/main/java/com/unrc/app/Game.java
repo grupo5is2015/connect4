@@ -99,7 +99,25 @@ public class Game extends Model {
 
     }
 
+    //Ultima tabla 
+    public String boardToHtml2(boolean turn) {
 
+        String s;
+        if (turnOff == 1) {
+            s = player1.get("email").toString();
+        }
+        else {
+            s = player2.get("email").toString();
+        }
+        return "hola"; //table.toHtml2(turn);
+
+    }
+    
+        
+    
+    
+    
+    
     public void saveGame() {
 
         Pair p = new Pair();

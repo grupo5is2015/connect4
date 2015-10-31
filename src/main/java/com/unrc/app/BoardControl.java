@@ -15,6 +15,10 @@ public class BoardControl {
     // Para esto hay que hacer una simple convercion colum + 1
 
 
+    public Board getBoard () {
+      return this.b;
+    }
+    
     public boolean fullColumn(int c ) {
     
       return columnTop[c]>=b.getNumRow();

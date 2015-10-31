@@ -6,7 +6,7 @@ import org.javalite.activejdbc.Base;
 
 /**
  *
- * @author Grupo #5: Muñoz - Ontivero - Rondeau
+ * @author Grupo #5: Ontivero - Rondeau - Zabala
  *
  */
 public class WebManager {
@@ -64,16 +64,16 @@ public class WebManager {
         
         return       "<html><head><title>Cuatro en Línea</title><script src='http://localhost:4567/js/jquery-1.11.3.min.js' type='text/javascript'></script>" +
 		     "<script> $(document).ready(function() { var pageBody = $(document.body) ; pageBody.css('zoom', '200%'); }) </script> " +
-                     "<script>function validateSubmit() { if ((document.registrationForm.email.value == '') || (document.registartionForm.password.value.length == 0)) { alert('Debe completar los campos E-mail y Password') } else { document.registrationForm.submit() } } </script>" +
+                     "<script>function validateSubmit() { if ((document.registrationForm.email.value == '') || (document.registrationForm.password.value.length == 0)) { alert('Debe completar los campos E-mail y Password') } else { document.registrationForm.submit() } } </script>" +
                      "</head><body><script>document.bgColor='#dfe3ee'</script>" +
 		     "<table style='width:100%; background-color:#dfe3ee'>" + 
                      "<tr><td><center><h1>Cuatro en Línea</h1><hr><font color='#3b5998'><small><strong>Complete los siguientes campos para registrarse:</strong></small></font><hr></td><tr><td><center>" +
                      "<form name='registrationForm' action='/registration' method='post'><table border='20' bordercolor='#8b9dc3' bgcolor='#3b5998'>" +
-                     "<tr><td><table><tr><td align='right'><font color='white'><strong>E-mail:</strong></font></TD>" +
+                     "<tr><td><table><tr><td align='right'><font color='white'><strong>E-mail:</strong></font></td>" +
                      "<td align='left'><input type='text' name='email' value='' size='25' color='white'></td></tr>" +
                      "<tr><td align='right'><font color='white'><strong>Password:</strong></font></td>" +
                      "<td align='left'><input type='password' name='password' size='25'></td></tr><tr><td align='right'><font color='white'><strong>Nickname:</strong></font></td>" +
-                     "<td align='left'><input type='nickname' name='nickname' size='25'></td></tr>" +
+                     "<td align='left'><input type='text' name='nickname' size='25'></td></tr>" +
                      "<tr><td colspan='2' align='right'><input type='button' value='Crear Usuario' onclick='validateSubmit()'></td></tr></table></center></td></tr></table>" +
 		     "</form></center></body></html>";
 

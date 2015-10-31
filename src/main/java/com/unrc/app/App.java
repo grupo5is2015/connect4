@@ -4,11 +4,10 @@ import org.javalite.activejdbc.Base;
 import java.util.List;
 import spark.Spark;
 import static spark.Spark.*;
-import spark.SparkBase;
 
 /**
  *
- * @author Grupo #5: Muñoz - Ontivero - Rondeau
+ * @author Grupo #5: Ontivero - Rondeau - Zabala
  *
  */
 public class App {
@@ -280,7 +279,8 @@ public class App {
 
                     if (game.get("finished").toString().equals("false")) {  // EL JUEGO NO FINALIZO
 			if (!game.pausedGame) { 
-				output = web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.boardToHtml(game.turnOff == currentUser));
+				//output = web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.boardToHtml2(game.turnOff == currentUser));
+                                output= boardCtrl.getBoard().showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.turnOff == currentUser, game.turnOff);
                         }
                         if (game.pausedGame) {
                             res.redirect("/savegame");
