@@ -73,19 +73,44 @@ public class Board {
 
     }
 
-    public String showGame(String user, String player1, String player2, boolean turn,int currentTurn) {
-      String whosPlay;
-      String color="white";
-      if(currentTurn==1){
-	whosPlay= player1;
-      }
-      else {
-	whosPlay=player2;      
-      }
-      String output = "";
-      output += "<!DOCTYPE html>"+
-"<html>"+
- "<head>"+
+    public static String showBoard(boolean turn, Board b) {
+        String ds = "";
+        if (!turn) {
+            ds = "disabled";
+        }
+        String color;
+        for (int f = 0; f < b.m; f++) {
+            for (int c = 0; c < b.n; c++) {
+                if (b.grid[f][c] == 1) {
+                    color = "green";
+                } else {
+                    if (b.grid[f][c] == -1) {
+                        color = "red";
+                    } else {
+                        color = "white";
+                    }
+                }
+            }
+        }
+      //String whosPlay;
+      //String color="white";
+      //if(currentTurn==1){
+	//whosPlay= player1;
+      //}
+      //else {
+	//}whosPlay=player2;      
+      //}
+      //String output = "";
+      //output += 
+        return /*"<!DOCTYPE html>" +
+                "<html>" +
+                    "<head>" +
+                        "<script>" +
+                            "$(document).ready(function() {" +
+                                "var a = $('#fstColButton); a.clic(function(){" +
+                                    "$('#71).css('background-color', 'red')" +
+                                "]);" +
+              "</script>" + 
 "<style type='text/css'>"+
 "    .Table"+
 "    {"+
@@ -120,49 +145,44 @@ public class Board {
 
 "</head>"+
 "<body>"+
-"<div> Jugador 1: "+player1+" VS Jugador 2: "+player2+". Turno de: "+whosPlay+"   </div>"+
+//"<div> Jugador 1: "+player1+" VS Jugador 2: "+player2+". Turno de: "+whosPlay+"   </div>"+
 
-"</div>"+
+//"</div>"+
 "<div class='Table'>"+
-"    <div class='Title'>"+
-"        <p>Cuatro en Línea</p>"+
-"    </div>"+
+//"    <div class='Title'>"+
+//"        <p>Cuatro en Línea</p>"+
+//"    </div>"+*/
 "    <div  class='Heading'>"+
 "        <div id='11' class='Cell'>"+
-"            <p><input type='button' value='#1' onclick='$('#71').css('background','red')'> </p>"+
-"        </div>"+
-"        <div id='12' class='Cell'>"+
-"            <p><button type='button' class='btn btn-primary'>#2</button></p>"+
+"            <p><input type='button' " + ds + " id='fstColButton' value='#1' onClick='/play/1'> </p>"+
+"        </div>"+"        "
+                + "<div id='12' class='Cell'>"+
+"            <p><input type='button' " + ds + " id='fstColButton' value='#2' onClick='/play/2'> </p>"+
 "        </div>"+
 "        <div id='13' class='Cell'>"+
-"            <p><button type='button' class='btn btn-primary'>#3</button></p>"+
+"            <p><input type='button' " + ds + " id='fstColButton' value='#3' onClick='/play/3'> </p>"+
+"        </div>"+"        <div id='14' class='Cell'>"+
+"            <p><input type='button' " + ds + " id='fstColButton' value='#4' onClick='/play/4'> </p>"+
+"        </div>"+"        <div id='15' class='Cell'>"+
+"            <p><input type='button' " + ds + " id='fstColButton' value='#5' onClick='/play/5'> </p>"+
+"        </div>"+"        <div id='16' class='Cell'>"+
+"            <p><input type='button' " + ds + " id='fstColButton' value='#6' onClick='/play/6'> </p>"+
+"        </div>"+"        <div id='17' class='Cell'>"+
+"            <p><input type='button' " + ds + " id='fstColButton' value='#7' onClick='/play/7'> </p>"+
 "        </div>"+
-"        <div id='14' class='Cell'>"+
-"            <p><button type='button' class='btn btn-primary'>#4</button></p>"+
-"        </div>"+
-"        <div id='15' class='Cell'>"+
-"            <p><button type='button' class='btn btn-primary'>#5</button></p>"+
-"        </div>"+
-"        <div id='16' class='Cell'>"+
-"            <p><button type='button' class='btn btn-primary'>#6</button></p>"+
-"        </div>"+
-"        <div id='17' class='Cell'>"+
-"            <p><button type='button' class='btn btn-primary'>#7</button></p>"+
-"        </div>"+
-
 "    </div>"+
 "    <div id='1' class='Row'>"+
 "        <div id='21' class='Cell'>"+
-"            <p>" + user + "</p>"+
+//"            <p>" + user + "</p>"+
 "        </div>"+
 "        <div id='22' class='Cell'>"+
-"            <p>" + player1 + "</p>"+
+//"            <p>" + player1 + "</p>"+
 "        </div>"+
 "        <div id='23' class='Cell'>"+
-"            <p>" + player2 + "</p>"+
+//"            <p>" + player2 + "</p>"+
 "        </div>"+
 "        <div id='24' class='Cell'>"+
-"            <p>" + turn + "</p>"+
+//"            <p>" + turn + "</p>"+
 "        </div>"+
 "        <div id='25' class='Cell'>"+
 "            <p></p>"+
@@ -292,17 +312,17 @@ public class Board {
 "        <div id='77' class='Cell'>"+
 "           <p></p>"+
 "        </div>"+
-"        </div>"+
-"</body>"+
+"        </div>";
+//"</body>"+
 
-"</html>";
+//"</html>";
 
-  return output;
+  //return output;
     }
     
     
     
-
+/*
     public String toString() {
         String s = "\n\t  --------------------------- \n\t";
         for (int f = 0; f < 6; f++) {
@@ -325,6 +345,6 @@ public class Board {
 
     static {
         //validatePresenceOf("first_name");	
-    }
+    }*/
 
 }

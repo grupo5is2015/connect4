@@ -7,7 +7,7 @@ import org.javalite.activejdbc.Model;
 
 /**
  *
- * @author Grupo #5: Muñoz - Ontivero - Rondeau
+ * @author Grupo #5: Ontivero - Rondeau - Zabala
  *
  */
 public class Game extends Model {
@@ -98,7 +98,7 @@ public class Game extends Model {
         return "Turno de:  <strong>" + s + "</strong>" + table.toHtml(turn);
 
     }
-
+/*
     //Ultima tabla 
     public String boardToHtml2(boolean turn) {
 
@@ -109,11 +109,11 @@ public class Game extends Model {
         else {
             s = player2.get("email").toString();
         }
-        return "hola"; //table.toHtml2(turn);
+        return table.showBoard(turn); //table.toHtml2(turn);
 
     }
     
-        
+  */      
     
     
     

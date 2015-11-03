@@ -17,7 +17,7 @@ public class WebManager {
     }
 
     
-    public String welcomePage(boolean activeSession, String email) {
+    public String welcomePage(boolean activeSession, boolean wrongLogin, String email) {
         
         String output; 
         //output = 
@@ -30,7 +30,8 @@ public class WebManager {
             output = "<html><head><title>Cuatro en Línea</title><script src='http://localhost:4567/js/jquery-1.11.3.min.js' type='text/javascript'></script>" +
 		     "<script> $(document).ready(function() { var pageBody = $(document.body) ; pageBody.css('zoom', '200%'); }); </script> " +
                      "<script>function validateSubmit() { if ((document.loginForm.email.value == '') || (document.loginForm.password.value.length == 0)) { alert('Debe completar los campos E-mail y Password') } else { var rex=/^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$/; if(!rex.test(document.loginForm.email.value)) { alert('Formato de e-mail no valido') } else { document.loginForm.submit() } } } </script>" +
-                     "</head><body><script>document.bgColor='#dfe3ee'</script>" +
+                     "</head><body><script>document.bgColor='#dfe3ee';</script><script> if ("+wrongLogin+") {alert('Datos de acceso incorrectos. Intente nuevamente.');}</script>" +
+  //                   "<script> if (wrongLogin) {alert ('Datos de acceso incorrectos. Intente nuevamente.') }</script>" +
 		     "<table style='width:100%; background-color:#dfe3ee'>" + 
                      "<tr><td><center><h1>Cuatro en Línea</h1></td><tr><td><center>" +
                      "<form name='loginForm' action='/logincheck' method='post'><table border='20' bordercolor='#8b9dc3' bgcolor='#3b5998'>" +
@@ -45,6 +46,7 @@ public class WebManager {
 
     }
 
+    
 
 
     public String showLoginForm() {
@@ -88,12 +90,45 @@ public class WebManager {
             output = "Hola <strong>" + email + "</strong>, has ingresado correctamente!<hr><a href='/play/0'> Iniciar nueva partida</a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
         }
         else {
-            output = "<strong>Datos de acceso incorrectos!</strong><hr><a href='/login'> Iniciar sesion</a><br><br><a href='/signin'> Registrarse</a><br><br>";
+            //output = "<strong>Datos de acceso incorrectos!</strong><hr><a href='/login'> Iniciar sesion</a><br><br><a href='/signin'> Registrarse</a><br><br>";
+            output = welcomePage(false, true, ""); // 2do parametro = wrongLogin
         }
         return output;
 
     }
+    
+    
+    public String newLoginReport(boolean logOK, String email) {
+        
+        String output;
+        if (logOK) {
+            output = "<!DOCTYPE html><html><head><title>Cuatro en Línea</title><meta name='viewport' content='width=device-width, initial-scale=1'>" +
+		     "<link rel='stylesheet' href='http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css'>" +
+		     "<script src='http://localhost:4567/js/jquery-1.11.3.min.js' type='text/javascript'></script>" +
+		     "<script src='code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js'></script>" +
+		     "<script> $(document).ready(function() { var pageBody = $(document.body) ; pageBody.css('zoom', '200%'); }) </script></head>" +
+                     "<body><script>document.bgColor='#dfe3ee'</script>" +
+		     //"<table style='width:100%; background-color:#dfe3ee'>" + 
+                     //"<tr><td> 
+                     "<center><h1>Cuatro en Línea</h1><hr><font color='#3b5998'><small>Hola <strong>" + email + "</strong>, has ingresado correctamente!</small></font><hr>"+ //</td><tr><td>
+                     "<center>" +
 
+  "<div data-role='main' class='ui-content'>"+
+    "<a href='#' class='ui-btn ui-icon-arrow-r ui-btn-icon-right'>Iniciar nueva partida</a>"+
+    "<a href='#' class='ui-btn ui-icon-back ui-btn-icon-right'>Reanudar partida inconclusa</a>"+
+    "<a href='#' class='ui-btn ui-icon-info ui-btn-icon-right'>Ver Rankings</a>"+
+    "<a href='#' class='ui-btn ui-icon-delete ui-btn-icon-right'>Salir</a>"+
+  "</div>"+
+
+
+		     "</center></body></html>";
+        }
+        else {
+            output = welcomePage(false, true, ""); // 2do parametro = wrongLogin
+        }
+        return output;
+
+    }
 
 
     public String registrationReport(boolean regOK, String email) {
@@ -238,6 +273,130 @@ public class WebManager {
         return output;
 
     }
+    
+    
+    
+        public String showGame2(String user, String player1, String player2, boolean turn, Board b) {
+
+        return  "<!DOCTYPE html>"
++"<html>"
++"<head>"
++"<meta http-equiv='refresh' content='4'>"
++"<style type='text/css'>"
++ "    .Table"+
+"    {"+
+"        display: table;"+
+"    }"+
+"    .Title"+
+"    {"+
+"        display: table-caption;"+
+"        text-align: center;"+
+"        font-weight: bold;"+
+"        font-size: larger;"+
+"    }"+
+"    .Heading"+
+"    {"+
+"        display: table-row;"+
+"        font-weight: bold;"+
+"        text-align: center;"+
+"    }"+
+"    .Row"+
+"    {"+
+"        display: table-row;"+
+"    }"+
+"    .Cell"+
+"    {"+
+"        display: table-cell;"+
+"        border: solid;"+
+"        border-width: thin;"+
+"        padding-left: 5px;"+
+"        padding-right: 5px;"+
+"    }"
++"#header {"
++"    background-color:#3b5998;"
++"   color:white;"
++"  text-align:center;"
++" padding:10px;"
++"}"
+
++"#userlog {"
++"    background-color:#dfe3ee;"
++"   color:#3b5998;"
++"  text-align:right;"
+                    //+"    height:30px;"
+                  //  +"    width:100%;"
++" padding:2px;"
++"}"
+
++"#leftpanel {"
++"    line-height:20px;"
++"    background-color:#dfe3ee;"
+                +"color:green;"
++"text-align:center;"
++"    height:450px;"
++"    width:200px;"
++"    float:left;"
++"    padding:5px;"	      
++"}"
+                
++"#section {"
++"    width:250px;"
++"    float:left;"
++"    padding:1px;"	 	 
++"}"
+                
++"#rightpanel {"
++"    line-height:20px;"
++"    background-color:#dfe3ee;"
+                +"color:red;"
++                "text-align:center;"
++"    height:450px;"
++"    width:200px;"
++"    float:right;"
++"    padding:5px;"	      
++"}"
+                
++"#footer {"
++"    background-color:black;"
++"    color:white;"
++"    clear:both;"
++"    text-align:center;"
++"   padding:5px;"	 	 
++"}"
+                
++"</style>"
++"</head>"
++"<body>"
+
++"<div id='header'>"
++"<h1>Cuatro en Línea</h1>"
++"</div>"
+                    
++"<div id='userlog'>"
++"<hr><b>" + user + "</b><hr>"
++"</div>"
+
++"<div id='leftpanel'>"
++"Jugador #1: <br>"
+                +"<b>" + player1 + "</b>"
++"</div>"
+
++"<div id='section'>" + Board.showBoard(turn, b) + "</div>"
+
++"<div id='rightpanel'>"
++"Jugador #2: <br>"
+                +"<b>" + player2 + "</b>"
++"</div>"
+
++"<div id='footer'>"
++"Copyright © orevitnoonairam@yahoo.com.ar"
++"</div>"
+
++"</body>"
++"</html>";
+
+
+    }
 
 
 
@@ -298,5 +457,101 @@ public class WebManager {
         return output;
     }
 
+    public static String buttonsOptions (String msj, boolean bt1, boolean bt2, boolean bt3, boolean bt4, boolean bt5, boolean bt6){
+
+        String d1="";
+        String d2="";
+        String d3="";
+        String d4="";
+        String d5="";
+        String d6="";
+        
+        if (bt1) 
+        d1= "disabled";
+        if (bt2) 
+        d2= "disabled";
+        if (bt3) 
+        d3= "disabled";
+        if (bt4) 
+        d4= "disabled";
+        if (bt5) 
+        d5= "disabled";
+        if (bt6) 
+        d6= "disabled";
+        
+        String output;
+           return  "<!DOCTYPE html>"
+                    +"<html>"
+                    +"<head>"
+                    +"<meta http-equiv='refresh' content='4'>"
+                    +"<style type='text/css'>"
+                    +"#header {"
+                    +"    background-color:#3b5998;"
+                    +"   color:white;"
+                    +"  text-align:center;"
+                    +" padding:10px;"
+                    +"}"
+
+                    +"#infofield {"
+                    +"    background-color:#dfe3ee;"
+                    +"   color:#3b5998;"
+                    +"  text-align:center;"
+                    //+"    height:30px;"
+                    //  +"    width:100%;"
+                    +" padding:5px;"
+                    +"}"
+
+                    +"#buttonfield {"
+                    +"    line-height:20px;"
+                    +"    background-color:#dfe3ee;"
+                    +"color:green;"
+                    +"text-align:center;"
+                    +"    height:450px;"
+                    +"    width:200px;"
+                    +"    float:left;"
+                    +"    padding:5px;"       
+                    +"}"
+
+
+                    +"</style>"
+                    +"</head>"
+
+                    +"<body>"
+
+                    +"<div id='header'>"
+                    +"<h1>Cuatro en Línea</h1>"
+                    +"</div>"
+                    
+                    +"<div id='infofield'>"
+                    +"<hr><b>" + msj + "</b><hr>"
+                    +"</div>"
+
+                    +"<div id='buttonfield'>"
+                    +"<input type='button'"+ d1 +" value=\"Iniciar Nueva Partida\" onClick=alert('hola wey')>"
+                    +"</div>"
+
+                    +"<div id='buttonfield'>"
+                    +"<input type='button'"+ d2 +" value=\"Reanudar Partida Pausada\">"
+                    +"</div>"
+
+                    +"<div id='buttonfield'>"
+                    +"<input type='button'"+ d3 +" value=\"Listar Rankings\">"
+                    +"</div>"
+
+                    +"<div id='buttonfield'>"
+                    +"<input type='button' "+ d4 +" value=\"Registrarse\">"
+                    +"</div>"
+
+                    +"<div id='buttonfield'>"
+                    +"<input type='button' "+ d5 +" value=\"Iniciar Sesión\">"
+                    +"</div>"
+
+                    +"<div id='buttonfield'>"
+                    +"<input type='button' "+ d6 +" value=\"Cerrar Sesión\">"
+                    +"</div>"
+
+
+
+    ;}
 
 }

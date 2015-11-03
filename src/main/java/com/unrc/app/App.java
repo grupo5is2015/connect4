@@ -28,8 +28,8 @@ public class App {
 
         get("/", (req, res)
                 
-                -> web.welcomePage(req.session().attribute("user") != null, req.session().attribute("user"))
-                
+                -> web.welcomePage(req.session().attribute("user") != null, false,req.session().attribute("user"))
+               
         );
 
 
@@ -56,7 +56,9 @@ public class App {
                 req.session().attribute("userId", user.get("id"));
                 succesfulLogin = true;
            }
+           //return WebManager.buttonsOptions ("Hola",false,true,true,true,true,true); 
            return web.loginReport(succesfulLogin, req.queryParams("email"));
+           //return web.newLoginReport(succesfulLogin, req.queryParams("email"));
 
         });
 
@@ -278,9 +280,10 @@ public class App {
                     }
 
                     if (game.get("finished").toString().equals("false")) {  // EL JUEGO NO FINALIZO
-			if (!game.pausedGame) { 
-				//output = web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.boardToHtml2(game.turnOff == currentUser));
-                                output= boardCtrl.getBoard().showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.turnOff == currentUser, game.turnOff);
+			if (!game.pausedGame) {
+				//output = web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.boardToHtml(game.turnOff == currentUser));
+                                output = web.showGame2(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.turnOff == currentUser, boardCtrl.getBoard());
+                                //output= boardCtrl.getBoard().showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.turnOff == currentUser, game.turnOff);
                         }
                         if (game.pausedGame) {
                             res.redirect("/savegame");
