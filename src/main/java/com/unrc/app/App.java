@@ -29,17 +29,17 @@ public class App {
         get("/", (req, res)
                 
                 -> web.welcomePage(req.session().attribute("user") != null, false,req.session().attribute("user"))
-               
+               //-> WebManager.optionsScreen("hola", true, true, false, true, true, false)
         );
 
 
-
+/*
         get("/login", (req, res)
                 
                 -> web.showLoginForm()
                 
         );
-
+*/
 
 
         post("/logincheck", (req, res) -> {
@@ -56,6 +56,13 @@ public class App {
                 req.session().attribute("userId", user.get("id"));
                 succesfulLogin = true;
            }
+            /*
+           if (succesfulLogin) {
+                return web.optionsScreen("Hola <strong>" + req.queryParams("email") + "</strong>, has ingresado correctamente!", true, true, true, false, false, true);
+           }
+           else {
+                return web.welcomePage(false, true, "");
+           }*/
            //return WebManager.buttonsOptions ("Hola",false,true,true,true,true,true); 
            return web.loginReport(succesfulLogin, req.queryParams("email"));
            //return web.newLoginReport(succesfulLogin, req.queryParams("email"));
@@ -193,7 +200,8 @@ public class App {
                 req.session().attribute("player", 1);
                 output = web.waitingAdversary(2, req.session().attribute("user").toString());
 
-            }   else if (player2 == null) {   // player1 != null & player2 == null
+            }
+            else if (player2 == null) {   // player1 != null & player2 == null
                     if (!player1.get("id").toString().equals(req.session().attribute("userId").toString())) {
                         player2 = User.findFirst("id = ?", new Integer(req.session().attribute("userId").toString()));
                         req.session().attribute("player", 2);
@@ -282,7 +290,7 @@ public class App {
                     if (game.get("finished").toString().equals("false")) {  // EL JUEGO NO FINALIZO
 			if (!game.pausedGame) {
 				//output = web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.boardToHtml(game.turnOff == currentUser));
-                                output = web.showGame2(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.turnOff == currentUser, boardCtrl.getBoard());
+                                output = web.showGame2(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.turnOff == currentUser, boardCtrl.getBoard());//, boardCtrl.rowToInsert[column]);
                                 //output= boardCtrl.getBoard().showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.turnOff == currentUser, game.turnOff);
                         }
                         if (game.pausedGame) {

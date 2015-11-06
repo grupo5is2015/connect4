@@ -2,24 +2,24 @@ package com.unrc.app;
 
 /**
  *
- * @author Grupo #5: Muñoz - Ontivero - Rondeau
+ * @author Grupo #5: Ontivero - Rondeau - Zabala
  *
  */
 public class BoardControl {
 
     private Board b;
     private int[] columnTop;     // cantidad de fichas que tiene cada columna, 0..7.
-    private int[] rowToInsert;   // fila donde insertar ficha, 0..5
+    //private int[] rowToInsert;   // fila donde insertar ficha, 0..5
     //Jugador 1=  1   Jugador 2= -1  El numero 0 representa la celda vacia. 
     // Nota para el sistema la columna empieza en cero y para el usuario en 1
     // Para esto hay que hacer una simple convercion colum + 1
-
+    public int[] rowToInsert;
 
     public Board getBoard () {
       return this.b;
     }
     
-    public boolean fullColumn(int c ) {
+    public boolean fullColumn(int c) {
     
       return columnTop[c]>=b.getNumRow();
     

@@ -2,7 +2,7 @@ package com.unrc.app;
 
 /**
  *
- * @author Grupo #5: Muñoz - Ontivero - Rondeau
+ * @author Grupo #5: Ontivero - Rondeau - Zabala
  *
  */
 public class Board {
@@ -74,24 +74,13 @@ public class Board {
     }
 
     public static String showBoard(boolean turn, Board b) {
+         
         String ds = "";
         if (!turn) {
             ds = "disabled";
         }
         String color;
-        for (int f = 0; f < b.m; f++) {
-            for (int c = 0; c < b.n; c++) {
-                if (b.grid[f][c] == 1) {
-                    color = "green";
-                } else {
-                    if (b.grid[f][c] == -1) {
-                        color = "red";
-                    } else {
-                        color = "white";
-                    }
-                }
-            }
-        }
+       
       //String whosPlay;
       //String color="white";
       //if(currentTurn==1){
@@ -152,49 +141,77 @@ public class Board {
 //"    <div class='Title'>"+
 //"        <p>Cuatro en Línea</p>"+
 //"    </div>"+*/
-"    <div  class='Heading'>"+
-"        <div id='11' class='Cell'>"+
-"            <p><input type='button' " + ds + " id='fstColButton' value='#1' onClick='/play/1'> </p>"+
-"        </div>"+"        "
-                + "<div id='12' class='Cell'>"+
-"            <p><input type='button' " + ds + " id='fstColButton' value='#2' onClick='/play/2'> </p>"+
-"        </div>"+
-"        <div id='13' class='Cell'>"+
-"            <p><input type='button' " + ds + " id='fstColButton' value='#3' onClick='/play/3'> </p>"+
-"        </div>"+"        <div id='14' class='Cell'>"+
-"            <p><input type='button' " + ds + " id='fstColButton' value='#4' onClick='/play/4'> </p>"+
-"        </div>"+"        <div id='15' class='Cell'>"+
-"            <p><input type='button' " + ds + " id='fstColButton' value='#5' onClick='/play/5'> </p>"+
-"        </div>"+"        <div id='16' class='Cell'>"+
-"            <p><input type='button' " + ds + " id='fstColButton' value='#6' onClick='/play/6'> </p>"+
-"        </div>"+"        <div id='17' class='Cell'>"+
-"            <p><input type='button' " + ds + " id='fstColButton' value='#7' onClick='/play/7'> </p>"+
-"        </div>"+
-"    </div>"+
-"    <div id='1' class='Row'>"+
-"        <div id='21' class='Cell'>"+
+"<div  class='Heading'>" +
+"   <div id='01' class='ButtonCell'>" +
+"       <input type='button' " + ds + " id='fstColBut' value='#1' onClick=\"document.location.href='/play/1'\">" + //onClick= //'playAndRedirect(1)'> </p>" + 
+"   </div>" +
+"   <div id='02' class='ButtonCell'>" +
+"       <input type='button' " + ds + " id='sndColBut' value='#2' onClick=\"document.location.href='/play/2'\">" +
+"   </div>" +
+"   <div id='03' class='ButtonCell'>" +
+"       <input type='button' " + ds + " id='thrColBut' value='#3' onClick=\"document.location.href='/play/3'\">" +
+"   </div>" +
+"   <div id='04' class='ButtonCell'>" +
+"       <input type='button' " + ds + " id='fourColBut' value='#4' onClick=\"document.location.href='/play/4'\">" +
+"   </div>" +
+"   <div id='05' class='ButtonCell'>" +
+"       <input type='button' " + ds + " id='fiveColBut' value='#5' onClick=\"document.location.href='/play/5'\">" +
+"   </div>" +
+"   <div id='06' class='ButtonCell'>" +
+"       <input type='button' " + ds + " id='sixColBut' value='#6' onClick=\"document.location.href='/play/6'\">" +
+"   </div>" +
+"   <div id='07' class='ButtonCell'>" +
+"       <input type='button' " + ds + " id='sthColBut' value='#7' onClick=\"document.location.href='/play/7'\">" +
+"   </div>" +
+"</div>" +
+"<div id='1' class='Row'>"+
+"   <div id='11' class='Cell'>"+
 //"            <p>" + user + "</p>"+
-"        </div>"+
-"        <div id='22' class='Cell'>"+
+"   </div>"+
+"   <div id='12' class='Cell'>"+
 //"            <p>" + player1 + "</p>"+
-"        </div>"+
-"        <div id='23' class='Cell'>"+
+"   </div>"+
+"        <div id='13' class='Cell'>"+
 //"            <p>" + player2 + "</p>"+
 "        </div>"+
-"        <div id='24' class='Cell'>"+
+"        <div id='14' class='Cell'>"+
 //"            <p>" + turn + "</p>"+
 "        </div>"+
-"        <div id='25' class='Cell'>"+
+"        <div id='15' class='Cell'>"+
 "            <p></p>"+
 "        </div>"+
-"        <div id='26' class='Cell' style='background-color:red' >"+
+"        <div id='16' class='Cell'>"+ //style='background-color:red'
 "            <p></p>"+
 "        </div>"+
-"        <div id='27' class='Cell'style='background-color:blue' >"+
+"        <div id='17' class='Cell'>"+
 "            <p></p>"+
 "        </div>"+
 "    </div>"+
 "    <div id='2' class='Row'>"+
+"        <div id='21' class='Cell'>"+
+"            <p></p>"+
+"        </div>"+
+"        <div id='22' class='Cell'>"+
+"            <p></p>"+
+"        </div>"+
+"        <div id='23' class='Cell'>"+
+"            <p></p>"+
+"        </div>"+
+"        <div id='24' class='Cell'>"+
+"            <p></p>"+
+"        </div>"+
+"        <div id='25' class='Cell'>"+
+"            <p></p>"+
+"        </div>"+
+"        <div id='26' class='Cell'>"+
+"            <p></p>"+
+"        </div>"+
+"        <div id='27' class='Cell'>"+
+"            <p></p>"+
+"        </div>"+
+"    </div>"+
+
+"    <div id='3' class='Row'>"+
 "        <div id='31' class='Cell'>"+
 "            <p></p>"+
 "        </div>"+
@@ -205,7 +222,7 @@ public class Board {
 "            <p></p>"+
 "        </div>"+
 "        <div id='34' class='Cell'>"+
-"            <p></p>"+
+"           <p></p>"+
 "        </div>"+
 "        <div id='35' class='Cell'>"+
 "            <p></p>"+
@@ -218,7 +235,7 @@ public class Board {
 "        </div>"+
 "    </div>"+
 
-"    <div id='3' class='Row'>"+
+"    <div id='4' class='Row'>"+
 "        <div id='41' class='Cell'>"+
 "            <p></p>"+
 "        </div>"+
@@ -229,7 +246,7 @@ public class Board {
 "            <p></p>"+
 "        </div>"+
 "        <div id='44' class='Cell'>"+
-"           <p></p>"+
+"            <p></p>"+
 "        </div>"+
 "        <div id='45' class='Cell'>"+
 "            <p></p>"+
@@ -242,7 +259,7 @@ public class Board {
 "        </div>"+
 "    </div>"+
 
-"    <div id='4' class='Row'>"+
+"    <div id='5' class='Row'>"+
 "        <div id='51' class='Cell'>"+
 "            <p></p>"+
 "        </div>"+
@@ -266,12 +283,12 @@ public class Board {
 "        </div>"+
 "    </div>"+
 
-"    <div id='5' class='Row'>"+
+"    <div id='6' class='Row'>"+
 "        <div id='61' class='Cell'>"+
-"            <p></p>"+
+//"            <p></p>"+
 "        </div>"+
 "        <div id='62' class='Cell'>"+
-"            <p></p>"+
+"           <p></p>"+
 "        </div>"+
 "        <div id='63' class='Cell'>"+
 "            <p></p>"+
@@ -283,33 +300,9 @@ public class Board {
 "            <p></p>"+
 "        </div>"+
 "        <div id='66' class='Cell'>"+
-"            <p></p>"+
+"           <p></p>"+
 "        </div>"+
 "        <div id='67' class='Cell'>"+
-"            <p></p>"+
-"        </div>"+
-"    </div>"+
-
-"    <div id='6' class='Row'>"+
-"        <div id='71' class='Cell'>"+
-"            <p></p>"+
-"        </div>"+
-"        <div id='72' class='Cell'>"+
-"           <p></p>"+
-"        </div>"+
-"        <div id='73' class='Cell'>"+
-"            <p></p>"+
-"        </div>"+
-"        <div id='74' class='Cell'>"+
-"            <p></p>"+
-"        </div>"+
-"        <div id='75' class='Cell'>"+
-"            <p></p>"+
-"        </div>"+
-"        <div id='76' class='Cell'>"+
-"           <p></p>"+
-"        </div>"+
-"        <div id='77' class='Cell'>"+
 "           <p></p>"+
 "        </div>"+
 "        </div>";
