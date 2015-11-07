@@ -76,8 +76,8 @@ public class WebManager {
     public String showRegistrationForm() {
         
         return       "<html><head><title>Cuatro en Línea</title><script src='http://localhost:4567/js/jquery-1.11.3.min.js' type='text/javascript'></script>" +
-		     "<script> $(document).ready(function() { var pageBody = $(document.body) ; pageBody.css('zoom', '200%'); pageBody.css('background-color', '#dfe3ee'); }) </script> " +
-                     "<script>function validateSubmit() { if ((document.registrationForm.email.value == '') || (document.registrationForm.password.value.length == 0)) { alert('Debe completar los campos E-mail y Password') } else { document.registrationForm.submit() } } </script>" +
+		    	 			"<script> $(document).ready(function() { var pageBody = $(document.body) ; pageBody.css('zoom', '200%'); pageBody.css('background-color', '#dfe3ee'); }) </script> " +
+							"<script>function validateSubmit() { if ((document.registrationForm.email.value == '') || (document.registrationForm.password.value.length == 0)) { alert('Debe completar los campos E-mail y Password') } else { var rex=/^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$/; if(!rex.test(document.registrationForm.email.value)) { alert('Formato de e-mail no valido') } else { document.registrationForm.submit() } } } </script>" +
                      "</head><body>" + //<script>document.bgColor='#dfe3ee'</script>" +
 		     "<table style='width:100%; background-color:#dfe3ee'>" + 
                      "<tr><td><center><h1>Cuatro en Línea</h1><hr><font color='#3b5998'><small><strong>Complete los siguientes campos para registrarse:</strong></small></font><hr></td><tr><td><center>" +
@@ -336,7 +336,7 @@ public class WebManager {
             }
         }
         paint += grid[0][0] + "]";
-        System.out.println("*************" + paint + "***************");
+        //System.out.println("*************" + paint + "***************");
         return  "<!DOCTYPE html>"
 +"<html>"
 +"<head>"
@@ -408,6 +408,7 @@ public class WebManager {
 +"}"
                 
 +"#section {"
++"    height:225px;"
 +"    width:250px;"
 +"    float:left;"
 +"    padding:1px;"	 	 
@@ -435,8 +436,8 @@ public class WebManager {
 +"</style>"
 
 +"<script src='http://localhost:4567/js/jquery-1.11.3.min.js' type='text/javascript'></script>"
-+"<script> $(document).ready(function() { var grilla = " + paint + "; var pageBody = $(document.body); pageBody.css('zoom', '150%'); pageBody.css('background-color', '#dfe3ee');  "
-+"$.each(grilla, function(i, n) {"
++"<script> $(document).ready(function() { var grid = " + paint + "; var pageBody = $(document.body); pageBody.css('zoom', '150%'); pageBody.css('background-color', '#dfe3ee');  "
++"$.each(grid, function(i, n) {"
 +"  var color;  "
 + " if (n>0){"
 +"      color='green' ;"
@@ -477,7 +478,7 @@ public class WebManager {
 +"<hr></div>"
 
 +"<div id='footer'>"
-+"Copyright © orevitnoonairam@yahoo.com.ar"
++"Copyright © Ver que escribir o si lo sacamos"
 +"</div>"
 
 +"</body>"
@@ -652,16 +653,24 @@ public class WebManager {
                     +"}"
 
                     +"#buttonfield {"
-                    +"    line-height:20px;"
+                    +"    line-height:25px;"
                     +"    background-color:#dfe3ee;"
-                    +"color:green;"
+                    //+"color:green;"
                     +"text-align:center;"
                     //+"    height:450px;"
                     //+"    width:200px;"
                     //+"    float:left;"
                     +"    padding:5px;"       
                     +"}"
-
+/*
++"#footer {"
++"    background-color:black;"
++"    color:white;"
++"    clear:both;"
++"    text-align:center;"
++"   padding:5px;"	 	 
++"}"
+*/
 
                     +"</style>"
                     +"<script src='http://localhost:4567/js/jquery-1.11.3.min.js' type='text/javascript'></script>"
@@ -702,6 +711,9 @@ public class WebManager {
                     +"<input id=" +dsb6+ " value='CERRAR SESION' onClick=\"document.location.href='/logout'\" type='button' />"
                     +"</div>";
 
-    }
+/*                    +"<div id='footer'>"
+                    +"Copyright © Ver que escribir o si lo sacamos"
+                    +"</div>";
+*/    }
 
 }
