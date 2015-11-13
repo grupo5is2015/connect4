@@ -158,20 +158,91 @@ public class WebManager {
 
 
 
-    public String showPlayersRankings(List<Ranking> ranksList) {
+public String showPlayersRankings(List<Ranking> ranksList) {
 
         try {
             Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/connect4_development", "franco", "franco");
         }
         catch (Exception e) {
-        }
+        };
 
-        String output = "<html><head>"+
-                "<link type=\"text/css\" href=\"/style.css\" rel=\"stylesheet\">"+
-                //<table><tr><td><table width=\"450\" align='center' border=1>
-                "</head><body><h1>Ranking de Jugadores</h1><table><tr><td><table width=\"450\" align='center' border=1>";
-        output += "<tr><th> Posicion </th><th> Jugador </th><th> Puntos </th></tr>";
-	User u;
+        String output =  
+
+                    "<!DOCTYPE html>"
+                    +"<html><head>"
+
+                    +"<style type='text/css'>"
+
+
+                    +"#header {"
+                    +"      background-color:#3b5998;"
+                    +"      color:white;"
+                    +"      text-align:center;"
+                    +"      padding:10px;"
+                    +"}"
+
+                    +" #buttongraphic { " 
+                    +"   background-Color:#8b9dc3;" 
+                    +"   color:#ffffff;" 
+                    +"   font-weight:bold;" 
+                    +"   width: 300px;" 
+                    +"   height: 25px;"
+                    +"   border-radius: 24px 24px 24px 24px;"
+                    +"   -moz-border-radius: 24px 24px 24px 24px;"
+                    +"   -webkit-border-radius: 24px 24px 24px 24px;"
+                    +"}"
+
+                    +"#buttonfield {"
+                    +"    line-height:25px;"
+                    +"    background-color:#dfe3ee;"
+                    +"    text-align:center;"
+                    +"    padding:5px;"       
+                    +"}"
+
+                    +"#ranking {"
+                    +"      background-color:#dfe3ee;"
+                    +"      color:#3b5998;"
+                    +"      text-align:center;"
+                    +"      padding:8px;"
+                    +"}"
+
+
+                    +"#table {"
+                    +"      color:#3b5998;"
+                    +"      text-align:center;"
+                    +"}"
+
+
+                    +"</style>"
+                    +"<script src='http://localhost:4567/js/jquery-1.11.3.min.js' type='text/javascript'></script>"
+                    +"<script> $(document).ready(function() { var pageBody = $(document.body) ; pageBody.css('zoom', '150%'); pageBody.css('background-color', '#dfe3ee'); }); </script> "
+                    +"</head>"
+
+
+                    +"<body>"
+
+                    +"<div id='header'>"
+                    +"<h1>Cuatro en Línea</h1>"
+                    +"</div>"
+
+                    +"<div id='ranking'>"
+                    +"<hr><h2>Ranking de Jugadores  </h2></hr>"
+                    +"<hr> </hr>"
+                    +"</div>"
+
+                    +"<center><div id='buttonfield'>"
+                    +"<input type='button' id='buttongraphic' value='VOLVER' onClick=\"document.location.href='/'\">"
+                    +"</div></center>"
+
+                    +"<div id= 'table'>"
+                    +"<br><center><table><tr><td><table width=\"450\" border=1></br>"
+                    +"<tr><th> Posicion </th><th> Jugador </th><th> Puntos </th></tr>";
+
+                    
+
+                    
+
+        User u;
         Ranking r;
         String gameId, adversary;
 
@@ -179,18 +250,21 @@ public class WebManager {
         int i = 0;
         while (it.hasNext()) {
             i++;
-            r = (Ranking) it.next();
-            output += "<tr><td>" + i + "</td>";
+            r = (Ranking) it.next(); 
+            output += "<tr><td><center>" + i + "</center></td>";
             u = User.findById(r.get("user_id"));
-            output += "<td>" + u.get("nickname") + "</td><td>" + r.get("points") + "</td>";
-        }
-        output += "</table></td></tr><tr><td>";
-        output += "<ul><li><a href='/play/0'> Iniciar nueva partida</a></li> <li><a href='/loadgame'> Cargar partida inconclusa</a></li><li><a href='/logout'>Salir</a></li></ul>";
-        output +="</td></tr></table>";
-        output += "</body></html>";
+            output += "<td><center>" + u.get("email") + "</center></td><td><center>" + r.get("points") + "</center></td>";
 
-	Base.close();
-	return output;
+        };
+
+        
+            output += "</table></center></td></tr><tr><td>"
+            +"</body>"
+            +"</html>";
+
+
+    Base.close();
+    return output;
         
     }
 
@@ -212,10 +286,83 @@ public class WebManager {
         catch (Exception e) {
         }
 
-        String output = "<html><head>"
-                + "<link type=\"text/css\" href=\"/style.css\" rel=\"stylesheet\"></head>"
-                + "<body><h1>Juegos Pausados</h1><hr>Seleccione el juego que desea retomar:<br><br><table><tr><td><table width=\"450\" align='center' border=1>";
-        output += "<tr><th> Juego </th><th> Adversario </th><th> E-mail </th></tr>";
+
+         String output =  
+
+                    "<!DOCTYPE html>"
+                    +"<html><head>"
+
+                    +"<style type='text/css'>"
+
+
+                    +"#header {"
+                    +"      background-color:#3b5998;"
+                    +"      color:white;"
+                    +"      text-align:center;"
+                    +"      padding:10px;"
+                    +"}"
+
+                    +" #buttongraphic { " 
+                    +"   background-Color:#8b9dc3;" 
+                    +"   color:#ffffff;" 
+                    +"   font-weight:bold;" 
+                    +"   width: 300px;" 
+                    +"   height: 25px;"
+                    +"   border-radius: 24px 24px 24px 24px;"
+                    +"   -moz-border-radius: 24px 24px 24px 24px;"
+                    +"   -webkit-border-radius: 24px 24px 24px 24px;"
+                    +"}"
+                   
+                    +"#buttonfield {"
+                    +"    line-height:25px;"
+                    +"    background-color:#dfe3ee;"
+                    +"    text-align:center;"
+                    +"    padding:5px;"       
+                    +"}"
+
+                    +"#pausedgame {"
+                    +"      background-color:#dfe3ee;"
+                    +"      color:#3b5998;"
+                    +"      text-align:center;"
+                    +"      padding:8px;"
+                    +"}"
+
+
+                    +"#table {"
+                    +"      color:#3b5998;"
+                    +"      text-align:center;"
+                    +"}"
+
+
+                    +"</style>"
+                    +"<script src='http://localhost:4567/js/jquery-1.11.3.min.js' type='text/javascript'></script>"
+                    +"<script> $(document).ready(function() { var pageBody = $(document.body) ; pageBody.css('zoom', '150%'); pageBody.css('background-color', '#dfe3ee'); }); </script> "
+                    +"</head>"
+
+
+                    +"<body>"
+
+                    +"<div id='header'>"
+                    +"<h1>Cuatro en Línea</h1>"
+                    +"</div>"
+
+                    +"<div id='pausedgame'>"
+                    +"<hr><h2>Juegos Pausados</h2></hr>"
+                    +"<hr> </hr>"
+                    +"<hr>Seleccione el juego que desea retomar:</hr>"
+                    +"<hr> </hr>"
+                    +"</div>"
+
+                    +"<center><div id='buttonfield'>"
+                    +"<input type='button' id='buttongraphic' value='VOLVER' onClick=\"document.location.href='/'\">"
+                    +"</div></center>"
+           
+
+                    +"<div id= 'table'>"
+                    +"<br><center><table><tr><td><table width=\"450\" border=1></br>"
+                    +"<tr><th> Juego </th><th> Adversario </th><th> E-mail </th></tr>";
+
+
         Game g;
         User u;
         String gameId, adversary;
@@ -223,18 +370,19 @@ public class WebManager {
         while (it.hasNext()) {
             g = (Game) it.next();
             gameId = g.getId().toString();
-            output += "<tr><td><a href='/loadgame/" + gameId + "'> #" + gameId + "</a></td>";
+            output += "<tr><td><center><a href='/loadgame/" + gameId + "'> #" + gameId + "</a></center></td>";
             if (requesterUserId.equals(g.get("player1").toString())) {
                 adversary = "player2";
             } else {
                 adversary = "player1";
             }
             u = User.findById(g.get(adversary));
-            output += "<td>" + u.get("nickName") + "</td><td>" + u.get("email") + "</td></tr>";
+            output += "<td><center>" + u.get("nickName") + "</center></td><td><center>" + u.get("email") + "</center></td></tr>";
         }
-        output += "</table></td></tr><tr><td>";
-        output += "<hr><ul><li><a href='/play/0'> Iniciar nueva partida </a></li><li><a href='/showrankings'> Listar Rankings</a></li><li><a href='/logout'>Salir</a></li></ul>";
-        output += "</td></tr></table></body></html>";
+        
+         output += "</table></center></td></tr><tr><td>"
+                +"</body>"
+                +"</html>";
 
         Base.close();
         return output;
