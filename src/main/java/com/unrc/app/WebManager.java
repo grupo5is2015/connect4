@@ -278,7 +278,7 @@ public class WebManager {
                 + "<table></html><hr><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
         return output;
   */
-        return optionsScreen (true,"Esperando Adversario",false,true,true,false,false,true);
+        return optionsScreen (true, user + ", espera por tu adversario...",false,true,true,false,false,true);
     }
 
 /*    
@@ -300,8 +300,10 @@ public class WebManager {
     */
     
     
-        public String showGame2(String user, String player1, String player2, boolean turn, Board b) {
-	  String couldSave1;
+        public String showGame(String user, String player1, String player2, boolean turn, Board b,int col) {
+
+          
+          String couldSave1;
           String couldSave2;
           if ((turn)&&(user.equals(player1))) {
               couldSave1 = "";
@@ -340,13 +342,13 @@ public class WebManager {
         return  "<!DOCTYPE html>"
 +"<html>"
 +"<head>"
-+"<meta http-equiv='refresh' content='14'>"
++"<meta http-equiv='refresh' content='60'>"
 //+"<script>playAndRedirect(i) { \"document.location.href='/play/" + i + "'\" ; } </script>"
 +"<style type='text/css'>"
-+ "    .Table"+
-"    {"+
-"        display: table;"+
-"    }"+
+//+ "    .Table"
+//+"    {"
+//+"        display: table;"
+//+"    }"
 //"    .Title"+
 //"    {"+
 //"        display: table-caption;"+
@@ -354,32 +356,41 @@ public class WebManager {
 //"        font-weight: bold;"+
 //"        font-size: larger;"+
 //"    }"+
-"    .Heading"+
-"    {"+
-"        display: table-row;"+
-"        font-weight: bold;"+
-"        text-align: center;"+
-"    }"+
-"    .Row"+
-"    {"+
-"        display: table-row;"+
-"    }"+
-"    .Cell"+
-"    {"+
-"        display: table-cell;"+
-"        border: solid;"+
-"        border-width: thin;"+
-"        padding-left: 5px;"+
-"        padding-right: 5px;"+
-"    }"+
-"    .ButtonCell"+
-"    {"+
-"        display: table-cell;"+
-"        border: solid;"+
-"        border-width: thin;"+
-"        padding-left: 0px;"+
-"        padding-right: 0px;"+
-"    }"
++"    .Heading"
++"    {"
++"        display: table-row;"
++"        font-weight: bold;"
++"        text-align: center;"
++"    }"
+
++"    .Row"
++"    {"
++"        display: table-row;"
++"    }"
+
++"    .Cell"
++"    {"
++"        display: table-cell;"
++"        border: solid;"
++"        border-width: thin;"
++"        width:32px;"
++"        height:32px;"
++"        padding-left: 5px;"
++"        padding-right: 5px;"
++"    }"
+
++"    .ButtonCell"
++"    {"
++"        display: table-cell;"
++"        border: solid;"
++"        border-width: thin;"
++"        background-color: black;"
+//+"        width:32px;"
+//+"        height:32px;"
+//+"        padding-left: 0px;"
+//+"        padding-right: 0px;"
++"    }"
+
 +"#header {"
 +"    background-color:#3b5998;"
 +"   color:white;"
@@ -395,22 +406,24 @@ public class WebManager {
                   //  +"    width:100%;"
 +" padding:2px;"
 +"}"
-
++"#gamepanel {"
++" width: 100%;"
+                +"}"
 +"#leftpanel {"
 +"    line-height:20px;"
 +"    background-color:#dfe3ee;"
                 +"color:green;"
 +"text-align:center;"
 +"    height:225px;"
-+"    width:200px;"
++"    width:25%;"//200px;"
 +"    float:left;"
 +"    padding:5px;"	      
 +"}"
                 
 +"#section {"
-+"    height:225px;"
-+"    width:250px;"
-+"    float:left;"
++"    width:50%;"//400px;"
+//+"    height:225px;"
++"    float:center;"
 +"    padding:1px;"	 	 
 +"}"
                 
@@ -420,7 +433,7 @@ public class WebManager {
                 +"color:red;"
 +                "text-align:center;"
 +"    height:225px;"
-+"    width:200px;"
++"    width:25%;"//200px;"
 +"    float:right;"
 +"    padding:5px;"	      
 +"}"
@@ -437,7 +450,23 @@ public class WebManager {
 
 +"<script src='http://localhost:4567/js/jquery-1.11.3.min.js' type='text/javascript'></script>"
 +"<script> $(document).ready(function() { var grid = " + paint + "; var pageBody = $(document.body); pageBody.css('zoom', '150%'); pageBody.css('background-color', '#dfe3ee');  "
-+"$.each(grid, function(i, n) {"
++"$('#fstColBut').click(function () { $('#44').load('/play/1'); }) ;"
++"$('#sndColBut').click(function (){$.get('/play/2', function(){$('#62').css('background-color','red')}); }) ;"
++"$('#thrColBut').click(function (){$.get('/play/3'); $('#62').css('background-color','blue'); }) ;"
++"$('#fourColBut').click(function (){$.get('/play/4'); $('#62').css('background-color','red'); }) ;"
++"$('#fiveColBut').click(function (){$.get('/play/5'); $('#62').css('background-color','blue'); }) ;"
++"$('#sixColBut').click(function (){$.get('/play/6'); $('#62').css('background-color','red'); }) ;"
++"$('#sthColBut').click(function (){$.get('/play/7'); $('#62').css('background-color','blue'); }) ;"                
+/*+"$('#thrColBut').click(function (){$(location).attr('href','/play/3'); }) ;"                
++"$('#fourColBut').click(function (){$(location).attr('href','/play/4'); }) ;"                
++"$('#fiveColBut').click(function (){$(location).attr('href','/play/5'); }) ;"                
++"$('#sixColBut').click(function (){$(location).attr('href','/play/6'); }) ;"*/
+                
+//+"$('#sthColBut').click(function (){$(location).attr('href','/play/7'); }) ;"                
+
+                
+                
+/*+"$.each(grid, function(i, n) {"
 +"  var color;  "
 + " if (n>0){"
 +"      color='green' ;"
@@ -447,7 +476,7 @@ public class WebManager {
 +"      color='red' ;"
                 + "    $('#' + Math.abs(n)).css('background-color', color);"
 +"  }"
-+" });"
++" });"*/
 +"});" 
 +"</script>"
 //+"<script> $(document).ready(function() { $('#fstColBut').click(function(evento) { $('#11').css('background-color', 'red'); }); </script> " //\"document.location.href='/play/1'\" ;
@@ -462,20 +491,21 @@ public class WebManager {
 +"<div id='userlog'>"
 +"<hr><i>Usuario:</i> <b>" + user + "</b><hr>"
 +"</div>"
-
++"<div id='gamepanel'>"
 +"<div id='leftpanel'>"
 +"<i>Jugador #1:</i><br>"
                 +"<b>" + player1 + "</b><br><hr>"
                 +"<input type='button' " + couldSave1 + " id='saveButton' value='Guardar' onClick=\"document.location.href='/savegame'\">"
 +"<hr></div>"
 
-+"<div id='section'>" + Board.showBoard(turn, b) + "</div>"
++"<center><div id='section'>" + Board.showBoard(turn, b) + "</div></center>"
 
 +"<div id='rightpanel'>"
 +"<i>Jugador #2:</i><br>"
                 +"<b>" + player2 + "</b><br><hr>"
                 +"<input type='button' " + couldSave2 + " id='saveButton' value='Guardar' onClick=\"document.location.href='/savegame'\">"
 +"<hr></div>"
++"</div>"
 
 +"<div id='footer'>"
 +"Copyright © Ver que escribir o si lo sacamos"

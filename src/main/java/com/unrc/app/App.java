@@ -211,7 +211,7 @@ public class App {
                         output = web.waitingAdversary(2, req.session().attribute("user").toString());
                     }
                 }
-                else {    // player1 !=null & player2 != null
+            else {    // player1 !=null & player2 != null
                     if (game == null) {
                         game = new Game(player1, player2);
                         boardCtrl = new BoardControl(game.table);
@@ -220,24 +220,24 @@ public class App {
                     // column==0 --> mostrar tablero
                     int currentUser = 0;
                     if (player1.get("email").toString().equals(req.session().attribute("user"))) {
-                    currentUser = 1;
-                }
-                if (player2.get("email").toString().equals(req.session().attribute("user"))) {
-                    currentUser = -1;
-                }
+                        currentUser = 1;
+                    }
+                    if (player2.get("email").toString().equals(req.session().attribute("user"))) {
+                        currentUser = -1;
+                    }
 
-                Integer column = new Integer(req.params(":column"));
-                if (currentUser * currentUser != 1) {
-                    output = web.busyGame();
-                }
+                    Integer column = new Integer(req.params(":column"));
+                    if (currentUser * currentUser != 1) {
+                        output = web.busyGame();
+                    }
                 
-                // SOLO SE PERMITE JUGAR A LOS JUGADORES PERTENECIENTES A ESTE JUEGO
-                if (currentUser == 1 || currentUser == -1) {
+                    // SOLO SE PERMITE JUGAR A LOS JUGADORES PERTENECIENTES A ESTE JUEGO
+                    if (currentUser == 1 || currentUser == -1) {
 
-                    if (game.turnOff == currentUser  &&  column > 0  &&  !boardCtrl.fullColumn(column-1)  &&  game.get("finished").toString().equals("false")) {
-                        // PUEDE JUGAR SI ES SU TURNO, LA COLUMNA ES VALIDA, LA COLUMNA NO ESTA LLENA Y EL JUEGO NO ESTA FINALIZADO
-                        game.registerMove(currentUser, column-1);
-                        boardCtrl.insertCoin(currentUser, column-1);
+                        if (game.turnOff == currentUser  &&  column > 0  &&  !boardCtrl.fullColumn(column-1)  &&  game.get("finished").toString().equals("false")) {
+                            // PUEDE JUGAR SI ES SU TURNO, LA COLUMNA ES VALIDA, LA COLUMNA NO ESTA LLENA Y EL JUEGO NO ESTA FINALIZADO
+                            game.registerMove(currentUser, column-1);
+                            boardCtrl.insertCoin(currentUser, column-1);
 
                         if (game.movesList.size() == game.numCol*game.numRow) { // ULTIMA JUGADA: EMPATE O TRIUMFO DE PLAYER #2
                             if (!game.player1Aware) { // NINGUN JUGADOR FUE NOTIFICADO
@@ -290,7 +290,7 @@ public class App {
                     if (game.get("finished").toString().equals("false")) {  // EL JUEGO NO FINALIZO
 			if (!game.pausedGame) {
 				//output = web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.boardToHtml(game.turnOff == currentUser));
-                                output = web.showGame2(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.turnOff == currentUser, boardCtrl.getBoard());//, boardCtrl.rowToInsert[column]);
+                                output = web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.turnOff == currentUser, boardCtrl.getBoard(),column+1);//, boardCtrl.rowToInsert[column]);
                                 //output= boardCtrl.getBoard().showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.turnOff == currentUser, game.turnOff);
                         }
                         if (game.pausedGame) {

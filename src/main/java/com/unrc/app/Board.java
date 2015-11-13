@@ -141,27 +141,28 @@ public class Board {
 //"    <div class='Title'>"+
 //"        <p>Cuatro en Línea</p>"+
 //"    </div>"+*/
-"<div  class='Heading'>" +
+"<div class='Heading'>" +
 "   <div id='01' class='ButtonCell'>" +
-"       <input type='button' " + ds + " id='fstColBut' value='#1' onClick=\"document.location.href='/play/1'\">" + //onClick= //'playAndRedirect(1)'> </p>" + 
+//"       <input type='button' " + ds + " id='fstColBut' value='#1' onClick=\"document.location.href='/play/1'\">" + //onClick= //'playAndRedirect(1)'> </p>" +
+"       <input type='button' " + ds + " id='fstColBut' value='#1'>"+                
 "   </div>" +
 "   <div id='02' class='ButtonCell'>" +
-"       <input type='button' " + ds + " id='sndColBut' value='#2' onClick=\"document.location.href='/play/2'\">" +
+"       <input type='button' " + ds + " id='sndColBut' value='#2'>"+ // onClick=\"document.location.href='/play/2'\">" +
 "   </div>" +
 "   <div id='03' class='ButtonCell'>" +
-"       <input type='button' " + ds + " id='thrColBut' value='#3' onClick=\"document.location.href='/play/3'\">" +
+"       <input type='button' " + ds + " id='thrColBut' value='#3'>"+ // onClick=\"document.location.href='/play/3'\">" +
 "   </div>" +
 "   <div id='04' class='ButtonCell'>" +
-"       <input type='button' " + ds + " id='fourColBut' value='#4' onClick=\"document.location.href='/play/4'\">" +
+"       <input type='button' " + ds + " id='fourColBut' value='#4'>"+ // onClick=\"document.location.href='/play/4'\">" +
 "   </div>" +
 "   <div id='05' class='ButtonCell'>" +
-"       <input type='button' " + ds + " id='fiveColBut' value='#5' onClick=\"document.location.href='/play/5'\">" +
+"       <input type='button' " + ds + " id='fiveColBut' value='#5'>"+ // onClick=\"document.location.href='/play/5'\">" +
 "   </div>" +
 "   <div id='06' class='ButtonCell'>" +
-"       <input type='button' " + ds + " id='sixColBut' value='#6' onClick=\"document.location.href='/play/6'\">" +
+"       <input type='button' " + ds + " id='sixColBut' value='#6'>"+ // onClick=\"document.location.href='/play/6'\">" +
 "   </div>" +
 "   <div id='07' class='ButtonCell'>" +
-"       <input type='button' " + ds + " id='sthColBut' value='#7' onClick=\"document.location.href='/play/7'\">" +
+"       <input type='button' " + ds + " id='sthColBut' value='#7'>"+ // onClick=\"document.location.href='/play/7'\">" +
 "   </div>" +
 "</div>" +
 "<div id='1' class='Row'>"+
