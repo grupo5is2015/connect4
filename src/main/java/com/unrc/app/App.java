@@ -1,5 +1,6 @@
 package com.unrc.app;
 
+import java.util.Iterator;
 import org.javalite.activejdbc.Base;
 import java.util.List;
 import spark.Spark;
@@ -181,7 +182,94 @@ public class App {
             }
 
         });
-
+         
+        
+        get("/ajaxtest", (req, res) -> {
+         String output="";
+         output="<!DOCTYPE html>\n" +
+            "<html>" +
+            "<head>" +
+            "" +
+            "<script src=\'https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js\'>\n" +
+            "</script>\n" +
+            "<script>\n" +
+            "setTimeout(checkTurn,1000);\n" +
+            "function checkTurn () {\n" +
+            "    alert('Call ajax');\n" +
+            "    $.get( \"/ajaxturncheck\", function( data ) {\n" +
+            "         $( \"#a\" ).html( data );\n" +
+            "          if (data=='yes'){\n"
+                 + "                 }"
+                 + "    else{\n"
+                 + "        alert('espera wachin!!!');\n"
+                      
+                 +"         //setTimeout(checkTurn,5000);\n" 
+                 + "} \n              "+   
+            "    });\n" +
+                 " $.get( \"/play/2\", function( data) {"+
+               " $( \"#b\" ).html( data ) });\n" +
+            " }\n" +
+               
+            "</script>\n" +
+            "</head>\n" +
+            "<body>\n" +
+            "<div id=\"a\">\n" +
+            "<p>Is my turn?</p>\n" +
+            "</div>\n" +
+            "<div id=\"b\">\n" +
+            "</div>\n" +
+            "<div id=\"c\">\n" +
+            "</div>\n" +
+            "</body>\n" +
+            "\n" +
+            "</html>\n ";
+         
+         return output;
+         
+         });
+        
+        get("/ajaxreadchannel", (req, res) -> {
+            // String output="";
+            req.session(true);
+            int currentUser = 0;
+            if (player1 != null && player2 != null) {
+                if (player1.get("email").toString().equals(req.session().attribute("user"))) {
+                    currentUser = 1;
+                }
+            
+                if (player2.get("email").toString().equals(req.session().attribute("user"))) {
+                     currentUser = -1;
+                }                    
+            }
+             Iterator it = game.movesList.iterator();
+             String mv="";
+             while (it.hasNext() ){
+                 Pair p = (Pair) it.next();
+                 mv+= p.getNumPlayer().toString() +","+ p.getColumnSelected()+";"; 
+             }
+             return mv;
+        });
+        
+        get("/ajaxturncheck", (req, res) -> {
+            String output = "denegado";
+            req.session(true);
+            int currentUser = 0;
+            if (player1 != null && player2 != null) {
+                if (player1.get("email").toString().equals(req.session().attribute("user"))) {
+                    currentUser = 1;
+                }
+            
+                if (player2.get("email").toString().equals(req.session().attribute("user"))) {
+                     currentUser = -1;
+                }
+            
+                if (game.turnOff == currentUser)
+                     output = "yes";
+                }
+            
+            return output;
+        });
+        
 
 
         get("/play/:column", (req, res) -> {
@@ -289,10 +377,16 @@ public class App {
 
                     if (game.get("finished").toString().equals("false")) {  // EL JUEGO NO FINALIZO
 			if (!game.pausedGame) {
-				//output = web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.boardToHtml(game.turnOff == currentUser));
+                            if (game.movesList.size() < 2 ){ //Primera vez muestra matriz
+				
+                                //output = web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.boardToHtml(game.turnOff == currentUser));
                                 output = web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.turnOff == currentUser, boardCtrl.getBoard(),column+1);//, boardCtrl.rowToInsert[column]);
                                 //output= boardCtrl.getBoard().showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.turnOff == currentUser, game.turnOff);
-                        }
+                                }
+                            else{
+                                output= "Solo se muestra la primera vez"+game.movesList.size() ;
+                               }
+                            }
                         if (game.pausedGame) {
                             res.redirect("/savegame");
                             return null;
