@@ -226,7 +226,8 @@ public String showPlayersRankings(List<Ranking> ranksList) {
                     +"</div>"
 
                     +"<div id='ranking'>"
-                    +"<hr><h2>Ranking de Jugadores  </h2></hr>"
+                    +"<hr><h2>Ranking de Jugado"
+                + "res  </h2></hr>"
                     +"<hr> </hr>"
                     +"</div>"
 
@@ -426,7 +427,7 @@ public String showPlayersRankings(List<Ranking> ranksList) {
                 + "<table></html><hr><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
         return output;
   */
-        return optionsScreen (true, user + ", espera por tu adversario...",false,true,true,false,false,true);
+        return optionsScreen (true, "<strong>" + user + "</strong>, espera por tu adversario...",false,true,true,false,false,true);
     }
 
 /*    
@@ -448,8 +449,8 @@ public String showPlayersRankings(List<Ranking> ranksList) {
     */
     
     
-        public String showGame(String user, String player1, String player2, boolean turn, Board b,int col) {
-
+//        public String showGame(String user, String player1, String player2, boolean turn, int row,int col,boolean noPlays) {
+        public String showGame(String user, String player1, String player2, boolean turn) {
           
           String couldSave1;
           String couldSave2;
@@ -464,7 +465,15 @@ public String showPlayersRankings(List<Ranking> ranksList) {
           else {
               couldSave1 = "disabled";
               couldSave2 = "disabled";
-          }    
+          }
+          
+          String color;
+          if (turn) {
+              color = "green";
+          }
+          else {
+              color = "red";
+          }
               
 
           /*
@@ -474,7 +483,7 @@ public String showPlayersRankings(List<Ranking> ranksList) {
           if (user.equals(player2)) {
 	    couldSave = "";
 	  }*/
-          String paint = new String();
+      /*    String paint = new String();
           int [][] grid = b.getGrid();
         paint = "[";
         for (int f = 5; f >= 0; f--) {
@@ -486,11 +495,14 @@ public String showPlayersRankings(List<Ranking> ranksList) {
             }
         }
         paint += grid[0][0] + "]";
-        //System.out.println("*************" + paint + "***************");
-        return  "<!DOCTYPE html>"
+      */   
+        //System.out.println("*************" +row+""+col+ " "+noPlays+"***************");
+      
+          
+          return  "<!DOCTYPE html>"
 +"<html>"
 +"<head>"
-+"<meta http-equiv='refresh' content='60'>"
+//+"<meta http-equiv='refresh' content='60'>"
 //+"<script>playAndRedirect(i) { \"document.location.href='/play/" + i + "'\" ; } </script>"
 +"<style type='text/css'>"
 //+ "    .Table"
@@ -523,8 +535,8 @@ public String showPlayersRankings(List<Ranking> ranksList) {
 +"        border-width: thin;"
 +"        width:32px;"
 +"        height:32px;"
-+"        padding-left: 5px;"
-+"        padding-right: 5px;"
++"        padding-left: 1px;"
++"        padding-right: 1px;"
 +"    }"
 
 +"    .ButtonCell"
@@ -554,15 +566,15 @@ public String showPlayersRankings(List<Ranking> ranksList) {
                   //  +"    width:100%;"
 +" padding:2px;"
 +"}"
-+"#gamepanel {"
-+" width: 100%;"
-                +"}"
+//+"#gamepanel {"
+//+" width: 100%;"
+//                +"}"
 +"#leftpanel {"
 +"    line-height:20px;"
 +"    background-color:#dfe3ee;"
                 +"color:green;"
 +"text-align:center;"
-+"    height:225px;"
++"    height:230px;"
 +"    width:25%;"//200px;"
 +"    float:left;"
 +"    padding:5px;"	      
@@ -570,7 +582,8 @@ public String showPlayersRankings(List<Ranking> ranksList) {
                 
 +"#section {"
 +"    width:50%;"//400px;"
-//+"    height:225px;"
+                +"    background-color:#dfe3ee;"
++"    height:230px;"
 +"    float:center;"
 +"    padding:1px;"	 	 
 +"}"
@@ -580,7 +593,7 @@ public String showPlayersRankings(List<Ranking> ranksList) {
 +"    background-color:#dfe3ee;"
                 +"color:red;"
 +                "text-align:center;"
-+"    height:225px;"
++"    height:230px;"
 +"    width:25%;"//200px;"
 +"    float:right;"
 +"    padding:5px;"	      
@@ -595,22 +608,49 @@ public String showPlayersRankings(List<Ranking> ranksList) {
 +"}"
                 
 +"</style>"
+                
+                
+                
 
 +"<script src='http://localhost:4567/js/jquery-1.11.3.min.js' type='text/javascript'></script>"
-+"<script> $(document).ready(function() { var grid = " + paint + "; var pageBody = $(document.body); pageBody.css('zoom', '150%'); pageBody.css('background-color', '#dfe3ee');  "
-+"$('#fstColBut').click(function () { $('#44').load('/play/1'); }) ;"
-+"$('#sndColBut').click(function (){$.get('/play/2', function(){$('#62').css('background-color','red')}); }) ;"
-+"$('#thrColBut').click(function (){$.get('/play/3'); $('#62').css('background-color','blue'); }) ;"
-+"$('#fourColBut').click(function (){$.get('/play/4'); $('#62').css('background-color','red'); }) ;"
-+"$('#fiveColBut').click(function (){$.get('/play/5'); $('#62').css('background-color','blue'); }) ;"
-+"$('#sixColBut').click(function (){$.get('/play/6'); $('#62').css('background-color','red'); }) ;"
-+"$('#sthColBut').click(function (){$.get('/play/7'); $('#62').css('background-color','blue'); }) ;"                
-/*+"$('#thrColBut').click(function (){$(location).attr('href','/play/3'); }) ;"                
-+"$('#fourColBut').click(function (){$(location).attr('href','/play/4'); }) ;"                
-+"$('#fiveColBut').click(function (){$(location).attr('href','/play/5'); }) ;"                
-+"$('#sixColBut').click(function (){$(location).attr('href','/play/6'); }) ;"*/
++"<script> $(document).ready(function() { var pageBody = $(document.body); "
++ "pageBody.css('zoom', '150%'); pageBody.css('background-color', '#dfe3ee'); "
+
+/*     "setTimeout(checkTurn,1000);\n" +
+     "function checkTurn () {\n" +
+ //    "    alert('Call ajax');\n" +
+     "    $.get( \"/ajaxturncheck\", function( data ) {if (data=='yes') {$( '#"+row+""+col+"' ).css('background-color', 'blue');     " +           
+     "                 }"+
+     "    else{\n"+
+ //    "        alert('daleeee wachin!!!');\n"  +
+ //    "        $( \"#35\" ).css('background-color', 'red');     " +  
+                  
+    "        setTimeout(checkTurn,3000);\n" +
+     "} \n              "+   
+     "    });\n" +
+     "} \n              "           
                 
-//+"$('#sthColBut').click(function (){$(location).attr('href','/play/7'); }) ;"                
+                
+//+"$('#fstColBut').click(function () { $('#44').load('/play/1'); }) ;"
+//+"$('#sndColBut').click(function (){$.get('/play/2', function(){$('#62').css('background-color','red')}); }) ;"
+              
+*/
+//+"$('#fstColBut').click(function (){$(location).attr('href', '/play/1'); }) ;"                
+    +"$('#fstColBut').click(function (){$.get('/play/1', function(data){$('#' + data).css('background-color','" + color + "')} )}) ;"
+    +"$('#sndColBut').click(function (){$.get('/play/2', function(data){$('#' + data).css('background-color','" + color + "')} )}) ;"                 
+    +"$('#thrColBut').click(function (){$.get('/play/3', function(data){$('#' + data).css('background-color','" + color + "')} )}) ;" //, function checkTurn () { $.get( '/ajaxturncheck', function( data1 ) {$( '#33' ).html( data1 ) })}})});    
+    +"$('#fourColBut').click(function (){$.get('/play/4', function(data) { $('#' + data).css('background-color','" + color + "'); $('#fstColBut').attr('disabled','-1'); $('#sndColBut').attr('disabled','-1'); $('#thrColBut').attr('disabled','-1'); $('#fourColBut').attr('disabled','-1'); $('#fiveColBut').attr('disabled','-1'); $('#sixColBut').attr('disabled','-1'); $('#sthColBut').attr('disabled','-1'); $('#saveButton1').attr('disabled','-1'),"
+                 + "  $.get('/ajaxturncheck', function(data) {if(data=='yes' ) {$('#fstColBut').removeAttr('disabled'); $('#sndColBut').removeAttr('disabled'); $('#thrColBut').removeAttr('disabled'); $('#fourColBut').removeAttr('disabled'); $('#fiveColBut').removeAttr('disabled'); $('#sixColBut').removeAttr('disabled'); $('#sthColBut').removeAttr('disabled'); $('#saveButton2').removeAttr('disabled'); }})  } )} );"
+                  //+ "  $.get('/ajaxturncheck', function(data) { if (data=='yes' ) { alert ('Es tu turno'); }})  } )} );"
+                  
+    +"$('#fiveColBut').click(function (){$.get('/play/5', function(data){$('#' + data).css('background-color','" + color + "'); $.when($.ajax('/ajaxCheckTurn')).then(function(x){alert('funciona?');});} )}) ;"
+    +"$('#sixColBut').click(function (){$.get('/play/6', function(data){$('#' + data).css('background-color','" + color + "')} )}) ;"
+    +"$('#sthColBut').click(function (){$.get('/play/7', function(data){$('#' + data).css('background-color','" + color + "')} )}) ;"//+"$('#sndColBut').click(function (){$.get('/play/2', function(data){$('#22').html(data);})});"
+//+"$('#thrColBut').click(function (){$(location).attr('href', '/play/3'); }) ;"                
+//+"$('#fourColBut').click(function (){$(location).attr('href', '/play/4'); }) ;"                
+//+"$('#fiveColBut').click(function (){$(location).attr('href', '/play/5'); }) ;"                
+//+"$('#sixColBut').click(function (){$(location).attr('href', '/play/6'); }) ;"
+//+"$('#sthColBut').click(function (){$(location).attr('href', '/play/7'); }) ;"                
 
                 
                 
@@ -625,7 +665,7 @@ public String showPlayersRankings(List<Ranking> ranksList) {
                 + "    $('#' + Math.abs(n)).css('background-color', color);"
 +"  }"
 +" });"*/
-+"});" 
++ "});" 
 +"</script>"
 //+"<script> $(document).ready(function() { $('#fstColBut').click(function(evento) { $('#11').css('background-color', 'red'); }); </script> " //\"document.location.href='/play/1'\" ;
 //$('#fstColBut').click(function(evento) { $('#11').css('background-color', 'red'); });
@@ -635,25 +675,28 @@ public String showPlayersRankings(List<Ranking> ranksList) {
 +"<div id='header'>"
 +"<h1>Cuatro en Línea</h1>"
 +"</div>"
-                    
+
+                
 +"<div id='userlog'>"
 +"<hr><i>Usuario:</i> <b>" + user + "</b><hr>"
 +"</div>"
-+"<div id='gamepanel'>"
-+"<div id='leftpanel'>"
-+"<i>Jugador #1:</i><br>"
-                +"<b>" + player1 + "</b><br><hr>"
-                +"<input type='button' " + couldSave1 + " id='saveButton' value='Guardar' onClick=\"document.location.href='/savegame'\">"
-+"<hr></div>"
-
-+"<center><div id='section'>" + Board.showBoard(turn, b) + "</div></center>"
-
+                
 +"<div id='rightpanel'>"
 +"<i>Jugador #2:</i><br>"
                 +"<b>" + player2 + "</b><br><hr>"
-                +"<input type='button' " + couldSave2 + " id='saveButton' value='Guardar' onClick=\"document.location.href='/savegame'\">"
+                +"<input type='button' " + couldSave2 + " id='saveButton2' value='Guardar' onClick=\"document.location.href='/savegame'\">"
 +"<hr></div>"
-+"</div>"
+//+"<div id='gamepanel'>"
++"<div id='leftpanel'>"
++"<i>Jugador #1:</i><br>"
+                +"<b>" + player1 + "</b><br><hr>"
+                +"<input type='button' " + couldSave1 + " id='saveButton1' value='Guardar' onClick=\"document.location.href='/savegame'\">"
++"<hr></div>"
+
++"<center><div id='section'>" + Board.showBoard(turn) + "</div></center>"
+
+
+//+"</div>"
 
 +"<div id='footer'>"
 +"Copyright © Ver que escribir o si lo sacamos"
@@ -702,7 +745,7 @@ public String showPlayersRankings(List<Ranking> ranksList) {
     }
     
     
-    public String getPageStyle() {
+    /*public String getPageStyle() {
         String output = "";
         output += "html {font-family: sans-serif;}"
                 + "table {\n"
@@ -725,7 +768,7 @@ public String showPlayersRankings(List<Ranking> ranksList) {
                 + "};";
 
         return output;
-    }
+    }*/
 
     //public static 
     public String optionsScreen (Boolean refresh, String msg, boolean opt1, boolean opt2, boolean opt3, boolean opt4, boolean opt5, boolean opt6) {

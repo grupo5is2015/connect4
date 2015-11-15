@@ -8,11 +8,11 @@ package com.unrc.app;
 public class BoardControl {
 
     private Board b;
-    private int[] columnTop;     // cantidad de fichas que tiene cada columna, 0..7.
+    private int[] columnTop;     // cantidad de fichas que tiene cada columna, 0..6
     //private int[] rowToInsert;   // fila donde insertar ficha, 0..5
     //Jugador 1=  1   Jugador 2= -1  El numero 0 representa la celda vacia. 
     // Nota para el sistema la columna empieza en cero y para el usuario en 1
-    // Para esto hay que hacer una simple convercion colum + 1
+    // Para esto hay que hacer una simple conversion column + 1
     public int[] rowToInsert;
 
     public Board getBoard () {
@@ -21,7 +21,7 @@ public class BoardControl {
     
     public boolean fullColumn(int c) {
     
-      return columnTop[c]>=b.getNumRow();
+      return columnTop[c]>=b.getNumRow(); // ¿la columna c tiene 6 o más fichas?
     
     }
     
@@ -44,7 +44,7 @@ public class BoardControl {
     
     public void insertCoin(int player_value, int column) {
         //Recibe datos de columnas validas: 0..n-1
-        b.setGrid(rowToInsert[column], column, player_value); // 1 o -1 
+        b.setGrid(rowToInsert[column], column, player_value); // (fila, columna, valor) 
         ++columnTop[column];
         --rowToInsert[column];
     }
