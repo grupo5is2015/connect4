@@ -451,6 +451,8 @@ public String showPlayersRankings(List<Ranking> ranksList) {
     
 //        public String showGame(String user, String player1, String player2, boolean turn, int row,int col,boolean noPlays) {
         public String showGame(String user, String player1, String player2, boolean turn) {
+            
+            System.out.println("*************Yo tengo el tuno " + turn + "***************");
           
           String couldSave1;
           String couldSave2;
@@ -630,29 +632,15 @@ public String showPlayersRankings(List<Ranking> ranksList) {
      "    });\n" +
      "} \n              "           
                 
-                
-//+"$('#fstColBut').click(function () { $('#44').load('/play/1'); }) ;"
-//+"$('#sndColBut').click(function (){$.get('/play/2', function(){$('#62').css('background-color','red')}); }) ;"
-              
-*/
-//+"$('#fstColBut').click(function (){$(location).attr('href', '/play/1'); }) ;"                
+*/                
     +"$('#fstColBut').click(function (){$.get('/play/1', function(data){$('#' + data).css('background-color','" + color + "') ; $(':button').attr('disabled','-1') } )}) ;"
     +"$('#sndColBut').click(function (){$.get('/play/2', function(data){$('#' + data).css('background-color','" + color + "') ; $(':button').attr('disabled','-1')} )}) ;"                 
-    +"$('#thrColBut').click(function (){$.get('/play/3', function(data){$('#' + data).css('background-color','" + color + "') ; $(':button').attr('disabled','-1')} )}) ;" //, function checkTurn () { $.get( '/ajaxturncheck', function( data1 ) {$( '#33' ).html( data1 ) })}})});    
+    +"$('#thrColBut').click(function (){$.get('/play/3', function(data){$('#' + data).css('background-color','" + color + "') ; $(':button').attr('disabled','-1')} )}) ;"
     +"$('#fourColBut').click(function (){$.get('/play/4', function(data) { $('#' + data).css('background-color','" + color + "') ; $(':button').attr('disabled','-1')} )}) ;"
-      //           + "  $.get('/ajaxturncheck', function(data) {if(data=='yes' ) {$('#fstColBut').removeAttr('disabled'); $('#sndColBut').removeAttr('disabled'); $('#thrColBut').removeAttr('disabled'); $('#fourColBut').removeAttr('disabled'); $('#fiveColBut').removeAttr('disabled'); $('#sixColBut').removeAttr('disabled'); $('#sthColBut').removeAttr('disabled'); $('#saveButton2').removeAttr('disabled'); }})  } )} );"
-                  //+ "  $.get('/ajaxturncheck', function(data) { if (data=='yes' ) { alert ('Es tu turno'); }})  } )} );"
-                  
-    +"$('#fiveColBut').click(function (){$.get('/play/5', function(data){$('#' + data).css('background-color','" + color + "'); ; $(':button').attr('disabled','-1')} )}) ;"
+    +"$('#fiveColBut').click(function (){$.get('/play/5', function(data){$('#' + data).css('background-color','" + color + "'); $(':button').attr('disabled','-1')} )}) ;"
     +"$('#sixColBut').click(function (){$.get('/play/6', function(data){$('#' + data).css('background-color','" + color + "') ; $(':button').attr('disabled','-1')} )}) ;"
-    +"$('#sthColBut').click(function (){$.get('/play/7', function(data){$('#' + data).css('background-color','" + color + "') ; $(':button').attr('disabled','-1')} )}) ;"//+"$('#sndColBut').click(function (){$.get('/play/2', function(data){$('#22').html(data);})});"
-//+"$('#thrColBut').click(function (){$(location).attr('href', '/play/3'); }) ;"                
-//+"$('#fourColBut').click(function (){$(location).attr('href', '/play/4'); }) ;"                
-//+"$('#fiveColBut').click(function (){$(location).attr('href', '/play/5'); }) ;"                
-//+"$('#sixColBut').click(function (){$(location).attr('href', '/play/6'); }) ;"
-//+"$('#sthColBut').click(function (){$(location).attr('href', '/play/7'); }) ;"                
-
-                
+    +"$('#sthColBut').click(function (){$.get('/play/7', function(data){$('#' + data).css('background-color','" + color + "') ; $(':button').attr('disabled','-1')} )}) ;"
+    +"setTimeout(checkTurn, 10000) ; function checkTurn () { if (!" + turn + ") { alert('Call ajax') ; $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { $(':button').removeAttr('disabled'); $('#saveButton1').attr('disabled','-1'); } else { setTimeout(checkTurn, 2000); }})}};"
                 
 /*+"$.each(grid, function(i, n) {"
 +"  var color;  "
