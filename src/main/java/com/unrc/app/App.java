@@ -304,9 +304,7 @@ public class App {
             else {    // player1 !=null & player2 != null & player1 != player2
                     if (game == null) {
                         game = new Game(player1, player2);
-                        boardCtrl = new BoardControl(game.table);
-                        System.out.println("fila a insertar !!! "+ boardCtrl.rowToInsert[0]+" "+boardCtrl.rowToInsert[6] );
-                        
+                        boardCtrl = new BoardControl(game.table);    
                     }
                 
                     // column==0 --> mostrar tablero

@@ -636,16 +636,16 @@ public String showPlayersRankings(List<Ranking> ranksList) {
               
 */
 //+"$('#fstColBut').click(function (){$(location).attr('href', '/play/1'); }) ;"                
-    +"$('#fstColBut').click(function (){$.get('/play/1', function(data){$('#' + data).css('background-color','" + color + "')} )}) ;"
-    +"$('#sndColBut').click(function (){$.get('/play/2', function(data){$('#' + data).css('background-color','" + color + "')} )}) ;"                 
-    +"$('#thrColBut').click(function (){$.get('/play/3', function(data){$('#' + data).css('background-color','" + color + "')} )}) ;" //, function checkTurn () { $.get( '/ajaxturncheck', function( data1 ) {$( '#33' ).html( data1 ) })}})});    
-    +"$('#fourColBut').click(function (){$.get('/play/4', function(data) { $('#' + data).css('background-color','" + color + "'); $('#fstColBut').attr('disabled','-1'); $('#sndColBut').attr('disabled','-1'); $('#thrColBut').attr('disabled','-1'); $('#fourColBut').attr('disabled','-1'); $('#fiveColBut').attr('disabled','-1'); $('#sixColBut').attr('disabled','-1'); $('#sthColBut').attr('disabled','-1'); $('#saveButton1').attr('disabled','-1'),"
-                 + "  $.get('/ajaxturncheck', function(data) {if(data=='yes' ) {$('#fstColBut').removeAttr('disabled'); $('#sndColBut').removeAttr('disabled'); $('#thrColBut').removeAttr('disabled'); $('#fourColBut').removeAttr('disabled'); $('#fiveColBut').removeAttr('disabled'); $('#sixColBut').removeAttr('disabled'); $('#sthColBut').removeAttr('disabled'); $('#saveButton2').removeAttr('disabled'); }})  } )} );"
+    +"$('#fstColBut').click(function (){$.get('/play/1', function(data){$('#' + data).css('background-color','" + color + "') ; $(':button').attr('disabled','-1') } )}) ;"
+    +"$('#sndColBut').click(function (){$.get('/play/2', function(data){$('#' + data).css('background-color','" + color + "') ; $(':button').attr('disabled','-1')} )}) ;"                 
+    +"$('#thrColBut').click(function (){$.get('/play/3', function(data){$('#' + data).css('background-color','" + color + "') ; $(':button').attr('disabled','-1')} )}) ;" //, function checkTurn () { $.get( '/ajaxturncheck', function( data1 ) {$( '#33' ).html( data1 ) })}})});    
+    +"$('#fourColBut').click(function (){$.get('/play/4', function(data) { $('#' + data).css('background-color','" + color + "') ; $(':button').attr('disabled','-1')} )}) ;"
+      //           + "  $.get('/ajaxturncheck', function(data) {if(data=='yes' ) {$('#fstColBut').removeAttr('disabled'); $('#sndColBut').removeAttr('disabled'); $('#thrColBut').removeAttr('disabled'); $('#fourColBut').removeAttr('disabled'); $('#fiveColBut').removeAttr('disabled'); $('#sixColBut').removeAttr('disabled'); $('#sthColBut').removeAttr('disabled'); $('#saveButton2').removeAttr('disabled'); }})  } )} );"
                   //+ "  $.get('/ajaxturncheck', function(data) { if (data=='yes' ) { alert ('Es tu turno'); }})  } )} );"
                   
-    +"$('#fiveColBut').click(function (){$.get('/play/5', function(data){$('#' + data).css('background-color','" + color + "'); $.when($.ajax('/ajaxCheckTurn')).then(function(x){alert('funciona?');});} )}) ;"
-    +"$('#sixColBut').click(function (){$.get('/play/6', function(data){$('#' + data).css('background-color','" + color + "')} )}) ;"
-    +"$('#sthColBut').click(function (){$.get('/play/7', function(data){$('#' + data).css('background-color','" + color + "')} )}) ;"//+"$('#sndColBut').click(function (){$.get('/play/2', function(data){$('#22').html(data);})});"
+    +"$('#fiveColBut').click(function (){$.get('/play/5', function(data){$('#' + data).css('background-color','" + color + "'); ; $(':button').attr('disabled','-1')} )}) ;"
+    +"$('#sixColBut').click(function (){$.get('/play/6', function(data){$('#' + data).css('background-color','" + color + "') ; $(':button').attr('disabled','-1')} )}) ;"
+    +"$('#sthColBut').click(function (){$.get('/play/7', function(data){$('#' + data).css('background-color','" + color + "') ; $(':button').attr('disabled','-1')} )}) ;"//+"$('#sndColBut').click(function (){$.get('/play/2', function(data){$('#22').html(data);})});"
 //+"$('#thrColBut').click(function (){$(location).attr('href', '/play/3'); }) ;"                
 //+"$('#fourColBut').click(function (){$(location).attr('href', '/play/4'); }) ;"                
 //+"$('#fiveColBut').click(function (){$(location).attr('href', '/play/5'); }) ;"                
@@ -699,7 +699,7 @@ public String showPlayersRankings(List<Ranking> ranksList) {
 //+"</div>"
 
 +"<div id='footer'>"
-+"Copyright © Ver que escribir o si lo sacamos"
++"Copyright ©. Mariano Ontivero - Matías Rondeau - Carolina Zabala"
 +"</div>"
 
 +"</body>"
