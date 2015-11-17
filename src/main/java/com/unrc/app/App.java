@@ -362,8 +362,9 @@ public class App {
                                 return null;
                             }
                             else {  // REDIRECCION A INFORME DE PLAYER #2 GANADOR
-                                res.redirect("/gameover/"+req.session().attribute("user")+"/"+game.winnerName+"/thereiswinner");
                                 return null;
+                               // res.redirect("/gameover/"+req.session().attribute("user")+"/"+game.winnerName+"/thereiswinner");
+                                
                             }
                         }
                         else { // NO ES LA ULTIMA JUGADA (< #42)
@@ -405,11 +406,16 @@ public class App {
                                     output = web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.turnOff == currentUser);
                                 }
                                 else {
-                                    int col = column - 7 - 1;
-                                    int row = boardCtrl.rowToInsert[col] + 1;
-                                    System.out.println("pintate esta (" + row + "," + col + ")");
-                                    output = "" + row + "" + col;
-                                    
+                                    if (game.get("finished").toString().equals("true")) {
+                                        output = "gameOver";
+                                    }
+                                    else {
+                                        
+                                        int col = column - 7 - 1;
+                                        int row = boardCtrl.rowToInsert[col] + 1;
+                                        System.out.println("pintate esta (" + row + "," + col + ")");
+                                        output = "" + row + "" + col;
+                                    }
                                     
                                     
                                 }
@@ -425,6 +431,9 @@ public class App {
                         }				
                     }
                     else {  // JUEGO FINALIZADO
+                     // String output = "" + row + "" + col;
+                                    
+                        
                         // se compara luego de que se cambio turnOff
                         if (!game.player1Aware) {   // NINGUN JUGADOR FUE NOTIFICADO
                             if (game.turnOff == -1) {
@@ -447,7 +456,7 @@ public class App {
                             player1 = null;
                             player2 = null;                      
                         }
-
+                            
                         if (game.get("draw").toString().equals("true")) {
                             res.redirect("/gameover/"+req.session().attribute("user")+"/withoutwinner/draw");
                             return null;
@@ -456,6 +465,7 @@ public class App {
                             res.redirect("/gameover/"+req.session().attribute("user")+"/"+game.winnerName+"/thereiswinner");
                             return null;
                         }
+                        
                     }
 
                 }
