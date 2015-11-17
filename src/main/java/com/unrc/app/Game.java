@@ -57,10 +57,12 @@ public class Game extends Model {
         Move move;
         int current = 1;
         int column = 0;
+        int row =0;
         Iterator it = moves.iterator();
         while (it.hasNext()) {
             move = (Move) it.next();
             column = ((Integer) move.get("numCol")).intValue();
+            row = ((Integer) move.get("numRow")).intValue();
             registerMove(current, boardControl.rowToInsert[column], column);
             boardControl.insertCoin(current, column);
             current *= -1;
@@ -133,6 +135,7 @@ public class Game extends Model {
         while (i.hasNext()) {   // ALMACENO LOS NUEVOS MOVIMIENTOS
             Move m = new Move();
             p = (Tern) i.next();
+            m.set("numRow", p.getRawSelected());
             m.set("numCol", p.getColumnSelected());
             this.add(m);
 

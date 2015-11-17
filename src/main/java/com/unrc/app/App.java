@@ -30,17 +30,9 @@ public class App {
         get("/", (req, res)
                 
                 -> web.welcomePage(req.session().attribute("user") != null, false,req.session().attribute("user"))
-               //-> WebManager.optionsScreen("hola", true, true, false, true, true, false)
+              
         );
 
-
-/*
-        get("/login", (req, res)
-                
-                -> web.showLoginForm()
-                
-        );
-*/
 
 
         post("/logincheck", (req, res) -> {
@@ -57,16 +49,9 @@ public class App {
                 req.session().attribute("userId", user.get("id"));
                 succesfulLogin = true;
            }
-            /*
-           if (succesfulLogin) {
-                return web.optionsScreen("Hola <strong>" + req.queryParams("email") + "</strong>, has ingresado correctamente!", true, true, true, false, false, true);
-           }
-           else {
-                return web.welcomePage(false, true, "");
-           }*/
-           //return WebManager.buttonsOptions ("Hola",false,true,true,true,true,true); 
+           
            return web.loginReport(succesfulLogin, req.queryParams("email"));
-           //return web.newLoginReport(succesfulLogin, req.queryParams("email"));
+           
 
         });
 
@@ -176,59 +161,16 @@ public class App {
                 Base.close();
                 return web.savedGameReport(!game.pausedGame);
                 
-            }   // para player1
+            }   
             else {
                 return web.savedGameReport(game.pausedGame);
             }
 
         });
          
-        get("/ajaxtest", (req, res) -> {
-         String output="";
-         output="<!DOCTYPE html>\n" +
-            "<html>" +
-            "<head>" +
-            "" +
-            "<script src=\'https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js\'>\n" +
-            "</script>\n" +
-            "<script>\n" +
-            "setTimeout(checkTurn,1000);\n" +
-            "function checkTurn () {\n" +
-            "    alert('Call ajax');\n" +
-            "    $.get( \"/ajaxturncheck\", function( data ) {\n" +
-            "         $( \"#a\" ).html( data );\n" +
-            "          if (data=='yes'){\n"
-                 + "                 }"
-                 + "    else{\n"
-                 + "        alert('espera wachin!!!');\n"
-                      
-                 +"         //setTimeout(checkTurn,5000);\n" 
-                 + "} \n              "+   
-            "    });\n" +
-                 " $.get( \"/play/7\", function( data) {"+
-               " $( \"#b\" ).html( data ) });\n" +
-            " }\n" +
-               
-            "</script>\n" +
-            "</head>\n" +
-            "<body>\n" +
-            "<div id=\"a\">\n" +
-            "<p>Is my turn?</p>\n" +
-            "</div>\n" +
-            "<div id=\"b\">\n" +
-            "</div>\n" +
-            "<div id=\"c\">\n" +
-            "</div>\n" +
-            "</body>\n" +
-            "\n" +
-            "</html>\n ";
-         
-         return output;
-         
-         });
+        
         
         get("/ajaxreadchannel", (req, res) -> {
-            // String output="";
             req.session(true);
             int currentUser = 0;
             if (player1 != null && player2 != null) {
@@ -318,7 +260,6 @@ public class App {
 
                     Integer column = new Integer(req.params(":column"));
                     
-                    //System.out.println ("valor al asignar "+column);
                     if (currentUser * currentUser != 1) { // 1*1 = (-1)*(-1) = 1
                         output = web.busyGame();
                     }
@@ -331,7 +272,7 @@ public class App {
                             game.registerMove(currentUser, boardCtrl.rowToInsert[column-1], column-1); // genera un par (jugador, columna) y lo agrega a la lista de movimientos
                             boardCtrl.insertCoin(currentUser, column-1);
 
-                        if (game.movesList.size() == game.numCol*game.numRow) { // ULTIMA JUGADA: EMPATE O TRIUMFO DE PLAYER #2
+                        if (game.movesList.size() == game.numCol*game.numRow) { // ULTIMA JUGADA: EMPATE O TRIUNFO DE PLAYER #2
                             if (!game.player1Aware) { // NINGUN JUGADOR FUE NOTIFICADO
                                 game.set("finished", true);
                                 if (boardCtrl.isTheVictor(false)) { // GANO PLAYER #2
@@ -358,12 +299,10 @@ public class App {
                                 player2 = null;
                             }
                             if (game.get("draw").toString().equals("true")) {   // REDIRECCION A INFORME DE EMPATE
-                                res.redirect("/gameover/"+req.session().attribute("user")+"/withoutwinner/draw");
-                                return null;
+                                return "localhost:4567/gameover/"+req.session().attribute("user")+"/withoutwinner/draw";
                             }
                             else {  // REDIRECCION A INFORME DE PLAYER #2 GANADOR
-                                return null;
-                               // res.redirect("/gameover/"+req.session().attribute("user")+"/"+game.winnerName+"/thereiswinner");
+                                return "localhost:4567/gameover/"+req.session().attribute("user")+"/"+game.winnerName+"/thereiswinner";
                                 
                             }
                         }
@@ -378,29 +317,13 @@ public class App {
                         game.turnOff *= -1;
                         
                         Integer nextCall = column + 7;
-                        System.out.println("llegue aqui con columna " + column);
                         res.redirect("/play/" + nextCall.toString());
                         return null;
                     }
 
                     if (game.get("finished").toString().equals("false")) {  // EL JUEGO NO FINALIZO
 			if (!game.pausedGame) {
-                             //Primera vez muestra matriz
-				/*boolean noPlays = game.movesList.isEmpty();
-                            
-                                System.out.println ("VALORES  antes" + column);
-                                int col = column;
-                                //int row=boardCtrl.rowToInsert[col];
-                                //int numRow = boardCtrl.rowToInsert[col]; 
-                                if (!game.movesList.isEmpty()) {
-                                    col--;
-                                            }
-                                 //    col=-1;
-                                //    row=-1;
-                                  //          }  
-                                //if (game.movesList.size()==1 ) numRow++;
-            */
-                            System.out.println("y aqui con columna " + column);
+                             //Primera vez muestra matriz                          
 
                                 if (game.movesList.isEmpty()) {
                                     output = web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.turnOff == currentUser);
@@ -413,16 +336,11 @@ public class App {
                                         
                                         int col = column - 7 - 1;
                                         int row = boardCtrl.rowToInsert[col] + 1;
-                                        System.out.println("pintate esta (" + row + "," + col + ")");
                                         output = "" + row + "" + col;
                                     }
                                     
                                     
                                 }
-                                //output = web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.boardToHtml(game.turnOff == currentUser));
-                                //System.out.println ("VALORES  despues "+col+" "+column);
-                                //output = web.showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.turnOff == currentUser, boardCtrl.rowToInsert[col], column-1, noPlays);
-                                //output= boardCtrl.getBoard().showGame(req.session().attribute("user"), player1.get("email").toString(), player2.get("email").toString(), game.turnOff == currentUser, game.turnOff);
                                 
                             }
                         if (game.pausedGame) {
@@ -431,7 +349,7 @@ public class App {
                         }				
                     }
                     else {  // JUEGO FINALIZADO
-                     // String output = "" + row + "" + col;
+                     
                                     
                         
                         // se compara luego de que se cambio turnOff
@@ -458,12 +376,12 @@ public class App {
                         }
                             
                         if (game.get("draw").toString().equals("true")) {
-                            res.redirect("/gameover/"+req.session().attribute("user")+"/withoutwinner/draw");
-                            return null;
+                            return "localhost:4567/gameover/"+req.session().attribute("user")+"/withoutwinner/draw";
+                   
                         }
                         else {
-                            res.redirect("/gameover/"+req.session().attribute("user")+"/"+game.winnerName+"/thereiswinner");
-                            return null;
+                            return "localhost:4567/gameover/"+req.session().attribute("user")+"/"+game.winnerName+"/thereiswinner";
+                            
                         }
                         
                     }
@@ -512,10 +430,6 @@ public class App {
             
         });
         
-        
-        /*get("/style.css", (req, res) -> { 
-                return web.getPageStyle(); 
-        });*/
 
     }
     

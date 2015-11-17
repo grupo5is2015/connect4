@@ -20,13 +20,10 @@ public class WebManager {
     public String welcomePage(boolean activeSession, boolean wrongLogin, String email) {
         
         String output; 
-        //output = 
-        //<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         if (activeSession) {
             output = optionsScreen(false,"Sesion Activa de <strong>" + email + "</strong>", true, true, true, false, false, true);//"Sesion Activa de <strong>" + email + "</strong><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
         }
         else {
-            //"<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Frameset//EN' 'http://www.w3.org/TR/html4/frameset.dtd'>
             output = "<html><head><title>Cuatro en Línea</title><style type=\"text/css\">" +
 " #Registrate { " +
 "   background-Color:#5F944B;" +
@@ -39,7 +36,7 @@ public class WebManager {
 		     "<script> $(document).ready(function() { var pageBody = $(document.body); pageBody.css('zoom', '200%'); pageBody.css('background-color', '#dfe3ee'); "+ 
                      "if ("+wrongLogin+") {alert('Datos de acceso incorrectos. Intente nuevamente.'); }}); </script> " +
                      "<script>function validateSubmit() { if ((document.loginForm.email.value == '') || (document.loginForm.password.value.length == 0)) { alert('Debe completar los campos E-mail y Password') } else { var rex=/^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$/; if(!rex.test(document.loginForm.email.value)) { alert('Formato de e-mail no valido') } else { document.loginForm.submit() } } } </script>" +
-                     "</head><body>" + //<script>document.bgColor='#dfe3ee';</script> 
+                     "</head><body>" + 
                      
 		     "<table style='width:100%; background-color:#dfe3ee'>" + 
                      "<tr><td><center><h1>Cuatro en Línea</h1></td><tr><td><center>" +
@@ -50,27 +47,13 @@ public class WebManager {
                      "<td align='left'><input type='password' name='password' size='25'></td></tr>" +
                      "<tr><td colspan='2' align='right'><input type='button' value='Iniciar Sesión' onclick='validateSubmit()'></td></tr></table></center></td></tr></table>" +
 		     "<br>¿No tienes cuenta?   <input id='Registrate' value='Registrate' onClick=\"document.location.href='/signin'\" type='button' />" +
-                     //"<script> if ("+wrongLogin+") {alert('Datos de acceso incorrectos. Intente nuevamente.');}</script>" +
-                     "</form></center></body></html>"; //<a href='signin' style='color:green'><strong> Crear Cuenta </strong></a>
+                     "</form></center></body></html>"; 
         }
         return output;
 
     }
 
     
-
-/*
-    public String showLoginForm() {
-
-        return "Ingrese sus datos de acceso:<br><br>"
-                + "<form action='/logincheck' method='post'>"
-                + "E-mail: <input type='text' name='email' value=''/><br><br>"
-                + "Password: <input type='password' name='password'/><br><br>"
-                + "<input type='submit' value='Acceder'>"
-                + "</form>";
-
-    }
-*/    
     
     
     public String showRegistrationForm() {
@@ -78,7 +61,7 @@ public class WebManager {
         return       "<html><head><title>Cuatro en Línea</title><script src='http://localhost:4567/js/jquery-1.11.3.min.js' type='text/javascript'></script>" +
 		    	 			"<script> $(document).ready(function() { var pageBody = $(document.body) ; pageBody.css('zoom', '200%'); pageBody.css('background-color', '#dfe3ee'); }) </script> " +
 							"<script>function validateSubmit() { if ((document.registrationForm.email.value == '') || (document.registrationForm.password.value.length == 0)) { alert('Debe completar los campos E-mail y Password') } else { var rex=/^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$/; if(!rex.test(document.registrationForm.email.value)) { alert('Formato de e-mail no valido') } else { document.registrationForm.submit() } } } </script>" +
-                     "</head><body>" + //<script>document.bgColor='#dfe3ee'</script>" +
+                     "</head><body>" + 
 		     "<table style='width:100%; background-color:#dfe3ee'>" + 
                      "<tr><td><center><h1>Cuatro en Línea</h1><hr><font color='#3b5998'><small><strong>Complete los siguientes campos para registrarse:</strong></small></font><hr></td><tr><td><center>" +
                      "<form name='registrationForm' action='/registration' method='post'><table border='20' bordercolor='#8b9dc3' bgcolor='#3b5998'>" +
@@ -98,49 +81,16 @@ public class WebManager {
         
         String output;
         if (logOK) {
-            output = optionsScreen(false,"Hola <strong>" + email + "</strong>, has ingresado correctamente!", true, true, true, false, false, true);//<hr><a href='/play/0'> Iniciar nueva partida</a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
+            output = optionsScreen(false,"Hola <strong>" + email + "</strong>, has ingresado correctamente!", true, true, true, false, false, true);
         }
         else {
-            //output = "<strong>Datos de acceso incorrectos!</strong><hr><a href='/login'> Iniciar sesion</a><br><br><a href='/signin'> Registrarse</a><br><br>";
+            
             output = welcomePage(false, true, ""); // 2do parametro = wrongLogin
         }
         return output;
 
     }
    
-/*    
-    public String newLoginReport(boolean logOK, String email) {
-        
-        String output;
-        if (logOK) {
-            output = "<!DOCTYPE html><html><head><title>Cuatro en Línea</title><meta name='viewport' content='width=device-width, initial-scale=1'>" +
-		     "<link rel='stylesheet' href='http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css'>" +
-		     "<script src='http://localhost:4567/js/jquery-1.11.3.min.js' type='text/javascript'></script>" +
-		     "<script src='code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js'></script>" +
-		     "<script> $(document).ready(function() { var pageBody = $(document.body) ; pageBody.css('zoom', '200%'); pageBody.css('background-color', '#dfe3ee'); }) </script></head>" +
-                     "<body>" + //<script>document.bgColor='#dfe3ee'</script>" +
-		     //"<table style='width:100%; background-color:#dfe3ee'>" + 
-                     //"<tr><td> 
-                     "<center><h1>Cuatro en Línea</h1><hr><font color='#3b5998'><small>Hola <strong>" + email + "</strong>, has ingresado correctamente!</small></font><hr>"+ //</td><tr><td>
-                     "<center>" +
-
-  "<div data-role='main' class='ui-content'>"+
-    "<a href='#' class='ui-btn ui-icon-arrow-r ui-btn-icon-right'>Iniciar nueva partida</a>"+
-    "<a href='#' class='ui-btn ui-icon-back ui-btn-icon-right'>Reanudar partida inconclusa</a>"+
-    "<a href='#' class='ui-btn ui-icon-info ui-btn-icon-right'>Ver Rankings</a>"+
-    "<a href='#' class='ui-btn ui-icon-delete ui-btn-icon-right'>Salir</a>"+
-  "</div>"+
-
-
-		     "</center></body></html>";
-        }
-        else {
-            output = welcomePage(false, true, ""); // 2do parametro = wrongLogin
-        }
-        return output;
-
-    }
-*/
 
     public String registrationReport(boolean regOK, String email) {
         
@@ -151,7 +101,7 @@ public class WebManager {
         else {
             output = optionsScreen(false,"El e-mail <strong>" + email + "</strong> ya se encuentra registrado.", false, false, false, true, true, false);//"El e-mail <strong>" + email + "</strong> ya se encuentra registrado.";
         }
-        //output += "<hr><a href='/login'> Iniciar sesion</a><br><br><a href='/signin'> Registrarse</a>";
+       
         return output;
 
     }
@@ -405,52 +355,14 @@ public String showPlayersRankings(List<Ranking> ranksList) {
         
     }
 
-
-/*
-    public String waitingAdversary(int player, String user) { // Valores 1 ó 2
-
-        String output = "<html><head><meta http-equiv='refresh' content='3' ><title>4 en Linea</title></head><body>"
-                + "<h1>4 en Linea</h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
-                + "<tr><td><strong>Esperando por el player #" + player + " ...</strong></td></tr>"
-                + "<table></html><hr><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
-        return output;
-
-    }
-*/
     
     
     public String waitingAdversary(int player, String user) { // Valores 1 ó 2
 
-  /*     String output = "<html><head><meta http-equiv='refresh' content='3' ><title>4 en Linea</title></head><body>"
-                + "<h1>4 en Linea</h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
-                + "<tr><td><strong>Esperando por el player #" + player + " ...</strong></td></tr>"
-                + "<table></html><hr><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
-        return output;
-  */
         return optionsScreen (true, "<strong>" + user + "</strong>, espera por tu adversario...",false,true,true,false,false,true);
     }
 
-/*    
-    public String showGame(String user, String player1, String player2, String board) {
-
-        String output = "";
-
-        output = "<html><head><meta http-equiv='refresh' content='4' ><title>4 en Linea</title>"
-                +"<link type=\"text/css\" href=\"/style.css\" rel=\"stylesheet\">"
-                +"</head><body><center>"
-                + "<h1 align='center'>4 en Linea</h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
-                + "<tr><td class=\".panelvs\"> Partida: <strong><font color='green'>" + player1 + "</font></strong> VS <strong><font color='red'> " + player2 + "</font></strong></td></tr>"
-                + "<tr><td>" + board + "</td></tr>"
-                + "</table></center></body></html>";
-
-        return output;
-
-    }
-    */
-    
-    
-//        public String showGame(String user, String player1, String player2, boolean turn, int row,int col,boolean noPlays) {
-        public String showGame(String user, String player1, String player2, boolean turn) {
+    public String showGame(String user, String player1, String player2, boolean turn) {
             
           String couldSave1;
           String couldSave2;
@@ -475,47 +387,12 @@ public String showPlayersRankings(List<Ranking> ranksList) {
               color = "red";
           }
               
-
-          /*
-	  if (user.equals(player1)) {
-	    couldSave = "";
-	  }
-          if (user.equals(player2)) {
-	    couldSave = "";
-	  }*/
-      /*    String paint = new String();
-          int [][] grid = b.getGrid();
-        paint = "[";
-        for (int f = 5; f >= 0; f--) {
-            for (int c = 0 ; c < 7; c++) {
-                if (!((f==0) && (c==6))) {
-                    paint += ((f+1) * grid[f][c]) + "" + (c+1) * Math.abs(grid[f][c]) + ", ";    
-                }
-                //llamar funcion
-            }
-        }
-        paint += grid[0][0] + "]";
-      */   
-        //System.out.println("*************" +row+""+col+ " "+noPlays+"***************");
       
-          
           return  "<!DOCTYPE html>"
 +"<html>"
 +"<head>"
-//+"<meta http-equiv='refresh' content='60'>"
-//+"<script>playAndRedirect(i) { \"document.location.href='/play/" + i + "'\" ; } </script>"
 +"<style type='text/css'>"
-//+ "    .Table"
-//+"    {"
-//+"        display: table;"
-//+"    }"
-//"    .Title"+
-//"    {"+
-//"        display: table-caption;"+
-//"        text-align: center;"+
-//"        font-weight: bold;"+
-//"        font-size: larger;"+
-//"    }"+
+
 +"    .Heading"
 +"    {"
 +"        display: table-row;"
@@ -545,10 +422,6 @@ public String showPlayersRankings(List<Ranking> ranksList) {
 +"        border: solid;"
 +"        border-width: thin;"
 +"        background-color: black;"
-//+"        width:32px;"
-//+"        height:32px;"
-//+"        padding-left: 0px;"
-//+"        padding-right: 0px;"
 +"    }"
 
 +"#header {"
@@ -562,13 +435,9 @@ public String showPlayersRankings(List<Ranking> ranksList) {
 +"    background-color:#dfe3ee;"
 +"   color:#3b5998;"
 +"  text-align:right;"
-                    //+"    height:30px;"
-                  //  +"    width:100%;"
 +" padding:2px;"
 +"}"
-//+"#gamepanel {"
-//+" width: 100%;"
-//                +"}"
+                  
 +"#leftpanel {"
 +"    line-height:20px;"
 +"    background-color:#dfe3ee;"
@@ -616,64 +485,24 @@ public String showPlayersRankings(List<Ranking> ranksList) {
 +"<script> $(document).ready(function() { var c ; var x='green' ; var pageBody = $(document.body); "
 + "pageBody.css('zoom', '150%'); pageBody.css('background-color', '#dfe3ee');  "
 
-/*     "setTimeout(checkTurn,1000);\n" +
-     "function checkTurn () {\n" +
- //    "    alert('Call ajax');\n" +
-     "    $.get( \"/ajaxturncheck\", function( data ) {if (data=='yes') {$( '#"+row+""+col+"' ).css('background-color', 'blue');     " +           
-     "                 }"+
-     "    else{\n"+
- //    "        alert('daleeee wachin!!!');\n"  +
- //    "        $( \"#35\" ).css('background-color', 'red');     " +  
-                  
-    "        setTimeout(checkTurn,3000);\n" +
-     "} \n              "+   
-     "    });\n" +
-     "} \n              "           
                 
-*/                
-    +"$('#fstColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/1', function(data){if (data=='gameOver') {alert ('Gano 2')} ; if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1') } ).done(function() {  setTimeout(checkTurn,1000) ;  function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; x= invertColor(" + color + "); } else { setTimeout(checkTurn, 2000); }})   }  ; })  }) ;"
-    +"$('#sndColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/2', function(data){if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1') } ).done( function() { setTimeout(checkTurn,1000) ; function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; x= invertColor(" + color + "); } else { setTimeout(checkTurn, 2000); }})   }  ; })}) ;"                 
-    +"$('#thrColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/3', function(data){if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1') } ).done(function() { setTimeout(checkTurn,1000) ; function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; x= invertColor(" + color + ");} else { setTimeout(checkTurn, 2000); }})   }  ; })  }) ;"
-    +"$('#fourColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/4', function(data){if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1') } ).done(function() { setTimeout(checkTurn,1000) ; function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; x= invertColor(" + color + "); } else { setTimeout(checkTurn, 2000); }})   }  ; })  }) ;"
-    +"$('#fiveColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/5', function(data){if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1')  }   ).done(function() { setTimeout(checkTurn,1000) ; function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; ;x= invertColor(" + color + "); } else { setTimeout(checkTurn, 2000); }})   }  ; })  }) ;"
-    +"$('#sixColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/6', function(data){if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1')  }   ).done(function() { setTimeout(checkTurn,1000) ; function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; ;x= invertColor(" + color + "); } else { setTimeout(checkTurn, 2000); }})   }  ; })  }) ;"
-    +"$('#sthColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/7', function(data){if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1')  }   ).done(function() { setTimeout(checkTurn,1000) ; function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; ; x= invertColor(" + color + ");} else { setTimeout(checkTurn, 2000); }})   }  ; })  }) ;"
+    +"$('#fstColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/1', function(data){ if (data.indexOf('winner')>-1){$(location).attr('href', 'http://' + data)}  ; if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1') } ).done(function() {  setTimeout(checkTurn,1000) ;  function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; x= invertColor(" + color + "); } else { setTimeout(checkTurn, 2000); }})   }  ; })  }) ;"
+    +"$('#sndColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/2', function(data){ if (data.indexOf('winner')>-1){$(location).attr('href', 'http://' + data)}  ; if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1') } ).done( function() { setTimeout(checkTurn,1000) ; function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; x= invertColor(" + color + "); } else { setTimeout(checkTurn, 2000); }})   }  ; })}) ;"                 
+    +"$('#thrColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/3', function(data){ if (data.indexOf('winner')>-1){$(location).attr('href', 'http://' + data)}  ; if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1') } ).done(function() { setTimeout(checkTurn,1000) ; function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; x= invertColor(" + color + ");} else { setTimeout(checkTurn, 2000); }})   }  ; })  }) ;"
+    +"$('#fourColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/4', function(data){ if (data.indexOf('winner')>-1){$(location).attr('href', 'http://' + data)}  ; if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1') } ).done(function() { setTimeout(checkTurn,1000) ; function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; x= invertColor(" + color + "); } else { setTimeout(checkTurn, 2000); }})   }  ; })  }) ;"
+    +"$('#fiveColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/5', function(data){ if (data.indexOf('winner')>-1){$(location).attr('href', 'http://' + data)}  ; if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1')  }   ).done(function() { setTimeout(checkTurn,1000) ; function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; ;x= invertColor(" + color + "); } else { setTimeout(checkTurn, 2000); }})   }  ; })  }) ;"
+    +"$('#sixColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/6', function(data){ if (data.indexOf('winner')>-1){$(location).attr('href', 'http://' + data)}  ; if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1')  }   ).done(function() { setTimeout(checkTurn,1000) ; function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; ;x= invertColor(" + color + "); } else { setTimeout(checkTurn, 2000); }})   }  ; })  }) ;"
+    +"$('#sthColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/7', function(data){ if (data.indexOf('winner')>-1){$(location).attr('href', 'http://' + data)}  ; if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1')  }   ).done(function() { setTimeout(checkTurn,1000) ; function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; ; x= invertColor(" + color + ");} else { setTimeout(checkTurn, 2000); }})   }  ; })  }) ;"
     +"$('#saveButton1').click(function (){$(location).attr('href','/savegame'); }) ;"
     +"$('#saveButton2').click(function (){$(location).attr('href','/savegame'); }) ;"              
     +" setTimeout(checkTurn,1000) ;  function checkTurn () { if (!" + turn + ") { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color',x) } ) ; $(':button').removeAttr('disabled'); $('#saveButton1').attr('disabled','-1'); x= invertColor(" + color + "); } else { setTimeout(checkTurn, 2000); }}) }  };"
     
-   //"/gameover/"+req.session().attribute("user")+"/withoutwinner/draw"
-   //"/gameover/"+req.session().attribute("user")+"/"+game.winnerName+"/thereiswinner"               
-                  
-                  
-    //+" setTimeout(checkTurn1,1000) ; function checkTurn1 () { if (" + turn + ") { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color','" + color + "') ; } ) ; $(':button').removeAttr('disabled'); $('#saveButton2').attr('disabled','-1'); } else { setTimeout(checkTurn, 2000); }}) }  };"
-    //+ "else { if ("+ turn +") { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) { $('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color','" + color + "') ; } );  ; $(':button').removeAttr('disabled'); $('#saveButton2').attr('disabled','-1'); }  else {  setTimeout(checkTurn, 2000); } } ) }  } ; "
-    //+ "};"
-    //+"setTimeout(checkTurn,1000) ; function checkTurn () { if (" + turn + ") { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {  $('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color','" + color1 + "') ; } ) ; $(':button').removeAttr('disabled'); $('#saveButton1').attr('disabled','-1'); } else { setTimeout(checkTurn, 2000); }}) }};"    
-                  //if (" + color + ".equals('green')) { " + color + " = 'red';} else { " + color + " = 'green'; } ;
-//if (" + color + "=="+ color + ") { alert('tdtdtd') } ;
-                  
-                  /*+"$.each(grid, function(i, n) {" 
-+"  var color;  "
-+ " if (n>0){"
-+"      color='green' ;"
-                 + "    $('#' + n).css('background-color', color);"
-+"  }"
-+ " if (n<0){"
-+"      color='red' ;"
-                + "    $('#' + Math.abs(n)).css('background-color', color);"
-+"  }"
-+" });"*/
 + "});" 
 +"</script>"
 +"<script type='text/javascript' > function invertTurn ( t ) { var c =!t ; return c }  </script>" 
                   
 +"<script> function invertColor ( p ) { var pintar = p ; if (pintar == 'green') { pintar= 'red' } else { pintar = 'green' } ; return pintar }  </script>"
-//+"<script> function invertColor ( ) { if ( " + color + "== 'green') { "+ color + " = 'red' } else { "+ color + " = 'green' }  }  </script>"                    
-                  
-//+"<script> $(document).ready(function() { $('#fstColBut').click(function(evento) { $('#11').css('background-color', 'red'); }); </script> " //\"document.location.href='/play/1'\" ;
-//$('#fstColBut').click(function(evento) { $('#11').css('background-color', 'red'); });
-                +"</head>"
++"</head>"
 +"<body>"
 
 +"<div id='header'>"
@@ -690,7 +519,6 @@ public String showPlayersRankings(List<Ranking> ranksList) {
                 +"<b>" + player2 + "</b><br><hr>"
                 +"<input type='button' " + couldSave2 + " id='saveButton2' value='Guardar' onClick=\"document.location.href='/savegame'\">"
 +"<hr></div>"
-//+"<div id='gamepanel'>"
 +"<div id='leftpanel'>"
 +"<i>Jugador #1:</i><br>"
                 +"<b>" + player1 + "</b><br><hr>"
@@ -699,8 +527,6 @@ public String showPlayersRankings(List<Ranking> ranksList) {
 
 +"<center><div id='section'>" + Board.showBoard(turn) + "</div></center>"
 
-
-//+"</div>"
 
 +"<div id='footer'>"
 +"Copyright ©. Mariano Ontivero - Matías Rondeau - Carolina Zabala"
@@ -716,24 +542,12 @@ public String showPlayersRankings(List<Ranking> ranksList) {
 
     public String showWinner(String user, String winner) {
 
-        /*String output = "<html><head><title>4 en Linea</title></head><body>"
-                + "<h1><font color='red'>Ganador de la partida: " + ganador + " !!</font></h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
-                + "<table></html>"
-                + "<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
-        
-        return output;*/
         return optionsScreen(false,"Ganador de la partida: <strong>" + winner + "</strong>", true, true, true, false, false, true);
         
     }
 
         public String showTieMatch(String user) {
         
-        /*String output = "<html><head><title>4 en Linea</title></head><body>"
-                + "<h1><font color='red'>Partida empatada !!</font></h1><hr><table><tr><td>Estas logueado como: <strong>" + user + " </strong></td></tr>"
-                + "<table></html>"
-                + "<hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
-        
-        return output;*/
             return optionsScreen(false,"Partida empatada!", true, true, true, false, false, true);
             
     }
@@ -742,39 +556,11 @@ public String showPlayersRankings(List<Ranking> ranksList) {
 
     public String busyGame() {
         
-        //String output = "<strong>Partida ocupada. Intente nuevamente mas adelante.</strong><hr><a href='/play/0'> Iniciar nueva partida </a><br><br><a href='/loadgame'> Cargar partida inconclusa</a><br><br><a href='/showrankings'> Listar Rankings</a><br><br><a href='/logout'>Salir</a>";
-        //return output;
         return optionsScreen(false,"Partida ocupada, intente nuevamente mas adelante", true, true, true, false, false, true);
         
     }
     
     
-    /*public String getPageStyle() {
-        String output = "";
-        output += "html {font-family: sans-serif;}"
-                + "table {\n"
-                + "   border: 1px solid #999;\n"
-                + "   text-align: center;\n"
-                + "   border-collapse: collapse;\n"
-                + "   margin: 0 0 1em 0;\n"
-                + "   caption-side: top;\n"
-                + "}\n"
-                + "th, td {\n"
-                + "   border-bottom: 1px solid #999;\n"
-                + "   width: 60px;\n"
-                + "}\n"
-                + "td.menuitem {\n"
-                + "   font-weight: bold;\n"
-                + "   font-style: italic;\n"
-                + "};"
-                + "td.panelvs {\n"
-                + "   font-size: 13px;\n"
-                + "};";
-
-        return output;
-    }*/
-
-    //public static 
     public String optionsScreen (Boolean refresh, String msg, boolean opt1, boolean opt2, boolean opt3, boolean opt4, boolean opt5, boolean opt6) {
 
         String refpage;
@@ -841,7 +627,6 @@ public String showPlayersRankings(List<Ranking> ranksList) {
 +" #ActiveButton { " 
 +"   background-Color:#8b9dc3;"//006666;" 
 +"   color:#ffffff;" 
-//+"   font-family:'Courier New\', Courier, monospace"
 +"   font-weight:bold;" 
 +"   width: 450px;" 
 +"   height: 30px;"
@@ -853,7 +638,6 @@ public String showPlayersRankings(List<Ranking> ranksList) {
 +" #InactiveButton { " 
 +"   background-Color:light-gray;" 
 +"   color:gray;" 
-//+"   font-family:'Courier New\', Courier, monospace"
 +"   font-weight:bold;" 
 +"   width: 450px;" 
 +"   height: 30px;" 
@@ -872,30 +656,15 @@ public String showPlayersRankings(List<Ranking> ranksList) {
                     +"      background-color:#dfe3ee;"
                     +"      color:#3b5998;"
                     +"      text-align:center;"
-                    //+"    height:30px;"
-                    //  +"    width:100%;"
                     +"      padding:5px;"
                     +"}"
 
                     +"#buttonfield {"
                     +"    line-height:25px;"
                     +"    background-color:#dfe3ee;"
-                    //+"color:green;"
                     +"text-align:center;"
-                    //+"    height:450px;"
-                    //+"    width:200px;"
-                    //+"    float:left;"
                     +"    padding:5px;"       
                     +"}"
-/*
-+"#footer {"
-+"    background-color:black;"
-+"    color:white;"
-+"    clear:both;"
-+"    text-align:center;"
-+"   padding:5px;"	 	 
-+"}"
-*/
 
                     +"</style>"
                     +"<script src='http://localhost:4567/js/jquery-1.11.3.min.js' type='text/javascript'></script>"
@@ -936,9 +705,6 @@ public String showPlayersRankings(List<Ranking> ranksList) {
                     +"<input id=" +dsb6+ " value='CERRAR SESION' onClick=\"document.location.href='/logout'\" type='button' />"
                     +"</div>";
 
-/*                    +"<div id='footer'>"
-                    +"Copyright © Ver que escribir o si lo sacamos"
-                    +"</div>";
-*/    }
+    }
 
 }
