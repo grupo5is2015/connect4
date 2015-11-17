@@ -17,7 +17,7 @@ public class Game extends Model {
     public Board table;
     public final int numRow = 6;
     public final int numCol = 7;
-    public List<Pair> movesList;
+    public List<Tern> movesList;
     public int turnOff = 1;     // Empieza el player1 - Valores: 1 | -1
     public boolean player1Aware;
     public String winnerName;
@@ -25,12 +25,12 @@ public class Game extends Model {
     
     
     public Game() {
-        this.movesList = new LinkedList<Pair>();
+        this.movesList = new LinkedList<Tern>();
     }
 
 
     public Game(User player1, User player2) {
-        this.movesList = new LinkedList<Pair>();
+        this.movesList = new LinkedList<Tern>();
         this.player1 = player1;
         this.player2 = player2;
         this.table = new Board(numRow, numCol);
@@ -61,7 +61,7 @@ public class Game extends Model {
         while (it.hasNext()) {
             move = (Move) it.next();
             column = ((Integer) move.get("numCol")).intValue();
-            registerMove(current, column);
+            registerMove(current, boardControl.rowToInsert[column], column);
             boardControl.insertCoin(current, column);
             current *= -1;
         }
@@ -78,9 +78,9 @@ public class Game extends Model {
     }
 
 
-    public void registerMove(int player, int column) {
+    public void registerMove(int player, int raw, int column) {
         
-        Pair p = new Pair(player, column);   // 1: player1, -1: player2;
+        Tern p = new Tern(player, raw, column);   // 1: player1, -1: player2;
         this.movesList.add(p);
         
     }
@@ -120,7 +120,7 @@ public class Game extends Model {
     
     public void saveGame() {
 
-        Pair p = new Pair();
+        Tern p = new Tern();
         long movesPreviouslySaved = Move.count("game_id = ?", this.getId().toString());
         int x = 0;
         Iterator i = movesList.iterator();
@@ -132,7 +132,7 @@ public class Game extends Model {
 
         while (i.hasNext()) {   // ALMACENO LOS NUEVOS MOVIMIENTOS
             Move m = new Move();
-            p = (Pair) i.next();
+            p = (Tern) i.next();
             m.set("numCol", p.getColumnSelected());
             this.add(m);
 

@@ -241,10 +241,10 @@ public class App {
                 }                    
             }
              Iterator it = game.movesList.iterator();
-             String mv="";
+             String mv = "";
              while (it.hasNext() ){
-                 Pair p = (Pair) it.next();
-                 mv += p.getNumPlayer().toString() +","+ p.getColumnSelected()+";"; 
+                 Tern p = (Tern) it.next();
+                 mv += p.getRawSelected().toString() + p.getColumnSelected().toString(); 
              }
              return mv;
         });
@@ -328,7 +328,7 @@ public class App {
 
                         if (game.turnOff == currentUser  &&  column > 0  &&  column < 8 &&  !boardCtrl.fullColumn(column-1)  &&  game.get("finished").toString().equals("false")) {
                             // PUEDE JUGAR SI ES SU TURNO, LA COLUMNA ES VALIDA, LA COLUMNA NO ESTA LLENA Y EL JUEGO NO ESTA FINALIZADO
-                            game.registerMove(currentUser, column-1); // genera un par (jugador, columna) y lo agrega a la lista de movimientos
+                            game.registerMove(currentUser, boardCtrl.rowToInsert[column-1], column-1); // genera un par (jugador, columna) y lo agrega a la lista de movimientos
                             boardCtrl.insertCoin(currentUser, column-1);
 
                         if (game.movesList.size() == game.numCol*game.numRow) { // ULTIMA JUGADA: EMPATE O TRIUMFO DE PLAYER #2
