@@ -190,6 +190,7 @@ public class App {
              }
              return mv;
         });
+
         
         get("/ajaxturncheck", (req, res) -> {
             String output = "denegado";
@@ -216,6 +217,19 @@ public class App {
         
 
 
+        get("/ajaxplayerscheck", (req, res) -> {
+            boolean twoPlayersAvailable = player1 != null && player2 != null;
+            String output;
+            if (twoPlayersAvailable) {
+                output = "yes";
+            }
+            else {
+                output = "no";
+            }
+            return output;
+        });
+        
+        
         get("/play/:column", (req, res) -> {
 
             try {

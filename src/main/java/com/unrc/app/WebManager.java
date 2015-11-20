@@ -360,8 +360,10 @@ public String showPlayersRankings(List<Ranking> ranksList) {
     public String waitingAdversary(int player, String user) { // Valores 1 ó 2
 
         return optionsScreen (true, "<strong>" + user + "</strong>, espera por tu adversario...",false,true,true,false,false,true);
+    
     }
 
+    
     public String showGame(String user, String player1, String player2, boolean turn) {
             
           String couldSave1;
@@ -482,11 +484,11 @@ public String showPlayersRankings(List<Ranking> ranksList) {
                 
 
 +"<script src='http://localhost:4567/js/jquery-1.11.3.min.js' type='text/javascript'></script>"
-+"<script> $(document).ready(function() { var c ; var x='green' ; var pageBody = $(document.body); "
++"<script> $(document).ready(function() { var c ; var x='green' ; var a = false ; var b ; var pageBody = $(document.body); "
 + "pageBody.css('zoom', '150%'); pageBody.css('background-color', '#dfe3ee');  "
 
                 
-    +"$('#fstColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/1', function(data){ if (data.indexOf('winner')>-1){$(location).attr('href', 'http://' + data)}  ; if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1') } ).done(function() {  setTimeout(checkTurn,1000) ;  function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; x= invertColor(" + color + "); } else { setTimeout(checkTurn, 2000); }})   }  ; })  }) ;"
+    +"$('#fstColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/1', function(data){ if (data.indexOf('winner')>-1){ a=true;  b= data ; $(location).attr('href', 'http://' + data)}  ; if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1') } ).done(function() {  setTimeout(checkTurn,1000) ;  function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); if (a) { $(location).attr('href', 'http://' + data)   } ;  $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; x= invertColor(" + color + "); } else { setTimeout(checkTurn, 2000); }})   }  ; })  }) ;"
     +"$('#sndColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/2', function(data){ if (data.indexOf('winner')>-1){$(location).attr('href', 'http://' + data)}  ; if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1') } ).done( function() { setTimeout(checkTurn,1000) ; function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; x= invertColor(" + color + "); } else { setTimeout(checkTurn, 2000); }})   }  ; })}) ;"                 
     +"$('#thrColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/3', function(data){ if (data.indexOf('winner')>-1){$(location).attr('href', 'http://' + data)}  ; if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1') } ).done(function() { setTimeout(checkTurn,1000) ; function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; x= invertColor(" + color + ");} else { setTimeout(checkTurn, 2000); }})   }  ; })  }) ;"
     +"$('#fourColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/4', function(data){ if (data.indexOf('winner')>-1){$(location).attr('href', 'http://' + data)}  ; if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1') } ).done(function() { setTimeout(checkTurn,1000) ; function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; x= invertColor(" + color + "); } else { setTimeout(checkTurn, 2000); }})   }  ; })  }) ;"
@@ -495,7 +497,7 @@ public String showPlayersRankings(List<Ranking> ranksList) {
     +"$('#sthColBut').click(function (){jQuery.ajaxSetup({async:false}); $.get('/play/7', function(data){ if (data.indexOf('winner')>-1){$(location).attr('href', 'http://' + data)}  ; if (" + turn + ") {$('#' + data).css('background-color','green')} else {$('#' + data).css('background-color','red')} ; $(':button').attr('disabled','-1')  }   ).done(function() { setTimeout(checkTurn,1000) ; function checkTurn () { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {if (" + turn + ")  {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'red')} else {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color', 'green')}; } ) ; $(':button').removeAttr('disabled'); if (" + turn + ") { $('#saveButton2').attr('disabled','-1')} else { $('#saveButton1').attr('disabled','-1')  } ; ; x= invertColor(" + color + ");} else { setTimeout(checkTurn, 2000); }})   }  ; })  }) ;"
     +"$('#saveButton1').click(function (){$(location).attr('href','/savegame'); }) ;"
     +"$('#saveButton2').click(function (){$(location).attr('href','/savegame'); }) ;"              
-    +" setTimeout(checkTurn,1000) ;  function checkTurn () { if (!" + turn + ") { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color',x) } ) ; $(':button').removeAttr('disabled'); $('#saveButton1').attr('disabled','-1'); x= invertColor(" + color + "); } else { setTimeout(checkTurn, 2000); }}) }  };"
+    +"setTimeout(checkTurn,1000) ;  function checkTurn () { if (!" + turn + ") { $.get( '/ajaxturncheck', function( data ) { if (data=='yes') { jQuery.ajaxSetup({async:false}); $.get('/ajaxreadchannel', function( arr ) {$('#' + arr[arr.length - 2] + arr[arr.length - 1]).css('background-color',x) } ) ; $(':button').removeAttr('disabled'); $('#saveButton1').attr('disabled','-1'); x= invertColor(" + color + "); } else { setTimeout(checkTurn, 2000); }}) }  };"
     
 + "});" 
 +"</script>"
@@ -570,7 +572,7 @@ public String showPlayersRankings(List<Ranking> ranksList) {
         String dsb4;
         String dsb5;
         String dsb6;
-
+/*
         if (refresh) {
             refpage="<meta http-equiv='refresh' content='2' >";
             
@@ -578,7 +580,7 @@ public String showPlayersRankings(List<Ranking> ranksList) {
         else {
             refpage="";
         }
-        
+  */      
         if (opt1) {
             dsb1 = "'ActiveButton'";
         }
@@ -623,7 +625,7 @@ public String showPlayersRankings(List<Ranking> ranksList) {
         
         return  "<!DOCTYPE html>"
                     +"<html>"
-                    +"<head>"+ refpage + "<style type='text/css'>" 
+                    +"<head><style type='text/css'>" 
 +" #ActiveButton { " 
 +"   background-Color:#8b9dc3;"//006666;" 
 +"   color:#ffffff;" 
@@ -668,8 +670,9 @@ public String showPlayersRankings(List<Ranking> ranksList) {
 
                     +"</style>"
                     +"<script src='http://localhost:4567/js/jquery-1.11.3.min.js' type='text/javascript'></script>"
-                    +"<script> $(document).ready(function() { var pageBody = $(document.body) ; pageBody.css('zoom', '150%'); pageBody.css('background-color', '#dfe3ee'); }); </script> "
-                    +"</head>"
+                    +"<script> $(document).ready(function() { var pageBody = $(document.body) ; pageBody.css('zoom', '150%'); pageBody.css('background-color', '#dfe3ee'); }); "
+                    +"if (" + refresh + ") { setTimeout(checkPlayers, 100) ;  function checkPlayers () { $.get( '/ajaxplayerscheck', function( data ) { if (data=='yes') { $(location).attr('href', '/play/0') } else { setTimeout(checkPlayers, 2000) } } ) } } "
+                    +"</script></head>"
 
                     +"<body>"
 
