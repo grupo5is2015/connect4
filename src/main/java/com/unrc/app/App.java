@@ -90,7 +90,7 @@ public class App {
             return output;
 
         });
-
+        
 
 
         get("/loadgame/:game", (req, res) -> {
@@ -188,7 +188,12 @@ public class App {
                  Tern p = (Tern) it.next();
                  mv += p.getRawSelected().toString() + p.getColumnSelected().toString(); 
              }
+             if (game.player1Aware) {
+                 return mv+"l";
+             }
              return mv;
+             
+     
         });
 
         
@@ -363,10 +368,7 @@ public class App {
                         }				
                     }
                     else {  // JUEGO FINALIZADO
-                     
-                                    
-                        
-                        // se compara luego de que se cambio turnOff
+                     // se compara luego de que se cambio turnOff
                         if (!game.player1Aware) {   // NINGUN JUGADOR FUE NOTIFICADO
                             if (game.turnOff == -1) {
                                 game.winnerName = player1.get("email").toString();
@@ -385,8 +387,10 @@ public class App {
                             game.player1Aware = true;   // PLAYER #1 VA A SER NOTIFICADO, FALTA NOTIFICAR A PLAYER #2
                         }
                         else {  // PLAYER #1 YA NOTIFICADO
+                            System.out.println(" ----------- Llegue Aqui !!! -----------");
                             player1 = null;
-                            player2 = null;                      
+                            player2 = null;        
+                            
                         }
                             
                         if (game.get("draw").toString().equals("true")) {
@@ -394,8 +398,9 @@ public class App {
                    
                         }
                         else {
+                            System.out.println(" ----------- Llegue Aqui TAMBIENNNNNNNN !!! -----------");
                             return "localhost:4567/gameover/"+req.session().attribute("user")+"/"+game.winnerName+"/thereiswinner";
-                            
+                           
                         }
                         
                     }
