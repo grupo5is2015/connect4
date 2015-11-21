@@ -291,7 +291,7 @@ public class App {
                     if (player2.get("email").toString().equals(req.session().attribute("user"))) {
                         currentUser = -1;
                     }
-
+                    System.out.println("***" + req.params(":column") + "***");
                     Integer column = new Integer(req.params(":column"));
                     
                     if (currentUser * currentUser != 1) { // 1*1 = (-1)*(-1) = 1
@@ -402,7 +402,6 @@ public class App {
                             game.player1Aware = true;   // PLAYER #1 VA A SER NOTIFICADO, FALTA NOTIFICAR A PLAYER #2
                         }
                         else {  // PLAYER #1 YA NOTIFICADO
-                            System.out.println(" ----------- Llegue Aqui !!! -----------");
                             player1 = null;
                             player2 = null;        
                             
