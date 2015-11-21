@@ -198,7 +198,7 @@ public class App {
 
         
         get("/ajaxturncheck", (req, res) -> {
-            String output = "denegado";
+            String output = "no";
             req.session(true);
             int currentUser = 0;
             if (player1 != null && player2 != null) {
