@@ -575,15 +575,7 @@ public String showPlayersRankings(List<Ranking> ranksList) {
         String dsb4;
         String dsb5;
         String dsb6;
-/*
-        if (refresh) {
-            refpage="<meta http-equiv='refresh' content='2' >";
-            
-        }
-        else {
-            refpage="";
-        }
-  */      
+      
         if (opt1) {
             dsb1 = "'ActiveButton'";
         }
