@@ -234,6 +234,21 @@ public class App {
             return output;
         });
         
+        get("/ajaxpausedgamecheck", (req, res) -> {
+            String output;
+            if (game.pausedGame) { 
+                
+                output = "yes";              
+            
+            }  
+            else {
+              
+                output= "no";
+                
+            }    
+            return output;
+        });
+        
         
         get("/play/:column", (req, res) -> {
 
