@@ -9,10 +9,6 @@
     CONSTRAINT users_pk PRIMARY KEY (id)
   );
 
-  
-  INSERT INTO users (email,password) values ("a","a"),("b","b");
- 
-
   DROP TABLE IF EXISTS rankings;
   CREATE TABLE rankings(
       id INT(11) NOT NULL AUTO_INCREMENT,
@@ -41,6 +37,7 @@
   CREATE TABLE moves (
       id INT(11) NOT NULL AUTO_INCREMENT,
       game_id INT(11),
+      numRow INT(1),
       numCol INT(1),
       user_id INT(11), /* player que ejecuta*/
     CONSTRAINT moves_pk PRIMARY KEY(id)
