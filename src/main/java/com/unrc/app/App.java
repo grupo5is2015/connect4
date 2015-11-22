@@ -220,8 +220,21 @@ public class App {
 
         });
         
-
-
+        post("/ajaxfinishinggame", (req, res) -> { 
+            String output;
+            try {
+                player1 = null;
+                player2 = null;
+                game = null;
+                output = "hit";
+            }
+            catch (Exception e) {
+                output = "fail";
+            }
+        return output;            
+        });
+        
+        
         get("/ajaxplayerscheck", (req, res) -> {
             boolean twoPlayersAvailable = player1 != null && player2 != null;
             String output;
@@ -282,6 +295,13 @@ public class App {
                         game = new Game(player1, player2);
                         boardCtrl = new BoardControl(game.table);    
                     }
+                    /*else {
+                                    if (game.player1Aware) {
+                player1 = null;
+                player2 = null;
+                //game = null;
+            }
+                    }*/
                 
                     // column==0 --> mostrar tablero
                     int currentUser = 0;
@@ -291,7 +311,6 @@ public class App {
                     if (player2.get("email").toString().equals(req.session().attribute("user"))) {
                         currentUser = -1;
                     }
-                    System.out.println("***" + req.params(":column") + "***");
                     Integer column = new Integer(req.params(":column"));
                     
                     if (currentUser * currentUser != 1) { // 1*1 = (-1)*(-1) = 1
@@ -412,7 +431,6 @@ public class App {
                    
                         }
                         else {
-                            System.out.println(" ----------- Llegue Aqui TAMBIENNNNNNNN !!! -----------");
                             return "localhost:4567/gameover/"+req.session().attribute("user")+"/"+game.winnerName+"/thereiswinner";
                            
                         }
@@ -458,7 +476,7 @@ public class App {
 		Base.close();
             
             }
-
+            //game = null;
             return output;
             
         });
