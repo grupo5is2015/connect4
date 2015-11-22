@@ -295,13 +295,6 @@ public class App {
                         game = new Game(player1, player2);
                         boardCtrl = new BoardControl(game.table);    
                     }
-                    /*else {
-                                    if (game.player1Aware) {
-                player1 = null;
-                player2 = null;
-                //game = null;
-            }
-                    }*/
                 
                     // column==0 --> mostrar tablero
                     int currentUser = 0;
@@ -476,7 +469,6 @@ public class App {
 		Base.close();
             
             }
-            //game = null;
             return output;
             
         });
