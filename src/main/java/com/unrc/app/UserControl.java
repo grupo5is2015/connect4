@@ -1,5 +1,6 @@
 package com.unrc.app;
 
+import com.unrc.app.models.Ranking;
 import org.javalite.activejdbc.Base;
 
 /**
