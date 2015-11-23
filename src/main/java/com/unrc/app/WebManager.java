@@ -286,6 +286,7 @@ public String showPlayersRankings(List<Ranking> ranksList) {
                     +"</style>"
                     +"<script src='http://localhost:4567/js/jquery-1.11.3.min.js' type='text/javascript'></script>"
                     +"<script> $(document).ready(function() { var pageBody = $(document.body) ; pageBody.css('zoom', '150%'); pageBody.css('background-color', '#dfe3ee'); }); </script> "
+                    +"<script> function paintBoard(par) {r = '/loadgame/'+par;  $.get(r, function (data) { $(location).attr('href', '/play/0') }); } </script>"
                     +"</head>"
 
 
@@ -314,10 +315,11 @@ public String showPlayersRankings(List<Ranking> ranksList) {
         User u;
         String gameId, adversary;
         Iterator it = pausedGames.iterator();
+        int i = 0;
         while (it.hasNext()) {
             g = (Game) it.next();
             gameId = g.getId().toString();
-            output += "<tr><td><center><a href='/loadgame/" + gameId + "'> #" + gameId + "</a></center></td>";
+            output += "<tr><td><center><input type='button' id= " + i + " value='#" + gameId + "' onClick=paintBoard("+gameId+")></center></td>";
             if (requesterUserId.equals(g.get("player1").toString())) {
                 adversary = "player2";
             } else {
@@ -325,6 +327,7 @@ public String showPlayersRankings(List<Ranking> ranksList) {
             }
             u = User.findById(g.get(adversary));
             output += "<td><center>" + u.get("nickName") + "</center></td><td><center>" + u.get("email") + "</center></td></tr>";
+        i++;
         }
         
          output += "</table></center></td></tr><tr><td>"

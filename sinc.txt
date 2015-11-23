@@ -1,0 +1,11 @@
+1) En Github Setting (lateral) --> Webhooks & services --> Add service  
+
+En Pivotal --> Profile --> Copy API token -->
+
+En Github Paste API token y save
+
+On terminal create an file, add to github and commit.
+
+On PT create an history and make clic on ID tag and add to comment field of Github command commit.
+
+<script 

@@ -100,21 +100,49 @@ public class App {
             }
             catch (Exception e) {
             }
-
+            Integer g = new Integer(req.params(":game"));
             game = Game.findById(req.params(":game"));
+System.out.println(g);
             player1 = User.findById(game.get("player1"));
             player2 = User.findById(game.get("player2"));
-
+            System.out.println(player1.toString());
+System.out.println(player2.toString());
             game.settleGame(player1, player2);
             boardCtrl = new BoardControl(game.table);
 
             List<Move> moves = game.getAll(Move.class);
             game.settleMovesList(moves, boardCtrl);
-
+            int column, row, sign = 1;
+            Move move;
+            String s = "[";
+            Iterator it = moves.iterator();
+            while (it.hasNext()) {
+                move = (Move) it.next();
+                column = ((Integer) move.get("numCol")).intValue();
+                row = ((Integer) move.get("numRow")).intValue();
+                row = row * sign;
+                if (it.hasNext()) {
+                    s += row + "" + column + ", ";
+                }
+                else {
+                    s += row + "" + column + "]";
+                }
+            sign = sign*(-1);
+            }
+            //System.out.println(s);
             Base.close();
-            res.redirect("/play/0");
-            return null;
+            return s;
+            //res.redirect("/play/0");
+            //return null;
 
+        });
+        
+        
+        get("/ajaxpausedgameplayers/:gameid", (req, res) -> {
+            String output = "";
+            Integer gameId = new Integer(req.params(":gameId"));
+            
+            return output;
         });
 
                 
@@ -246,6 +274,7 @@ public class App {
             }
             return output;
         });
+        
         
         get("/ajaxpausedgamecheck", (req, res) -> {
             String output;
